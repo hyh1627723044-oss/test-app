@@ -3,3 +3,9 @@
 .DS_Store
 node_modules/
 miniprogram_npm/
+__pycache__/
+*.pyc
+.env
+.venv/
+backend/*.db
+backend/*.sqlite3
