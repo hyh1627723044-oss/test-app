@@ -1,0 +1,274 @@
+.page-shell {
+  min-height: 100vh;
+  background-color: #fbfaf7;
+  display: flex;
+  flex-direction: column;
+}
+
+.blank-panel {
+  height: 300rpx;
+  background-color: #fbfaf7;
+}
+
+.content-panel {
+  flex: 1;
+  min-height: 620rpx;
+  background-color: #eee0d7;
+}
+
+.bottom-nav {
+  height: 188rpx;
+  padding: 14rpx 42rpx 22rpx;
+  box-sizing: border-box;
+  background-color: #fbfaf7;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.nav-item {
+  width: 160rpx;
+  height: 150rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  opacity: 0.82;
+}
+
+.nav-item-active {
+  opacity: 1;
+}
+
+.icon {
+  width: 104rpx;
+  height: 92rpx;
+  position: relative;
+}
+
+.nav-label {
+  margin-top: 4rpx;
+  font-size: 34rpx;
+  line-height: 40rpx;
+  color: #251b14;
+  font-weight: 500;
+}
+
+.icon-store {
+  height: 90rpx;
+}
+
+.store-roof {
+  position: absolute;
+  left: 10rpx;
+  top: 8rpx;
+  width: 82rpx;
+  height: 42rpx;
+}
+
+.store-bump {
+  position: absolute;
+  bottom: 0;
+  background-color: #c87420;
+  border: 5rpx solid #2b2119;
+}
+
+.store-bump-left {
+  left: 0;
+  width: 34rpx;
+  height: 34rpx;
+  border-radius: 28rpx 24rpx 12rpx 18rpx;
+  transform: rotate(-18deg);
+}
+
+.store-bump-center {
+  left: 24rpx;
+  width: 44rpx;
+  height: 42rpx;
+  border-radius: 36rpx 32rpx 16rpx 18rpx;
+  transform: rotate(8deg);
+}
+
+.store-bump-right {
+  right: 0;
+  width: 30rpx;
+  height: 30rpx;
+  border-radius: 22rpx 22rpx 12rpx 12rpx;
+  transform: rotate(12deg);
+}
+
+.store-spark {
+  position: absolute;
+  right: -18rpx;
+  top: -8rpx;
+  width: 22rpx;
+  height: 22rpx;
+  background-color: #c87420;
+  border: 5rpx solid #2b2119;
+  border-radius: 8rpx;
+  transform: rotate(28deg);
+}
+
+.store-body {
+  position: absolute;
+  left: 18rpx;
+  bottom: 0;
+  width: 66rpx;
+  height: 44rpx;
+  background-color: #eef3ed;
+  border: 5rpx solid #2b2119;
+  border-radius: 4rpx 4rpx 8rpx 8rpx;
+}
+
+.store-door {
+  position: absolute;
+  right: 12rpx;
+  bottom: -1rpx;
+  width: 24rpx;
+  height: 22rpx;
+  background-color: #9d5d24;
+  border: 4rpx solid #2b2119;
+  border-bottom: 0;
+}
+
+.clip-head {
+  position: absolute;
+  left: 42rpx;
+  top: 0;
+  width: 28rpx;
+  height: 32rpx;
+  background-color: #c87420;
+  border: 5rpx solid #2b2119;
+  border-radius: 20rpx 20rpx 8rpx 8rpx;
+  z-index: 2;
+}
+
+.paper {
+  position: absolute;
+  left: 16rpx;
+  top: 24rpx;
+  width: 76rpx;
+  height: 64rpx;
+  background-color: #f4f2ec;
+  border: 5rpx solid #2b2119;
+  border-radius: 6rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.paper-line {
+  width: 44rpx;
+  height: 4rpx;
+  margin-bottom: 8rpx;
+  background-color: #9b948b;
+  border-radius: 8rpx;
+  transform: rotate(-4deg);
+}
+
+.paper-line-short {
+  width: 34rpx;
+}
+
+.paper-line-mid {
+  width: 40rpx;
+}
+
+.icon-cat {
+  height: 92rpx;
+}
+
+.cat-ear {
+  position: absolute;
+  top: 4rpx;
+  width: 34rpx;
+  height: 42rpx;
+  background-color: #c87420;
+  border: 5rpx solid #2b2119;
+  z-index: 1;
+}
+
+.cat-ear-left {
+  left: 18rpx;
+  border-radius: 10rpx 22rpx 10rpx 20rpx;
+  transform: rotate(-18deg);
+}
+
+.cat-ear-right {
+  right: 18rpx;
+  border-radius: 22rpx 10rpx 20rpx 10rpx;
+  transform: rotate(18deg);
+}
+
+.cat-face {
+  position: absolute;
+  left: 6rpx;
+  bottom: 2rpx;
+  width: 92rpx;
+  height: 70rpx;
+  background-color: #c87420;
+  border: 5rpx solid #2b2119;
+  border-radius: 24rpx 24rpx 28rpx 28rpx;
+  z-index: 2;
+}
+
+.cat-eye {
+  position: absolute;
+  top: 28rpx;
+  width: 6rpx;
+  height: 8rpx;
+  background-color: #2b2119;
+  border-radius: 6rpx;
+}
+
+.cat-eye-left {
+  left: 28rpx;
+}
+
+.cat-eye-right {
+  right: 28rpx;
+}
+
+.cat-nose {
+  position: absolute;
+  left: 43rpx;
+  top: 42rpx;
+  width: 8rpx;
+  height: 6rpx;
+  background-color: #2b2119;
+  border-radius: 8rpx;
+}
+
+.cat-whisker {
+  position: absolute;
+  width: 12rpx;
+  height: 4rpx;
+  background-color: #2b2119;
+  border-radius: 6rpx;
+}
+
+.cat-whisker-left-one {
+  left: 12rpx;
+  top: 46rpx;
+  transform: rotate(12deg);
+}
+
+.cat-whisker-left-two {
+  left: 12rpx;
+  top: 56rpx;
+  transform: rotate(-10deg);
+}
+
+.cat-whisker-right-one {
+  right: 12rpx;
+  top: 46rpx;
+  transform: rotate(-12deg);
+}
+
+.cat-whisker-right-two {
+  right: 12rpx;
+  top: 56rpx;
+  transform: rotate(10deg);
+}
