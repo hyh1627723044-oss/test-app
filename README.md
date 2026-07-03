@@ -32,6 +32,8 @@ users
 
 图片上传到云存储，菜谱集合保存 `primary_cover_file_id` 和 `cover_images`。详细字段见 `docs/cloud-database.md`。
 
+接入微信云开发测试步骤见 `docs/wechat-cloud-test.md`。
+
 如果你的微信开发者工具里有多个云环境，可以在 `app.js` 的 `wx.cloud.init` 里显式指定 `env`。
 
 已放入第一批云函数：
