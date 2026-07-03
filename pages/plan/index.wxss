@@ -1,0 +1,161 @@
+.page-shell {
+  min-height: 100vh;
+  padding: 28rpx 28rpx 210rpx;
+  box-sizing: border-box;
+  background-color: #fbfaf7;
+}
+
+.plan-head {
+  padding: 34rpx 30rpx;
+  border-radius: 28rpx;
+  background-color: #eee0d7;
+}
+
+.eyebrow {
+  font-size: 24rpx;
+  color: #8a5a34;
+}
+
+.page-title {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 44rpx;
+  color: #251b14;
+  font-weight: 600;
+}
+
+.page-desc {
+  display: block;
+  margin-top: 16rpx;
+  font-size: 26rpx;
+  line-height: 38rpx;
+  color: #755f4d;
+}
+
+.date-bar {
+  margin-top: 22rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.date-step,
+.date-current {
+  height: 58rpx;
+  padding: 0 18rpx;
+  border-radius: 18rpx;
+  background-color: #fff8ef;
+  display: flex;
+  align-items: center;
+}
+
+.date-step-text,
+.date-current {
+  font-size: 24rpx;
+  color: #6d4b31;
+}
+
+.slot-list {
+  margin-top: 24rpx;
+}
+
+.slot-card {
+  min-height: 138rpx;
+  margin-bottom: 18rpx;
+  padding: 22rpx;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border: 1px solid #eee5dc;
+  border-radius: 24rpx;
+  display: flex;
+  flex-direction: row;
+}
+
+.slot-left {
+  width: 148rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.slot-time {
+  font-size: 24rpx;
+  color: #8a5a34;
+}
+
+.slot-name {
+  margin-top: 8rpx;
+  font-size: 32rpx;
+  color: #251b14;
+  font-weight: 600;
+}
+
+.slot-content {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.recipe-chip {
+  margin: 8rpx 10rpx 8rpx 0;
+  padding: 10rpx 18rpx;
+  border-radius: 18rpx;
+  background-color: #f6eee6;
+}
+
+.recipe-chip-text {
+  font-size: 26rpx;
+  color: #5d4939;
+}
+
+.empty-text {
+  font-size: 26rpx;
+  color: #a99b90;
+}
+
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 170rpx;
+  padding: 18rpx 64rpx 24rpx;
+  box-sizing: border-box;
+  background-color: #fbfaf7;
+  border-top: 1px solid #eee5dc;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.nav-item {
+  width: 130rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0.58;
+}
+
+.nav-item-active {
+  opacity: 1;
+}
+
+.nav-symbol {
+  width: 66rpx;
+  height: 66rpx;
+  border-radius: 33rpx;
+  background-color: #eee0d7;
+  color: #251b14;
+  font-size: 30rpx;
+  line-height: 66rpx;
+  text-align: center;
+  font-weight: 600;
+}
+
+.nav-label {
+  margin-top: 8rpx;
+  font-size: 28rpx;
+  color: #251b14;
+}

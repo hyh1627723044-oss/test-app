@@ -1,0 +1,103 @@
+<view class="page-shell">
+  <view class="image-uploader" bind:tap="onChooseImages">
+    <view wx:if="{{coverImages.length === 0}}" class="uploader-empty">
+      <text class="uploader-title">上传封面图</text>
+      <text class="uploader-desc">可选多张，第一张作为列表封面</text>
+    </view>
+    <scroll-view wx:else class="image-list" scroll-x>
+      <image
+        class="preview-image"
+        wx:for="{{coverImages}}"
+        wx:key="sort_order"
+        src="{{item.temp_file_path}}"
+        mode="aspectFill"
+      />
+    </scroll-view>
+  </view>
+
+  <view class="form-card">
+    <text class="field-label">菜名</text>
+    <input class="field-input" placeholder="比如 番茄炒蛋" value="{{title}}" bind:input="onInputTitle" />
+
+    <text class="field-label">简介</text>
+    <textarea
+      class="field-textarea"
+      placeholder="写一句这道菜的特点"
+      value="{{description}}"
+      bind:input="onInputDescription"
+    />
+
+    <view class="two-column">
+      <view class="column-field">
+        <text class="field-label">分类</text>
+        <picker range="{{categoryOptions}}" range-key="label" value="{{categoryIndex}}" bind:change="onChangeCategory">
+          <view class="picker-field">{{categoryOptions[categoryIndex].label}}</view>
+        </picker>
+      </view>
+      <view class="column-field">
+        <text class="field-label">难度</text>
+        <picker range="{{difficultyOptions}}" range-key="label" value="{{difficultyIndex}}" bind:change="onChangeDifficulty">
+          <view class="picker-field">{{difficultyOptions[difficultyIndex].label}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="two-column">
+      <view class="column-field">
+        <text class="field-label">耗时</text>
+        <input class="field-input" type="number" placeholder="分钟" value="{{cookTime}}" bind:input="onInputCookTime" />
+      </view>
+      <view class="column-field">
+        <text class="field-label">份量</text>
+        <input class="field-input" type="number" placeholder="人数" value="{{servings}}" bind:input="onInputServings" />
+      </view>
+    </view>
+
+    <text class="field-label">适合餐次</text>
+    <view class="pill-row">
+      <view
+        class="choice-pill {{item.selected ? 'choice-pill-active' : ''}}"
+        wx:for="{{mealTypes}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bind:tap="onToggleMealType"
+      >
+        <text class="choice-text">{{item.name}}</text>
+      </view>
+    </view>
+
+    <text class="field-label">标签</text>
+    <input class="field-input" placeholder="快手 家常 下饭" value="{{tagsText}}" bind:input="onInputTags" />
+
+    <text class="field-label">热量</text>
+    <input class="field-input" type="number" placeholder="可选，单位 kcal" value="{{calories}}" bind:input="onInputCalories" />
+
+    <text class="field-label">食材</text>
+    <textarea
+      class="field-textarea field-textarea-tall"
+      placeholder="一行一个：番茄，2个"
+      value="{{ingredientsText}}"
+      bind:input="onInputIngredients"
+    />
+
+    <text class="field-label">做法步骤</text>
+    <textarea
+      class="field-textarea field-textarea-tall"
+      placeholder="一行一步：番茄切块，鸡蛋打散"
+      value="{{stepsText}}"
+      bind:input="onInputSteps"
+    />
+
+    <view class="switch-row">
+      <view class="switch-copy">
+        <text class="switch-title">公开到菜单</text>
+        <text class="switch-desc">关闭后只有你自己能看到</text>
+      </view>
+      <switch checked="{{isPublic}}" color="#c87420" bind:change="onTogglePublic" />
+    </view>
+  </view>
+
+  <view class="submit-btn" bind:tap="onSubmit">
+    <text class="submit-text">保存菜品</text>
+  </view>
+</view>

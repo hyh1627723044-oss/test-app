@@ -11,5 +11,6 @@
   "libVersion": "latest",
   "appid": "touristappid",
   "projectname": "code3",
+  "cloudfunctionRoot": "cloudfunctions/",
   "condition": {}
 }

@@ -1,0 +1,180 @@
+.page-shell {
+  min-height: 100vh;
+  padding: 24rpx;
+  box-sizing: border-box;
+  background-color: #fbfaf7;
+}
+
+.image-uploader {
+  min-height: 280rpx;
+  border-radius: 28rpx;
+  background-color: #eee0d7;
+  display: flex;
+  align-items: center;
+}
+
+.uploader-empty {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.uploader-title {
+  font-size: 34rpx;
+  color: #251b14;
+  font-weight: 600;
+}
+
+.uploader-desc {
+  margin-top: 12rpx;
+  font-size: 26rpx;
+  color: #796556;
+}
+
+.image-list {
+  white-space: nowrap;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+.preview-image {
+  width: 220rpx;
+  height: 220rpx;
+  margin-right: 18rpx;
+  border-radius: 22rpx;
+}
+
+.form-card {
+  margin-top: 24rpx;
+  padding: 26rpx;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border: 1px solid #eee5dc;
+  border-radius: 24rpx;
+}
+
+.field-label {
+  display: block;
+  margin: 22rpx 0 12rpx;
+  font-size: 28rpx;
+  color: #251b14;
+  font-weight: 600;
+}
+
+.field-label:first-child {
+  margin-top: 0;
+}
+
+.field-input,
+.field-textarea {
+  width: 100%;
+  padding: 18rpx;
+  box-sizing: border-box;
+  border-radius: 18rpx;
+  background-color: #f8f3ee;
+  font-size: 28rpx;
+  color: #251b14;
+}
+
+.field-input {
+  height: 78rpx;
+}
+
+.field-textarea {
+  height: 168rpx;
+}
+
+.field-textarea-tall {
+  height: 220rpx;
+}
+
+.two-column {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.column-field {
+  width: 304rpx;
+}
+
+.picker-field {
+  height: 78rpx;
+  padding: 18rpx;
+  box-sizing: border-box;
+  border-radius: 18rpx;
+  background-color: #f8f3ee;
+  font-size: 28rpx;
+  color: #251b14;
+}
+
+.pill-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.choice-pill {
+  margin: 0 14rpx 14rpx 0;
+  padding: 12rpx 20rpx;
+  border-radius: 18rpx;
+  background-color: #f8f3ee;
+  border: 1px solid #eee5dc;
+}
+
+.choice-pill-active {
+  background-color: #2b2119;
+  border-color: #2b2119;
+}
+
+.choice-text {
+  font-size: 26rpx;
+  color: #6f6258;
+}
+
+.choice-pill-active .choice-text {
+  color: #fff8ef;
+}
+
+.switch-row {
+  margin-top: 24rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.switch-copy {
+  display: flex;
+  flex-direction: column;
+}
+
+.switch-title {
+  font-size: 28rpx;
+  color: #251b14;
+  font-weight: 600;
+}
+
+.switch-desc {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #8f8177;
+}
+
+.submit-btn {
+  height: 86rpx;
+  margin-top: 28rpx;
+  border-radius: 28rpx;
+  background-color: #c87420;
+  border: 4rpx solid #2b2119;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.submit-text {
+  font-size: 30rpx;
+  color: #fff8ef;
+  font-weight: 600;
+}

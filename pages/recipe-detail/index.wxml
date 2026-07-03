@@ -1,0 +1,76 @@
+<view class="page-shell">
+  <view class="cover-section">
+    <swiper
+      wx:if="{{recipe.cover_images.length > 0}}"
+      class="cover-swiper"
+      indicator-dots
+      circular
+    >
+      <swiper-item wx:for="{{recipe.cover_images}}" wx:key="file_id">
+        <image class="cover-image" src="{{item.file_id}}" mode="aspectFill" />
+      </swiper-item>
+    </swiper>
+    <view wx:else class="cover-empty">
+      <text class="cover-empty-text">{{recipe.title}}</text>
+    </view>
+  </view>
+
+  <view class="detail-card">
+    <view class="title-row">
+      <text class="recipe-title">{{recipe.title}}</text>
+      <view class="favorite-btn" bind:tap="onFavorite">
+        <text class="favorite-text">收藏</text>
+      </view>
+    </view>
+    <text class="recipe-desc">{{recipe.description}}</text>
+    <view class="meta-row">
+      <text class="meta-pill">{{recipe.cook_time_minutes}} 分钟</text>
+      <text class="meta-pill">{{difficultyMap[recipe.difficulty] || recipe.difficulty}}</text>
+      <text class="meta-pill">{{recipe.servings}} 人份</text>
+      <text class="meta-pill" wx:if="{{recipe.calories}}">{{recipe.calories}} kcal</text>
+    </view>
+    <view class="tag-row" wx:if="{{recipe.tags.length > 0}}">
+      <text class="tag-pill" wx:for="{{recipe.tags}}" wx:key="*this">#{{item}}</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <text class="section-title">加入计划</text>
+    <picker mode="date" value="{{selectedDate}}" bind:change="onChangeDate">
+      <view class="date-picker">
+        <text class="date-label">日期</text>
+        <text class="date-value">{{selectedDate}}</text>
+      </view>
+    </picker>
+    <view class="slot-row">
+      <view
+        class="slot-pill {{selectedSlot === item.id ? 'slot-pill-active' : ''}}"
+        wx:for="{{mealSlots}}"
+        wx:key="id"
+        data-slot="{{item.id}}"
+        bind:tap="onChooseSlot"
+      >
+        <text class="slot-text">{{item.name}}</text>
+      </view>
+    </view>
+    <view class="add-plan-btn" bind:tap="onAddToPlan">
+      <text class="add-plan-text">加入这一天</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <text class="section-title">食材</text>
+    <view class="ingredient-item" wx:for="{{recipe.ingredients}}" wx:key="name">
+      <text class="ingredient-name">{{item.name}}</text>
+      <text class="ingredient-amount">{{item.amount}}</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <text class="section-title">做法</text>
+    <view class="step-item" wx:for="{{recipe.steps}}" wx:key="order">
+      <text class="step-index">{{item.order}}</text>
+      <text class="step-text">{{item.text}}</text>
+    </view>
+  </view>
+</view>

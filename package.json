@@ -1,0 +1,8 @@
+{
+  "name": "recipe-meal-planner-miniprogram",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test:cloudfunctions": "node scripts/test-cloudfunctions.js"
+  }
+}

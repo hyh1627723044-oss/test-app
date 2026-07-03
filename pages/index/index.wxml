@@ -1,14 +1,60 @@
 <view class="page-shell">
-  <view class="blank-panel"></view>
+  <view class="hero">
+    <view class="hero-copy">
+      <text class="eyebrow">今日菜单</text>
+      <text class="hero-title">今天想吃点什么？</text>
+      <text class="hero-desc">挑一道菜，加入早餐、午餐、晚餐或夜宵计划。</text>
+    </view>
+    <view class="hero-action" bind:tap="onTapAddRecipe">
+      <text class="hero-action-text">添加菜品</text>
+    </view>
+  </view>
 
-  <view class="content-panel"></view>
+  <scroll-view class="category-strip" scroll-x>
+    <view
+      class="category-pill {{activeCategory === item ? 'category-pill-active' : ''}}"
+      wx:for="{{categories}}"
+      wx:key="*this"
+      data-name="{{item}}"
+      bind:tap="onTapCategory"
+    >
+      <text class="category-text">{{item}}</text>
+    </view>
+  </scroll-view>
+
+  <view class="recipe-list">
+    <view
+      class="recipe-card"
+      wx:for="{{displayRecipes}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bind:tap="onTapRecipe"
+    >
+      <view class="recipe-cover">
+        <image
+          wx:if="{{item.primary_cover_file_id}}"
+          class="recipe-cover-image"
+          src="{{item.primary_cover_file_id}}"
+          mode="aspectFill"
+          lazy-load
+        />
+        <view wx:else class="recipe-cover-empty">
+          <text class="recipe-cover-letter">{{item.cover_letter}}</text>
+        </view>
+      </view>
+      <view class="recipe-info">
+        <text class="recipe-title">{{item.title}}</text>
+        <text class="recipe-desc">{{item.description}}</text>
+        <view class="recipe-meta">
+          <text class="recipe-time">{{item.cook_time_minutes}} 分钟</text>
+          <text class="recipe-meal">{{item.meal_types[0]}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
 
   <view class="bottom-nav">
-    <view
-      class="nav-item {{activeTab === 'menu' ? 'nav-item-active' : ''}}"
-      data-id="menu"
-      bind:tap="onTapTab"
-    >
+    <view class="nav-item nav-item-active" data-id="recipes" bind:tap="onTapTab">
       <view class="icon icon-store">
         <view class="store-roof">
           <view class="store-bump store-bump-left"></view>
@@ -20,14 +66,10 @@
           <view class="store-door"></view>
         </view>
       </view>
-      <text class="nav-label">点单</text>
+      <text class="nav-label">菜单</text>
     </view>
 
-    <view
-      class="nav-item {{activeTab === 'orders' ? 'nav-item-active' : ''}}"
-      data-id="orders"
-      bind:tap="onTapTab"
-    >
+    <view class="nav-item" data-id="plan" bind:tap="onTapTab">
       <view class="icon icon-order">
         <view class="clip-head"></view>
         <view class="paper">
@@ -37,14 +79,10 @@
           <view class="paper-line"></view>
         </view>
       </view>
-      <text class="nav-label">订单</text>
+      <text class="nav-label">计划</text>
     </view>
 
-    <view
-      class="nav-item {{activeTab === 'mine' ? 'nav-item-active' : ''}}"
-      data-id="mine"
-      bind:tap="onTapTab"
-    >
+    <view class="nav-item" data-id="mine" bind:tap="onTapTab">
       <view class="icon icon-cat">
         <view class="cat-ear cat-ear-left"></view>
         <view class="cat-ear cat-ear-right"></view>

@@ -1,0 +1,57 @@
+<view class="page-shell">
+  <view class="plan-head">
+    <text class="eyebrow">{{dateText}}</text>
+    <text class="page-title">饮食计划</text>
+    <text class="page-desc">把想吃的菜安排到早餐、午餐、晚餐，也可以加下午茶和夜宵。</text>
+    <view class="date-bar">
+      <view class="date-step" bind:tap="onPrevDay">
+        <text class="date-step-text">前一天</text>
+      </view>
+      <picker mode="date" value="{{planDate}}" bind:change="onChangeDate">
+        <view class="date-current">{{planDate}}</view>
+      </picker>
+      <view class="date-step" bind:tap="onNextDay">
+        <text class="date-step-text">后一天</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="slot-list">
+    <view class="slot-card" wx:for="{{slots}}" wx:key="id">
+      <view class="slot-left">
+        <text class="slot-time">{{item.time}}</text>
+        <text class="slot-name">{{item.name}}</text>
+      </view>
+      <view class="slot-content">
+        <block wx:if="{{item.recipes.length > 0}}">
+          <view
+            class="recipe-chip"
+            wx:for="{{item.recipes}}"
+            wx:key="id"
+            wx:for-item="recipe"
+            data-id="{{recipe.id}}"
+            bind:tap="onTapRecipe"
+          >
+            <text class="recipe-chip-text">{{recipe.title}}</text>
+          </view>
+        </block>
+        <text wx:else class="empty-text">还没安排</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-nav">
+    <view class="nav-item" bind:tap="onTapMenu">
+      <text class="nav-symbol">菜</text>
+      <text class="nav-label">菜单</text>
+    </view>
+    <view class="nav-item nav-item-active">
+      <text class="nav-symbol">计</text>
+      <text class="nav-label">计划</text>
+    </view>
+    <view class="nav-item" bind:tap="onTapMine">
+      <text class="nav-symbol">我</text>
+      <text class="nav-label">我的</text>
+    </view>
+  </view>
+</view>
