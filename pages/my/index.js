@@ -18,11 +18,14 @@ Page({
     }
   },
 
-  onTapMenu() {
-    wx.redirectTo({ url: '/pages/index/index' })
-  },
-
-  onTapPlan() {
-    wx.redirectTo({ url: '/pages/plan/index' })
+  onTapTab(e) {
+    const { id } = e.currentTarget.dataset
+    if (id === 'recipes') {
+      wx.redirectTo({ url: '/pages/index/index' })
+      return
+    }
+    if (id === 'plan') {
+      wx.redirectTo({ url: '/pages/plan/index' })
+    }
   }
 })

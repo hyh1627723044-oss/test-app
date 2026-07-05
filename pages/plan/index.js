@@ -51,11 +51,13 @@ Page({
     wx.navigateTo({ url: '/pages/recipe-detail/index?id=' + id })
   },
 
-  onTapMenu() {
-    wx.redirectTo({ url: '/pages/index/index' })
-  },
-
-  onTapMine() {
+  onTapTab(e) {
+    const { id } = e.currentTarget.dataset
+    if (id === 'recipes') {
+      wx.redirectTo({ url: '/pages/index/index' })
+      return
+    }
+    if (id === 'plan') return
     wx.redirectTo({ url: '/pages/my/index' })
   },
 

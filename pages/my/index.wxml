@@ -64,15 +64,15 @@
   </view>
 
   <view class="bottom-nav">
-    <view class="nav-item" bind:tap="onTapMenu">
+    <view class="nav-item" data-id="recipes" bind:tap="onTapTab">
       <image class="nav-icon" src="/assets/illustrations/tab-recipes.png" mode="aspectFit" />
       <text class="nav-label">菜单</text>
     </view>
-    <view class="nav-item" bind:tap="onTapPlan">
+    <view class="nav-item" data-id="plan" bind:tap="onTapTab">
       <image class="nav-icon" src="/assets/illustrations/tab-plan.png" mode="aspectFit" />
       <text class="nav-label">计划</text>
     </view>
-    <view class="nav-item nav-item-active">
+    <view class="nav-item nav-item-active" data-id="mine" bind:tap="onTapTab">
       <image class="nav-icon" src="/assets/illustrations/tab-my.png" mode="aspectFit" />
       <text class="nav-label">我的</text>
     </view>
