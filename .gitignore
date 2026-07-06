@@ -4,6 +4,9 @@
 node_modules/
 miniprogram_npm/
 project.private.config.json
+skills-lock.json
+cloudfunctions/**/node_modules/
+cloudfunctions/**/package-lock.json
 __pycache__/
 *.pyc
 .env

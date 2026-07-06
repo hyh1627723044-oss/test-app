@@ -34,7 +34,68 @@
   "condition": {},
   "simulatorPluginLibVersion": {},
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      {
+        "type": "folder",
+        "value": "cloudfunctions/"
+      },
+      {
+        "type": "folder",
+        "value": "node_modules/"
+      },
+      {
+        "type": "folder",
+        "value": "cloudfunctions/addMealPlanItem/node_modules/"
+      },
+      {
+        "type": "folder",
+        "value": "cloudfunctions/createRecipe/node_modules/"
+      },
+      {
+        "type": "folder",
+        "value": "cloudfunctions/getMealPlan/node_modules/"
+      },
+      {
+        "type": "folder",
+        "value": "cloudfunctions/getRecipe/node_modules/"
+      },
+      {
+        "type": "folder",
+        "value": "cloudfunctions/listRecipes/node_modules/"
+      },
+      {
+        "type": "folder",
+        "value": ".agents/"
+      },
+      {
+        "type": "folder",
+        "value": ".agents/skills/cloudbase/node_modules/"
+      },
+      {
+        "type": "file",
+        "value": "cloudfunctions/addMealPlanItem/package-lock.json"
+      },
+      {
+        "type": "file",
+        "value": "cloudfunctions/createRecipe/package-lock.json"
+      },
+      {
+        "type": "file",
+        "value": "cloudfunctions/getMealPlan/package-lock.json"
+      },
+      {
+        "type": "file",
+        "value": "cloudfunctions/getRecipe/package-lock.json"
+      },
+      {
+        "type": "file",
+        "value": "cloudfunctions/listRecipes/package-lock.json"
+      },
+      {
+        "type": "file",
+        "value": "skills-lock.json"
+      }
+    ],
     "include": []
   },
   "editorSetting": {},

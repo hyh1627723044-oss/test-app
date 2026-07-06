@@ -65,8 +65,8 @@
       <text class="empty-title">还没找到这道菜</text>
       <text class="empty-desc">换个菜名或标签试试，也可以先添加自己的菜谱。</text>
     </view>
+    <block wx:if="{{displayRecipes.length > 0}}">
     <view
-      wx:else
       class="recipe-card"
       wx:for="{{displayRecipes}}"
       wx:key="id"
@@ -85,14 +85,16 @@
         <view class="decor-star-core"></view>
       </view>
       <view class="recipe-cover">
+        <block wx:if="{{item.primary_cover_file_id}}">
         <image
-          wx:if="{{item.primary_cover_file_id}}"
           class="recipe-cover-image"
           src="{{item.primary_cover_file_id}}"
           mode="aspectFill"
           lazy-load
         />
-        <view wx:else class="recipe-cover-empty">
+        </block>
+        <block wx:if="{{!item.primary_cover_file_id}}">
+        <view class="recipe-cover-empty">
           <view class="recipe-letter-card">
             <view class="letter-spark letter-spark-left"></view>
             <view class="letter-spark letter-spark-right"></view>
@@ -101,6 +103,7 @@
             <view class="letter-leaf letter-leaf-right"></view>
           </view>
         </view>
+        </block>
         <view class="time-badge">
           <text class="time-badge-text">{{item.cook_time_minutes}} 分钟</text>
         </view>
@@ -122,6 +125,7 @@
         </view>
       </view>
     </view>
+    </block>
   </view>
 
   <view class="bottom-nav">

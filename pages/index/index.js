@@ -50,7 +50,9 @@ Page({
     this.loadRecipes()
   },
 
-  onShow() {},
+  onShow() {
+    this.loadRecipes()
+  },
 
   onShareAppMessage() {
     return {
