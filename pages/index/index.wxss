@@ -11,14 +11,10 @@
   box-sizing: border-box;
   background-color: #eee0d7;
   border-radius: 28rpx;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
 }
 
 .hero-copy {
-  width: 430rpx;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -41,24 +37,6 @@
   font-size: 26rpx;
   line-height: 36rpx;
   color: #755f4d;
-}
-
-.hero-action {
-  min-width: 154rpx;
-  height: 66rpx;
-  padding: 0 22rpx;
-  box-sizing: border-box;
-  background-color: #c87420;
-  border: 4rpx solid #2b2119;
-  border-radius: 28rpx;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.hero-action-text {
-  font-size: 26rpx;
-  color: #fff8ef;
 }
 
 .search-card {
@@ -115,18 +93,44 @@
   color: #8a5a34;
 }
 
-.quick-tag-row {
+.quick-filter-bar {
   margin-top: 16rpx;
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.quick-tag-scroll {
+  flex: 1;
+  white-space: nowrap;
+}
+
+.quick-tag-row {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .quick-tag {
+  height: 54rpx;
   margin: 0 12rpx 12rpx 0;
-  padding: 8rpx 16rpx;
-  border-radius: 16rpx;
+  padding: 0 24rpx;
+  border-radius: 18rpx;
   background-color: #fff6ec;
+  border: 2rpx solid #e1c6a9;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.quick-tag-more {
+  width: 64rpx;
+  padding: 0;
+  border-style: dashed;
+  background-color: #fffaf1;
 }
 
 .quick-tag-active {
@@ -140,6 +144,28 @@
 
 .quick-tag-active .quick-tag-text {
   color: #fff8ef;
+}
+
+.add-recipe-mini {
+  width: 136rpx;
+  height: 54rpx;
+  margin-left: 12rpx;
+  border-radius: 18rpx;
+  background-color: #c87420;
+  border: 4rpx solid #2b2119;
+  box-sizing: border-box;
+  box-shadow: 4rpx 4rpx 0 #ead8c8;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.add-recipe-mini-text {
+  font-size: 24rpx;
+  color: #fff8ef;
+  font-weight: 600;
 }
 
 .category-strip {
@@ -233,6 +259,163 @@
   background-color: rgba(217, 173, 120, 0.72);
   transform: rotate(-4deg);
   z-index: 2;
+}
+
+.card-decor {
+  position: absolute;
+  right: 28rpx;
+  top: 26rpx;
+  width: 74rpx;
+  height: 86rpx;
+  z-index: 3;
+}
+
+.decor-petal,
+.decor-center,
+.decor-leaf,
+.decor-star-core {
+  display: none;
+  position: absolute;
+}
+
+.card-decor-flower .decor-petal {
+  display: block;
+  width: 24rpx;
+  height: 26rpx;
+  border-radius: 22rpx 22rpx 8rpx 22rpx;
+  background-color: #f28b63;
+  border: 4rpx solid #2b2119;
+}
+
+.card-decor-flower .decor-petal-one {
+  left: 24rpx;
+  top: 0;
+  transform: rotate(-18deg);
+}
+
+.card-decor-flower .decor-petal-two {
+  left: 42rpx;
+  top: 18rpx;
+  transform: rotate(64deg);
+}
+
+.card-decor-flower .decor-petal-three {
+  left: 20rpx;
+  top: 34rpx;
+  transform: rotate(156deg);
+}
+
+.card-decor-flower .decor-petal-four {
+  left: 2rpx;
+  top: 16rpx;
+  transform: rotate(244deg);
+}
+
+.card-decor-flower .decor-center {
+  display: block;
+  left: 28rpx;
+  top: 22rpx;
+  width: 18rpx;
+  height: 18rpx;
+  border-radius: 9rpx;
+  background-color: #f7c85f;
+  border: 4rpx solid #2b2119;
+}
+
+.card-decor-flower::after {
+  content: '';
+  position: absolute;
+  left: 34rpx;
+  top: 46rpx;
+  width: 5rpx;
+  height: 40rpx;
+  border-radius: 5rpx;
+  background-color: #526343;
+  transform: rotate(10deg);
+}
+
+.card-decor-flower .decor-leaf-one {
+  display: block;
+  left: 38rpx;
+  top: 60rpx;
+  width: 28rpx;
+  height: 16rpx;
+  border-radius: 20rpx 4rpx 20rpx 4rpx;
+  background-color: #dfe9d7;
+  border: 3rpx solid #2b2119;
+  transform: rotate(-18deg);
+}
+
+.card-decor-leaf .decor-leaf {
+  display: block;
+  width: 42rpx;
+  height: 24rpx;
+  border-radius: 32rpx 6rpx 32rpx 6rpx;
+  background-color: #dfe9d7;
+  border: 4rpx solid #2b2119;
+}
+
+.card-decor-leaf .decor-leaf-one {
+  left: 2rpx;
+  top: 22rpx;
+  transform: rotate(-42deg);
+}
+
+.card-decor-leaf .decor-leaf-two {
+  left: 28rpx;
+  top: 16rpx;
+  transform: rotate(42deg) scaleX(-1);
+}
+
+.card-decor-leaf::after {
+  content: '';
+  position: absolute;
+  left: 36rpx;
+  top: 30rpx;
+  width: 5rpx;
+  height: 52rpx;
+  border-radius: 5rpx;
+  background-color: #526343;
+  transform: rotate(18deg);
+}
+
+.card-decor-star .decor-star-core {
+  display: block;
+  left: 16rpx;
+  top: 12rpx;
+  width: 42rpx;
+  height: 42rpx;
+  border-radius: 12rpx;
+  background-color: #f7c85f;
+  border: 4rpx solid #2b2119;
+  transform: rotate(28deg);
+}
+
+.card-decor-star .decor-star-core::after {
+  content: '';
+  position: absolute;
+  left: -4rpx;
+  top: -4rpx;
+  width: 42rpx;
+  height: 42rpx;
+  border-radius: 12rpx;
+  background-color: #f7c85f;
+  border: 4rpx solid #2b2119;
+  transform: rotate(32deg);
+  z-index: -1;
+}
+
+.card-decor-star::after {
+  content: '';
+  position: absolute;
+  right: 4rpx;
+  bottom: 8rpx;
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 4rpx;
+  background-color: #f28b63;
+  border: 3rpx solid #2b2119;
+  transform: rotate(18deg);
 }
 
 .recipe-cover {

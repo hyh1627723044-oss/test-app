@@ -45,7 +45,8 @@ Page({
   },
 
   onLoad() {
-    this.setData({ displayRecipes: this.data.recipes })
+    const recipes = this.withRecipeDecorations(this.data.recipes)
+    this.setData({ recipes, displayRecipes: recipes })
     this.loadRecipes()
   },
 
@@ -68,7 +69,7 @@ Page({
       success: (res) => {
         const recipes = res.result && res.result.recipes
         if (Array.isArray(recipes) && recipes.length > 0) {
-          this.setData({ recipes }, () => {
+          this.setData({ recipes: this.withRecipeDecorations(recipes) }, () => {
             this.applyFilters()
           })
         }
@@ -132,6 +133,13 @@ Page({
     wx.navigateTo({ url: '/pages/recipe-edit/index' })
   },
 
+  onTapManageTags() {
+    wx.showToast({
+      title: '标签管理后续开放',
+      icon: 'none'
+    })
+  },
+
   onTapTab(e) {
     const { id } = e.currentTarget.dataset
     if (id === 'recipes') {
@@ -157,6 +165,17 @@ Page({
       return this.getSearchText(recipe).indexOf(keyword) >= 0
     })
     this.setData({ displayRecipes })
+  },
+
+  withRecipeDecorations(recipes) {
+    const decorTypes = ['flower', 'leaf', 'star']
+    return recipes.map((recipe, index) => {
+      const key = recipe.id || recipe.title || String(index)
+      const charTotal = key.split('').reduce((total, char) => total + char.charCodeAt(0), 0)
+      return Object.assign({}, recipe, {
+        decor_type: decorTypes[charTotal % decorTypes.length]
+      })
+    })
   },
 
   getSearchText(recipe) {

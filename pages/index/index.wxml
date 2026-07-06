@@ -5,9 +5,6 @@
       <text class="hero-title">今天想吃点什么？</text>
       <text class="hero-desc">挑一道菜，加入早餐、午餐、晚餐或夜宵计划。</text>
     </view>
-    <view class="hero-action" bind:tap="onTapAddRecipe">
-      <text class="hero-action-text">添加菜品</text>
-    </view>
   </view>
 
   <view class="search-card">
@@ -27,15 +24,25 @@
       </view>
       <image class="search-mascot" src="/assets/illustrations/search-cat.png" mode="aspectFit" />
     </view>
-    <view class="quick-tag-row">
-      <view
-        class="quick-tag {{activeQuickTag === item ? 'quick-tag-active' : ''}}"
-        wx:for="{{quickTags}}"
-        wx:key="*this"
-        data-tag="{{item}}"
-        bind:tap="onTapQuickTag"
-      >
-        <text class="quick-tag-text">#{{item}}</text>
+    <view class="quick-filter-bar">
+      <scroll-view class="quick-tag-scroll" scroll-x>
+        <view class="quick-tag-row">
+          <view
+            class="quick-tag {{activeQuickTag === item ? 'quick-tag-active' : ''}}"
+            wx:for="{{quickTags}}"
+            wx:key="*this"
+            data-tag="{{item}}"
+            bind:tap="onTapQuickTag"
+          >
+            <text class="quick-tag-text">{{item}}</text>
+          </view>
+          <view class="quick-tag quick-tag-more" bind:tap="onTapManageTags">
+            <text class="quick-tag-text">+</text>
+          </view>
+        </view>
+      </scroll-view>
+      <view class="add-recipe-mini" bind:tap="onTapAddRecipe">
+        <text class="add-recipe-mini-text">新菜谱</text>
       </view>
     </view>
   </view>
@@ -67,6 +74,16 @@
       bind:tap="onTapRecipe"
     >
       <view class="card-tape"></view>
+      <view class="card-decor card-decor-{{item.decor_type}}">
+        <view class="decor-petal decor-petal-one"></view>
+        <view class="decor-petal decor-petal-two"></view>
+        <view class="decor-petal decor-petal-three"></view>
+        <view class="decor-petal decor-petal-four"></view>
+        <view class="decor-center"></view>
+        <view class="decor-leaf decor-leaf-one"></view>
+        <view class="decor-leaf decor-leaf-two"></view>
+        <view class="decor-star-core"></view>
+      </view>
       <view class="recipe-cover">
         <image
           wx:if="{{item.primary_cover_file_id}}"
