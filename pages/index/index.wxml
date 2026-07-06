@@ -109,47 +109,17 @@
 
   <view class="bottom-nav">
     <view class="nav-item nav-item-active" data-id="recipes" bind:tap="onTapTab">
-      <view class="icon icon-store">
-        <view class="store-roof">
-          <view class="store-bump store-bump-left"></view>
-          <view class="store-bump store-bump-center"></view>
-          <view class="store-bump store-bump-right"></view>
-          <view class="store-spark"></view>
-        </view>
-        <view class="store-body">
-          <view class="store-door"></view>
-        </view>
-      </view>
+      <image class="nav-icon" src="/assets/illustrations/tab-recipes.png" mode="aspectFit" />
       <text class="nav-label">菜单</text>
     </view>
 
     <view class="nav-item" data-id="plan" bind:tap="onTapTab">
-      <view class="icon icon-order">
-        <view class="clip-head"></view>
-        <view class="paper">
-          <view class="paper-line paper-line-short"></view>
-          <view class="paper-line"></view>
-          <view class="paper-line paper-line-mid"></view>
-          <view class="paper-line"></view>
-        </view>
-      </view>
+      <image class="nav-icon" src="/assets/illustrations/tab-plan.png" mode="aspectFit" />
       <text class="nav-label">计划</text>
     </view>
 
     <view class="nav-item" data-id="mine" bind:tap="onTapTab">
-      <view class="icon icon-cat">
-        <view class="cat-ear cat-ear-left"></view>
-        <view class="cat-ear cat-ear-right"></view>
-        <view class="cat-face">
-          <view class="cat-eye cat-eye-left"></view>
-          <view class="cat-eye cat-eye-right"></view>
-          <view class="cat-nose"></view>
-          <view class="cat-whisker cat-whisker-left-one"></view>
-          <view class="cat-whisker cat-whisker-left-two"></view>
-          <view class="cat-whisker cat-whisker-right-one"></view>
-          <view class="cat-whisker cat-whisker-right-two"></view>
-        </view>
-      </view>
+      <image class="nav-icon" src="/assets/illustrations/tab-my.png" mode="aspectFit" />
       <text class="nav-label">我的</text>
     </view>
   </view>

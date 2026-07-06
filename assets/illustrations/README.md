@@ -6,6 +6,9 @@ These PNG files are replaceable hand-drawn illustration slots for the mini progr
 | --- | --- |
 | `search-cat.png` | Search card mascot on the recipe home page |
 | `my-recipes-pot.png` | "My recipes" entry on the profile page |
+| `tab-recipes.png` | Bottom navigation recipe/menu icon |
+| `tab-plan.png` | Bottom navigation meal-plan icon |
+| `tab-my.png` | Bottom navigation profile icon |
 | `empty-recipes.png` | Empty recipe/search result state |
 | `empty-plan.png` | Empty meal-plan slot state |
 | `upload-recipe.png` | Recipe cover upload guide |

@@ -155,16 +155,9 @@
   opacity: 1;
 }
 
-.nav-symbol {
-  width: 66rpx;
-  height: 66rpx;
-  border-radius: 33rpx;
-  background-color: #eee0d7;
-  color: #251b14;
-  font-size: 30rpx;
-  line-height: 66rpx;
-  text-align: center;
-  font-weight: 600;
+.nav-icon {
+  width: 92rpx;
+  height: 76rpx;
 }
 
 .nav-label {
