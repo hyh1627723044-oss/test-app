@@ -66,8 +66,52 @@
       </view>
     </view>
 
-    <text class="field-label">标签</text>
-    <input class="field-input" placeholder="快手 家常 下饭" value="{{tagsText}}" bind:input="onInputTags" />
+    <text class="field-label">已选标签</text>
+    <view class="selected-tags" wx:if="{{selectedTags.length > 0}}">
+      <view
+        class="selected-tag"
+        wx:for="{{selectedTags}}"
+        wx:key="*this"
+        data-tag="{{item}}"
+        bind:tap="onRemoveSelectedTag"
+      >
+        <text class="selected-tag-text">{{item}}</text>
+        <text class="selected-tag-remove">×</text>
+      </view>
+    </view>
+    <text wx:else class="hint-text">可以选择系统标签，也可以添加自己的标签</text>
+
+    <view class="field-title-row">
+      <text class="field-label field-label-inline">常用标签</text>
+      <view class="more-tags" bind:tap="onToggleMoreTags">
+        <text class="more-tags-text">{{showAllSystemTags ? '收起' : '更多'}}</text>
+      </view>
+    </view>
+    <view class="pill-row">
+      <view
+        class="choice-pill {{selectedTags.indexOf(item) >= 0 ? 'choice-pill-active' : ''}}"
+        wx:for="{{visibleSystemTags}}"
+        wx:key="*this"
+        data-tag="{{item}}"
+        bind:tap="onToggleSystemTag"
+      >
+        <text class="choice-text">{{item}}</text>
+      </view>
+    </view>
+
+    <text class="field-label">自定义标签</text>
+    <view class="custom-tag-row">
+      <input
+        class="custom-tag-input"
+        placeholder="比如 冰箱清库存"
+        value="{{customTagText}}"
+        bind:input="onInputCustomTag"
+        confirm-type="done"
+      />
+      <view class="custom-tag-btn" bind:tap="onAddCustomTag">
+        <text class="custom-tag-btn-text">添加</text>
+      </view>
+    </view>
 
     <text class="field-label">热量</text>
     <input class="field-input" type="number" placeholder="可选，单位 kcal" value="{{calories}}" bind:input="onInputCalories" />

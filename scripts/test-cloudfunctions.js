@@ -157,6 +157,10 @@ async function main() {
   assert.equal(listed.recipes.length, 1)
   assert.equal(listed.recipes[0]._id, recipeId)
 
+  const listedByTag = await listRecipes.main({ keyword: 'family' })
+  assert.equal(listedByTag.recipes.length, 1)
+  assert.equal(listedByTag.recipes[0]._id, recipeId)
+
   const addedPlanItem = await addMealPlanItem.main({
     recipe_id: recipeId,
     plan_date: '2026-07-03',

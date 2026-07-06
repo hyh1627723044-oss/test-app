@@ -23,7 +23,37 @@ Page({
       { id: 'dinner', name: '晚餐', selected: false },
       { id: 'night_snack', name: '夜宵', selected: false }
     ],
-    tagsText: '',
+    systemTags: [
+      '快手',
+      '低脂',
+      '下饭',
+      '家常',
+      '高蛋白',
+      '早餐',
+      '清淡',
+      '饮品',
+      '甜口',
+      '适合带饭',
+      '儿童友好',
+      '冰箱清库存',
+      '少油',
+      '暖胃',
+      '夏天',
+      '夜宵'
+    ],
+    visibleSystemTags: [
+      '快手',
+      '低脂',
+      '下饭',
+      '家常',
+      '高蛋白',
+      '早餐',
+      '清淡',
+      '饮品'
+    ],
+    selectedTags: [],
+    customTagText: '',
+    showAllSystemTags: false,
     ingredientsText: '',
     stepsText: '',
     cookTime: '',
@@ -64,8 +94,8 @@ Page({
     this.setData({ calories: e.detail.value })
   },
 
-  onInputTags(e) {
-    this.setData({ tagsText: e.detail.value })
+  onInputCustomTag(e) {
+    this.setData({ customTagText: e.detail.value })
   },
 
   onInputIngredients(e) {
@@ -91,6 +121,32 @@ Page({
       return { ...item, selected: !item.selected }
     })
     this.setData({ mealTypes })
+  },
+
+  onToggleSystemTag(e) {
+    const { tag } = e.currentTarget.dataset
+    this.toggleTag(tag)
+  },
+
+  onAddCustomTag() {
+    const tag = this.data.customTagText.trim()
+    if (!tag) return
+    this.toggleTag(tag, true)
+    this.setData({ customTagText: '' })
+  },
+
+  onRemoveSelectedTag(e) {
+    const { tag } = e.currentTarget.dataset
+    const selectedTags = this.data.selectedTags.filter((item) => item !== tag)
+    this.setData({ selectedTags })
+  },
+
+  onToggleMoreTags() {
+    const showAllSystemTags = !this.data.showAllSystemTags
+    const visibleSystemTags = showAllSystemTags
+      ? this.data.systemTags
+      : this.data.systemTags.slice(0, 8)
+    this.setData({ showAllSystemTags, visibleSystemTags })
   },
 
   onTogglePublic(e) {
@@ -140,7 +196,7 @@ Page({
             primary_cover_file_id: primaryCover,
             cover_images: coverImages,
             meal_types: this.getSelectedMealTypes(),
-            tags: this.parseTags(),
+            tags: this.data.selectedTags,
             ingredients: this.parseIngredients(),
             steps: this.parseSteps(),
             is_public: this.data.isPublic
@@ -190,11 +246,20 @@ Page({
       .map((item) => item.id)
   },
 
-  parseTags() {
-    return this.data.tagsText
-      .split(/[,，\s]+/)
-      .map((item) => item.trim())
-      .filter(Boolean)
+  toggleTag(tag, forceAdd) {
+    if (!tag) return
+    const exists = this.data.selectedTags.indexOf(tag) >= 0
+    if (exists && !forceAdd) {
+      this.setData({
+        selectedTags: this.data.selectedTags.filter((item) => item !== tag)
+      })
+      return
+    }
+    if (!exists) {
+      this.setData({
+        selectedTags: this.data.selectedTags.concat(tag)
+      })
+    }
   },
 
   parseIngredients() {

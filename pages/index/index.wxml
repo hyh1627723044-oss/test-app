@@ -10,6 +10,33 @@
     </view>
   </view>
 
+  <view class="search-card">
+    <view class="search-box">
+      <input
+        class="search-input"
+        placeholder="搜索菜名 / 标签"
+        value="{{searchKeyword}}"
+        confirm-type="search"
+        bind:input="onInputSearch"
+        bind:confirm="onConfirmSearch"
+      />
+      <view wx:if="{{searchKeyword}}" class="search-clear" bind:tap="onClearSearch">
+        <text class="search-clear-text">清空</text>
+      </view>
+    </view>
+    <view class="quick-tag-row">
+      <view
+        class="quick-tag {{activeQuickTag === item ? 'quick-tag-active' : ''}}"
+        wx:for="{{quickTags}}"
+        wx:key="*this"
+        data-tag="{{item}}"
+        bind:tap="onTapQuickTag"
+      >
+        <text class="quick-tag-text">#{{item}}</text>
+      </view>
+    </view>
+  </view>
+
   <scroll-view class="category-strip" scroll-x>
     <view
       class="category-pill {{activeCategory === item ? 'category-pill-active' : ''}}"
@@ -48,6 +75,9 @@
         <view class="recipe-meta">
           <text class="recipe-time">{{item.cook_time_minutes}} 分钟</text>
           <text class="recipe-meal">{{item.meal_types[0]}}</text>
+        </view>
+        <view class="recipe-tag-row" wx:if="{{item.tags.length > 0}}">
+          <text class="recipe-tag" wx:for="{{item.tags}}" wx:key="*this">#{{item}}</text>
         </view>
       </view>
     </view>

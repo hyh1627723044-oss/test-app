@@ -2,7 +2,10 @@ Page({
   data: {
     activeTab: 'recipes',
     activeCategory: '全部',
+    searchKeyword: '',
+    activeQuickTag: '',
     categories: ['全部', '早餐', '午餐', '晚餐', '饮品'],
+    quickTags: ['快手', '低脂', '下饭', '家常', '早餐', '饮品'],
     recipes: [
       {
         id: 'recipe_tomato_egg',
@@ -59,23 +62,60 @@ Page({
     if (!wx.cloud) return
     wx.cloud.callFunction({
       name: 'listRecipes',
+      data: {
+        keyword: this.data.searchKeyword || this.data.activeQuickTag
+      },
       success: (res) => {
         const recipes = res.result && res.result.recipes
         if (Array.isArray(recipes) && recipes.length > 0) {
-          this.setData({ recipes, displayRecipes: recipes })
+          this.setData({ recipes }, () => {
+            this.applyFilters()
+          })
         }
       }
     })
   },
 
+  onInputSearch(e) {
+    this.setData({
+      searchKeyword: e.detail.value,
+      activeQuickTag: ''
+    }, () => {
+      this.applyFilters()
+    })
+  },
+
+  onConfirmSearch() {
+    this.loadRecipes()
+  },
+
+  onClearSearch() {
+    this.setData({
+      searchKeyword: '',
+      activeQuickTag: ''
+    }, () => {
+      this.applyFilters()
+      this.loadRecipes()
+    })
+  },
+
+  onTapQuickTag(e) {
+    const { tag } = e.currentTarget.dataset
+    const activeQuickTag = this.data.activeQuickTag === tag ? '' : tag
+    this.setData({
+      activeQuickTag,
+      searchKeyword: activeQuickTag
+    }, () => {
+      this.applyFilters()
+      this.loadRecipes()
+    })
+  },
+
   onTapCategory(e) {
     const { name } = e.currentTarget.dataset
-    const displayRecipes = name === '全部'
-      ? this.data.recipes
-      : this.data.recipes.filter((recipe) => {
-        return recipe.category === name || recipe.meal_types.indexOf(name) >= 0
-      })
-    this.setData({ activeCategory: name, displayRecipes })
+    this.setData({ activeCategory: name }, () => {
+      this.applyFilters()
+    })
   },
 
   onTapRecipe(e) {
@@ -98,5 +138,28 @@ Page({
       return
     }
     wx.redirectTo({ url: '/pages/my/index' })
+  },
+
+  applyFilters() {
+    const keyword = this.data.searchKeyword.trim()
+    const activeCategory = this.data.activeCategory
+    const displayRecipes = this.data.recipes.filter((recipe) => {
+      const matchesCategory = activeCategory === '全部'
+        || recipe.category === activeCategory
+        || (Array.isArray(recipe.meal_types) && recipe.meal_types.indexOf(activeCategory) >= 0)
+      if (!matchesCategory) return false
+      if (!keyword) return true
+      return this.getSearchText(recipe).indexOf(keyword) >= 0
+    })
+    this.setData({ displayRecipes })
+  },
+
+  getSearchText(recipe) {
+    const tags = Array.isArray(recipe.tags) ? recipe.tags.join(' ') : ''
+    return [
+      recipe.title || '',
+      recipe.description || '',
+      tags
+    ].join(' ')
   }
 })

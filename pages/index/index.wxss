@@ -61,6 +61,71 @@
   color: #fff8ef;
 }
 
+.search-card {
+  margin-top: 22rpx;
+  padding: 18rpx;
+  box-sizing: border-box;
+  border-radius: 24rpx;
+  background-color: #ffffff;
+  border: 1px solid #eee5dc;
+}
+
+.search-box {
+  height: 74rpx;
+  padding: 0 18rpx;
+  box-sizing: border-box;
+  border-radius: 20rpx;
+  background-color: #f8f3ee;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.search-input {
+  flex: 1;
+  height: 74rpx;
+  font-size: 28rpx;
+  color: #251b14;
+}
+
+.search-clear {
+  padding: 8rpx 14rpx;
+  border-radius: 14rpx;
+  background-color: #eee0d7;
+}
+
+.search-clear-text {
+  font-size: 24rpx;
+  color: #8a5a34;
+}
+
+.quick-tag-row {
+  margin-top: 16rpx;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.quick-tag {
+  margin: 0 12rpx 12rpx 0;
+  padding: 8rpx 16rpx;
+  border-radius: 16rpx;
+  background-color: #fff6ec;
+}
+
+.quick-tag-active {
+  background-color: #2b2119;
+}
+
+.quick-tag-text {
+  font-size: 24rpx;
+  color: #a2672a;
+}
+
+.quick-tag-active .quick-tag-text {
+  color: #fff8ef;
+}
+
 .category-strip {
   white-space: nowrap;
   margin: 26rpx 0;
@@ -172,6 +237,19 @@
   background-color: #f6eee6;
   font-size: 22rpx;
   color: #8a5a34;
+}
+
+.recipe-tag-row {
+  margin-top: 12rpx;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.recipe-tag {
+  margin: 0 10rpx 8rpx 0;
+  font-size: 22rpx;
+  color: #a2672a;
 }
 
 .bottom-nav {

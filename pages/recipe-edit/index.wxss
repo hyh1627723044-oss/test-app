@@ -137,6 +137,96 @@
   color: #fff8ef;
 }
 
+.selected-tags {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.selected-tag {
+  margin: 0 14rpx 14rpx 0;
+  padding: 12rpx 18rpx;
+  border-radius: 18rpx;
+  background-color: #2b2119;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.selected-tag-text,
+.selected-tag-remove {
+  font-size: 26rpx;
+  color: #fff8ef;
+}
+
+.selected-tag-remove {
+  margin-left: 10rpx;
+}
+
+.hint-text {
+  display: block;
+  font-size: 26rpx;
+  color: #8f8177;
+}
+
+.field-title-row {
+  margin-top: 22rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.field-label-inline {
+  margin: 0 0 12rpx;
+}
+
+.more-tags {
+  padding: 8rpx 16rpx;
+  border-radius: 16rpx;
+  background-color: #f6eee6;
+}
+
+.more-tags-text {
+  font-size: 24rpx;
+  color: #8a5a34;
+}
+
+.custom-tag-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.custom-tag-input {
+  flex: 1;
+  height: 78rpx;
+  padding: 18rpx;
+  box-sizing: border-box;
+  border-radius: 18rpx;
+  background-color: #f8f3ee;
+  font-size: 28rpx;
+  color: #251b14;
+}
+
+.custom-tag-btn {
+  width: 120rpx;
+  height: 78rpx;
+  margin-left: 14rpx;
+  border-radius: 22rpx;
+  background-color: #c87420;
+  border: 4rpx solid #2b2119;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-tag-btn-text {
+  font-size: 26rpx;
+  color: #fff8ef;
+}
+
 .switch-row {
   margin-top: 24rpx;
   display: flex;
