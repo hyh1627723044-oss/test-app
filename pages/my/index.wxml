@@ -1,12 +1,15 @@
 <view class="page-shell">
   <view class="profile-card">
+    <view class="profile-tape"></view>
     <view class="avatar">
       <text class="avatar-text">我</text>
     </view>
     <view class="profile-copy">
+      <text class="eyebrow">我的厨房</text>
       <text class="profile-name">体验用户</text>
-      <text class="profile-desc">管理自己的菜谱、收藏和饮食计划</text>
+      <text class="profile-desc">管理我的菜谱和饮食计划</text>
     </view>
+    <view class="profile-heart"></view>
   </view>
 
   <view class="stats">
@@ -16,27 +19,48 @@
     </view>
   </view>
 
-  <view class="my-recipes-card">
+  <view class="feature-card my-recipes-card">
     <image class="my-recipes-image" src="/assets/illustrations/my-recipes-pot.png" mode="aspectFit" />
-    <view class="my-recipes-copy">
-      <text class="my-recipes-title">我的菜谱</text>
-      <text class="my-recipes-desc">整理自己上传的菜品、封面和标签。</text>
+    <view class="feature-copy">
+      <text class="feature-title">我的菜谱</text>
+      <text class="feature-desc">整理自己上传的菜品、封面和标签。</text>
     </view>
+    <text class="feature-arrow">›</text>
   </view>
 
-  <view class="ai-card">
-    <image class="ai-image" src="/assets/illustrations/ai-chef.png" mode="aspectFit" />
-    <view class="ai-copy">
-      <text class="ai-title">AI 推荐</text>
-      <text class="ai-desc">后续可以根据口味、库存和时间推荐菜品。</text>
+  <view class="feature-card plan-entry-card" bind:tap="onTapPlan">
+    <image class="feature-image" src="/assets/illustrations/empty-plan.png" mode="aspectFit" />
+    <view class="feature-copy">
+      <text class="feature-title">饮食计划</text>
+      <text class="feature-desc">查看今天的早中晚安排。</text>
     </view>
+    <text class="feature-arrow">›</text>
+  </view>
+
+  <view class="feature-card ai-card">
+    <image class="ai-image" src="/assets/illustrations/ai-chef.png" mode="aspectFit" />
+    <view class="feature-copy">
+      <text class="feature-title">AI 推荐</text>
+      <text class="feature-desc">根据口味和库存推荐菜品。</text>
+    </view>
+    <text class="feature-arrow">›</text>
   </view>
 
   <view class="menu-card">
+    <view class="menu-tape"></view>
     <text class="menu-title">下一步功能</text>
-    <text class="menu-line">云开发登录与 openid</text>
-    <text class="menu-line">上传菜品封面图列表</text>
-    <text class="menu-line">AI 推荐菜品和饮品</text>
+    <view class="menu-line">
+      <view class="menu-dot"></view>
+      <text class="menu-line-text">云开发登录与 openid</text>
+    </view>
+    <view class="menu-line">
+      <view class="menu-dot"></view>
+      <text class="menu-line-text">上传菜品封面图列表</text>
+    </view>
+    <view class="menu-line">
+      <view class="menu-dot"></view>
+      <text class="menu-line-text">AI 推荐菜品和饮品</text>
+    </view>
   </view>
 
   <view class="bottom-nav">

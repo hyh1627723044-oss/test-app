@@ -1,7 +1,10 @@
 <view class="page-shell">
   <view class="plan-head">
+    <view class="head-decor head-decor-left"></view>
+    <view class="head-decor head-decor-right"></view>
     <text class="eyebrow">{{dateText}}</text>
-    <text class="page-title">饮食计划</text>
+    <text class="page-title">今日计划</text>
+    <view class="title-underline"></view>
     <text class="page-desc">把想吃的菜安排到早餐、午餐、晚餐，也可以加下午茶和夜宵。</text>
     <view class="date-bar">
       <view class="date-step" bind:tap="onPrevDay">
@@ -17,10 +20,17 @@
   </view>
 
   <view class="slot-list">
-    <view class="slot-card" wx:for="{{slots}}" wx:key="id">
+    <view class="slot-card slot-card-{{item.decor_type}}" wx:for="{{slots}}" wx:key="id">
+      <view class="slot-tape"></view>
+      <view class="slot-decor">
+        <view class="slot-decor-core"></view>
+        <view class="slot-decor-leaf slot-decor-leaf-one"></view>
+        <view class="slot-decor-leaf slot-decor-leaf-two"></view>
+      </view>
       <view class="slot-left">
         <text class="slot-time">{{item.time}}</text>
         <text class="slot-name">{{item.name}}</text>
+        <text class="slot-hint">Meal note</text>
       </view>
       <view class="slot-content">
         <block wx:if="{{item.recipes.length > 0}}">
@@ -32,6 +42,7 @@
             data-id="{{recipe.id}}"
             bind:tap="onTapRecipe"
           >
+            <view class="recipe-dot"></view>
             <text class="recipe-chip-text">{{recipe.title}}</text>
           </view>
         </block>
@@ -40,6 +51,16 @@
           <text class="empty-text">还没安排</text>
         </view>
       </view>
+    </view>
+  </view>
+
+  <view class="choose-card" bind:tap="onTapChooseRecipes">
+    <view class="choose-copy">
+      <text class="choose-title">还想加一道？</text>
+      <text class="choose-desc">去菜谱里挑一挑，把它安排进今天。</text>
+    </view>
+    <view class="choose-btn">
+      <text class="choose-btn-text">去选菜</text>
     </view>
   </view>
 

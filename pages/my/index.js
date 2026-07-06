@@ -1,9 +1,9 @@
 Page({
   data: {
     stats: [
-      { label: '我的菜品', value: 0 },
-      { label: '收藏', value: 0 },
-      { label: '本周计划', value: 3 }
+      { label: '菜谱', value: 0 },
+      { label: '计划', value: 3 },
+      { label: '收藏', value: 0 }
     ]
   },
 

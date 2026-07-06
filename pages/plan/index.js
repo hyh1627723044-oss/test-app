@@ -4,11 +4,11 @@ Page({
     dateText: '今天',
     planDate: '',
     slots: [
-      { id: 'breakfast', name: '早餐', time: '08:00', recipes: [] },
-      { id: 'lunch', name: '午餐', time: '12:00', recipes: [] },
-      { id: 'afternoon_tea', name: '下午茶', time: '15:30', recipes: [] },
-      { id: 'dinner', name: '晚餐', time: '18:30', recipes: [] },
-      { id: 'night_snack', name: '夜宵', time: '21:30', recipes: [] }
+      { id: 'breakfast', name: '早餐', time: '08:00', recipes: [], decor_type: 'sun' },
+      { id: 'lunch', name: '午餐', time: '12:00', recipes: [], decor_type: 'leaf' },
+      { id: 'afternoon_tea', name: '下午茶', time: '15:30', recipes: [], decor_type: 'flower' },
+      { id: 'dinner', name: '晚餐', time: '18:30', recipes: [], decor_type: 'star' },
+      { id: 'night_snack', name: '夜宵', time: '21:30', recipes: [], decor_type: 'moon' }
     ]
   },
 
@@ -74,10 +74,18 @@ Page({
           dinner: '18:30',
           night_snack: '21:30'
         }
+        const decorMap = {
+          breakfast: 'sun',
+          lunch: 'leaf',
+          afternoon_tea: 'flower',
+          dinner: 'star',
+          night_snack: 'moon'
+        }
         const slots = res.result.slots.map((slot) => ({
           id: slot.id,
           name: slot.name,
           time: timeMap[slot.id] || '',
+          decor_type: decorMap[slot.id] || 'leaf',
           recipes: slot.items.map((item) => ({
             id: item.recipe_id,
             title: item.recipe_title || '未命名菜品',
@@ -88,6 +96,10 @@ Page({
         this.setData({ slots })
       }
     })
+  },
+
+  onTapChooseRecipes() {
+    wx.redirectTo({ url: '/pages/index/index' })
   },
 
   shiftDate(offset) {

@@ -1,4 +1,4 @@
-.page-shell {
+﻿.page-shell {
   min-height: 100vh;
   padding: 28rpx 28rpx 210rpx;
   box-sizing: border-box;
@@ -7,75 +7,143 @@
 
 .profile-card,
 .stats,
-.my-recipes-card,
-.ai-card,
+.feature-card,
 .menu-card {
-  padding: 28rpx;
   box-sizing: border-box;
   background-color: #fffaf1;
   border: 4rpx solid #2b2119;
-  border-radius: 28rpx;
+  border-radius: 30rpx;
   box-shadow: 8rpx 8rpx 0 #ead8c8;
 }
 
 .profile-card {
+  position: relative;
+  min-height: 190rpx;
+  padding: 30rpx 28rpx;
   display: flex;
   flex-direction: row;
   align-items: center;
+  overflow: hidden;
+}
+
+.profile-tape {
+  position: absolute;
+  left: 46rpx;
+  top: -14rpx;
+  width: 126rpx;
+  height: 32rpx;
+  border-radius: 10rpx;
+  background-color: rgba(217, 173, 120, 0.72);
+  transform: rotate(-5deg);
+}
+
+.profile-heart {
+  position: absolute;
+  right: 34rpx;
+  top: 34rpx;
+  width: 24rpx;
+  height: 24rpx;
+  background-color: #f28b63;
+  border: 4rpx solid #2b2119;
+  border-radius: 18rpx 18rpx 4rpx 18rpx;
+  transform: rotate(45deg);
+}
+
+.profile-heart::before {
+  content: '';
+  position: absolute;
+  left: -12rpx;
+  top: 0;
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 18rpx;
+  background-color: #f28b63;
+  border-left: 4rpx solid #2b2119;
+  border-bottom: 4rpx solid #2b2119;
 }
 
 .avatar {
-  width: 108rpx;
-  height: 108rpx;
-  border-radius: 54rpx;
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 58rpx;
   background-color: #c87420;
-  border: 4rpx solid #2b2119;
+  border: 5rpx solid #2b2119;
+  box-shadow: 6rpx 6rpx 0 rgba(200, 116, 32, 0.24);
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .avatar-text {
-  font-size: 38rpx;
+  font-size: 40rpx;
   color: #fff8ef;
   font-weight: 600;
 }
 
 .profile-copy {
   flex: 1;
-  padding-left: 22rpx;
+  padding-left: 24rpx;
+  padding-right: 52rpx;
+}
+
+.eyebrow {
+  display: block;
+  font-size: 24rpx;
+  color: #8a5a34;
+  margin-bottom: 8rpx;
 }
 
 .profile-name {
   display: block;
-  font-size: 36rpx;
+  font-size: 42rpx;
+  line-height: 52rpx;
   color: #251b14;
   font-weight: 600;
 }
 
+.profile-name::after {
+  content: '';
+  display: block;
+  width: 120rpx;
+  height: 7rpx;
+  margin-top: 6rpx;
+  border-radius: 8rpx;
+  background-color: #c87420;
+  transform: rotate(-2deg);
+}
+
 .profile-desc {
   display: block;
-  margin-top: 10rpx;
-  font-size: 26rpx;
+  margin-top: 12rpx;
+  font-size: 25rpx;
+  line-height: 36rpx;
   color: #756a60;
 }
 
 .stats {
-  margin-top: 22rpx;
+  margin-top: 24rpx;
+  padding: 20rpx 18rpx;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
 .stat-item {
-  width: 190rpx;
+  width: 198rpx;
+  min-height: 112rpx;
+  border-radius: 24rpx;
+  background-color: #fff4df;
+  border: 2rpx dashed #dec8ae;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 
 .stat-value {
-  font-size: 40rpx;
+  font-size: 42rpx;
+  line-height: 50rpx;
   color: #251b14;
   font-weight: 600;
 }
@@ -86,37 +154,58 @@
   color: #8a5a34;
 }
 
-.my-recipes-card,
-.ai-card {
+.feature-card {
+  position: relative;
   margin-top: 24rpx;
+  padding: 24rpx;
+  min-height: 166rpx;
   display: flex;
   flex-direction: row;
   align-items: center;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  left: 34rpx;
+  top: -12rpx;
+  width: 104rpx;
+  height: 30rpx;
+  border-radius: 10rpx;
+  background-color: rgba(217, 173, 120, 0.64);
+  transform: rotate(-5deg);
 }
 
 .my-recipes-image,
-.ai-image {
+.ai-image,
+.feature-image {
   width: 128rpx;
   height: 128rpx;
   flex-shrink: 0;
 }
 
-.my-recipes-copy,
-.ai-copy {
-  flex: 1;
-  padding-left: 24rpx;
+.plan-entry-card .feature-image {
+  width: 118rpx;
+  height: 118rpx;
 }
 
-.my-recipes-title,
-.ai-title {
+.feature-copy {
+  flex: 1;
+  min-width: 0;
+  padding-left: 24rpx;
+  padding-right: 22rpx;
+}
+
+.feature-title {
   display: block;
   font-size: 34rpx;
+  line-height: 42rpx;
   color: #251b14;
   font-weight: 600;
 }
 
-.my-recipes-desc,
-.ai-desc {
+.feature-desc {
   display: block;
   margin-top: 10rpx;
   font-size: 25rpx;
@@ -124,23 +213,72 @@
   color: #756a60;
 }
 
+.feature-arrow {
+  font-size: 50rpx;
+  color: #8a5a34;
+  flex-shrink: 0;
+}
+
 .menu-card {
-  margin-top: 22rpx;
+  position: relative;
+  margin-top: 24rpx;
+  padding: 30rpx 28rpx 22rpx;
+  overflow: hidden;
+}
+
+.menu-tape {
+  position: absolute;
+  right: 44rpx;
+  top: -13rpx;
+  width: 118rpx;
+  height: 30rpx;
+  border-radius: 10rpx;
+  background-color: rgba(217, 173, 120, 0.66);
+  transform: rotate(4deg);
 }
 
 .menu-title {
   display: block;
   margin-bottom: 18rpx;
-  font-size: 32rpx;
+  font-size: 34rpx;
   color: #251b14;
   font-weight: 600;
 }
 
-.menu-line {
+.menu-title::after {
+  content: '';
   display: block;
-  padding: 16rpx 0;
-  border-bottom: 1px solid #f0e7df;
-  font-size: 28rpx;
+  width: 130rpx;
+  height: 6rpx;
+  margin-top: 8rpx;
+  border-radius: 8rpx;
+  background-color: #c87420;
+  transform: rotate(-2deg);
+}
+
+.menu-line {
+  min-height: 58rpx;
+  border-bottom: 1px dashed #dec8ae;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.menu-line:last-child {
+  border-bottom: 0;
+}
+
+.menu-dot {
+  width: 14rpx;
+  height: 14rpx;
+  margin-right: 14rpx;
+  border-radius: 10rpx;
+  background-color: #c87420;
+  flex-shrink: 0;
+}
+
+.menu-line-text {
+  font-size: 27rpx;
   color: #4d4036;
 }
 
@@ -149,22 +287,25 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: 170rpx;
-  padding: 18rpx 64rpx 24rpx;
+  height: 188rpx;
+  padding: 14rpx 42rpx 22rpx;
   box-sizing: border-box;
   background-color: #fbfaf7;
   border-top: 1px solid #eee5dc;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: flex-end;
 }
 
 .nav-item {
-  width: 130rpx;
+  width: 160rpx;
+  height: 150rpx;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
-  opacity: 0.58;
+  opacity: 0.62;
 }
 
 .nav-item-active {
@@ -172,12 +313,14 @@
 }
 
 .nav-icon {
-  width: 92rpx;
-  height: 76rpx;
+  width: 108rpx;
+  height: 92rpx;
 }
 
 .nav-label {
-  margin-top: 8rpx;
-  font-size: 28rpx;
+  margin-top: 4rpx;
+  font-size: 34rpx;
+  line-height: 40rpx;
   color: #251b14;
+  font-weight: 500;
 }
