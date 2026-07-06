@@ -16,6 +16,22 @@
     </view>
   </view>
 
+  <view class="my-recipes-card">
+    <image class="my-recipes-image" src="/assets/illustrations/my-recipes-pot.png" mode="aspectFit" />
+    <view class="my-recipes-copy">
+      <text class="my-recipes-title">我的菜谱</text>
+      <text class="my-recipes-desc">整理自己上传的菜品、封面和标签。</text>
+    </view>
+  </view>
+
+  <view class="ai-card">
+    <image class="ai-image" src="/assets/illustrations/ai-chef.png" mode="aspectFit" />
+    <view class="ai-copy">
+      <text class="ai-title">AI 推荐</text>
+      <text class="ai-desc">后续可以根据口味、库存和时间推荐菜品。</text>
+    </view>
+  </view>
+
   <view class="menu-card">
     <text class="menu-title">下一步功能</text>
     <text class="menu-line">云开发登录与 openid</text>

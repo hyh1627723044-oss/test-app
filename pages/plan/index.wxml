@@ -35,7 +35,10 @@
             <text class="recipe-chip-text">{{recipe.title}}</text>
           </view>
         </block>
-        <text wx:else class="empty-text">还没安排</text>
+        <view wx:else class="empty-slot">
+          <image class="empty-slot-image" src="/assets/illustrations/empty-plan.png" mode="aspectFit" />
+          <text class="empty-text">还没安排</text>
+        </view>
       </view>
     </view>
   </view>

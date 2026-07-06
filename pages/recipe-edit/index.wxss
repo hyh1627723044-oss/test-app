@@ -20,6 +20,12 @@
   align-items: center;
 }
 
+.uploader-image {
+  width: 138rpx;
+  height: 138rpx;
+  margin-bottom: 8rpx;
+}
+
 .uploader-title {
   font-size: 34rpx;
   color: #251b14;

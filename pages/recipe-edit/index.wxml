@@ -1,6 +1,7 @@
 <view class="page-shell">
   <view class="image-uploader" bind:tap="onChooseImages">
     <view wx:if="{{coverImages.length === 0}}" class="uploader-empty">
+      <image class="uploader-image" src="/assets/illustrations/upload-recipe.png" mode="aspectFit" />
       <text class="uploader-title">上传封面图</text>
       <text class="uploader-desc">可选多张，第一张作为列表封面</text>
     </view>

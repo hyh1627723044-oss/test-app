@@ -123,6 +123,11 @@ Page({
     wx.navigateTo({ url: '/pages/recipe-detail/index?id=' + id })
   },
 
+  onTapAddToPlan(e) {
+    const { id } = e.currentTarget.dataset
+    wx.navigateTo({ url: '/pages/recipe-detail/index?id=' + id + '&action=plan' })
+  },
+
   onTapAddRecipe() {
     wx.navigateTo({ url: '/pages/recipe-edit/index' })
   },

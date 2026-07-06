@@ -7,12 +7,15 @@
 
 .profile-card,
 .stats,
+.my-recipes-card,
+.ai-card,
 .menu-card {
   padding: 28rpx;
   box-sizing: border-box;
-  background-color: #ffffff;
-  border: 1px solid #eee5dc;
-  border-radius: 24rpx;
+  background-color: #fffaf1;
+  border: 4rpx solid #2b2119;
+  border-radius: 28rpx;
+  box-shadow: 8rpx 8rpx 0 #ead8c8;
 }
 
 .profile-card {
@@ -81,6 +84,44 @@
   margin-top: 8rpx;
   font-size: 24rpx;
   color: #8a5a34;
+}
+
+.my-recipes-card,
+.ai-card {
+  margin-top: 24rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.my-recipes-image,
+.ai-image {
+  width: 128rpx;
+  height: 128rpx;
+  flex-shrink: 0;
+}
+
+.my-recipes-copy,
+.ai-copy {
+  flex: 1;
+  padding-left: 24rpx;
+}
+
+.my-recipes-title,
+.ai-title {
+  display: block;
+  font-size: 34rpx;
+  color: #251b14;
+  font-weight: 600;
+}
+
+.my-recipes-desc,
+.ai-desc {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 25rpx;
+  line-height: 36rpx;
+  color: #756a60;
 }
 
 .menu-card {

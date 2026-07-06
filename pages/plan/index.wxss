@@ -115,6 +115,19 @@
   color: #a99b90;
 }
 
+.empty-slot {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.empty-slot-image {
+  width: 74rpx;
+  height: 74rpx;
+  margin-right: 14rpx;
+  opacity: 0.86;
+}
+
 .bottom-nav {
   position: fixed;
   left: 0;

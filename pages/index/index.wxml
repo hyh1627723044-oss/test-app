@@ -11,18 +11,21 @@
   </view>
 
   <view class="search-card">
-    <view class="search-box">
-      <input
-        class="search-input"
-        placeholder="搜索菜名 / 标签"
-        value="{{searchKeyword}}"
-        confirm-type="search"
-        bind:input="onInputSearch"
-        bind:confirm="onConfirmSearch"
-      />
-      <view wx:if="{{searchKeyword}}" class="search-clear" bind:tap="onClearSearch">
-        <text class="search-clear-text">清空</text>
+    <view class="search-top">
+      <view class="search-box">
+        <input
+          class="search-input"
+          placeholder="搜索菜名 / 标签"
+          value="{{searchKeyword}}"
+          confirm-type="search"
+          bind:input="onInputSearch"
+          bind:confirm="onConfirmSearch"
+        />
+        <view wx:if="{{searchKeyword}}" class="search-clear" bind:tap="onClearSearch">
+          <text class="search-clear-text">清空</text>
+        </view>
       </view>
+      <image class="search-mascot" src="/assets/illustrations/search-cat.png" mode="aspectFit" />
     </view>
     <view class="quick-tag-row">
       <view
@@ -50,13 +53,20 @@
   </scroll-view>
 
   <view class="recipe-list">
+    <view wx:if="{{displayRecipes.length === 0}}" class="empty-state">
+      <image class="empty-image" src="/assets/illustrations/empty-recipes.png" mode="aspectFit" />
+      <text class="empty-title">还没找到这道菜</text>
+      <text class="empty-desc">换个菜名或标签试试，也可以先添加自己的菜谱。</text>
+    </view>
     <view
+      wx:else
       class="recipe-card"
       wx:for="{{displayRecipes}}"
       wx:key="id"
       data-id="{{item.id}}"
       bind:tap="onTapRecipe"
     >
+      <view class="card-tape"></view>
       <view class="recipe-cover">
         <image
           wx:if="{{item.primary_cover_file_id}}"
@@ -66,18 +76,32 @@
           lazy-load
         />
         <view wx:else class="recipe-cover-empty">
-          <text class="recipe-cover-letter">{{item.cover_letter}}</text>
+          <view class="recipe-letter-card">
+            <view class="letter-spark letter-spark-left"></view>
+            <view class="letter-spark letter-spark-right"></view>
+            <text class="recipe-cover-letter">{{item.cover_letter}}</text>
+            <view class="letter-leaf letter-leaf-left"></view>
+            <view class="letter-leaf letter-leaf-right"></view>
+          </view>
+        </view>
+        <view class="time-badge">
+          <text class="time-badge-text">{{item.cook_time_minutes}} 分钟</text>
         </view>
       </view>
       <view class="recipe-info">
-        <text class="recipe-title">{{item.title}}</text>
-        <text class="recipe-desc">{{item.description}}</text>
-        <view class="recipe-meta">
-          <text class="recipe-time">{{item.cook_time_minutes}} 分钟</text>
+        <view class="recipe-title-row">
+          <text class="recipe-title">{{item.title}}</text>
           <text class="recipe-meal">{{item.meal_types[0]}}</text>
         </view>
+        <text class="recipe-desc">{{item.description}}</text>
         <view class="recipe-tag-row" wx:if="{{item.tags.length > 0}}">
           <text class="recipe-tag" wx:for="{{item.tags}}" wx:key="*this">#{{item}}</text>
+        </view>
+        <view class="recipe-action-row">
+          <text class="recipe-note">适合加入今天的菜单</text>
+          <view class="plan-btn" data-id="{{item.id}}" catchtap="onTapAddToPlan">
+            <text class="plan-btn-text">加入计划</text>
+          </view>
         </view>
       </view>
     </view>
