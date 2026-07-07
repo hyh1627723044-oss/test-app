@@ -199,6 +199,13 @@ async function main() {
   assert.equal(listedByTag.recipes.length, 1)
   assert.equal(listedByTag.recipes[0]._id, recipeId)
 
+  currentOpenid = 'openid-user-2'
+  const hiddenMineList = await listRecipes.main({ only_mine: true })
+  assert.equal(hiddenMineList.recipes.length, 0)
+  currentOpenid = 'openid-user-1'
+  const ownMineList = await listRecipes.main({ only_mine: true })
+  assert.equal(ownMineList.recipes.some((recipe) => recipe._id === recipeId), true)
+
   const favorited = await toggleFavorite.main({ recipe_id: recipeId })
   assert.equal(favorited.ok, true)
   assert.equal(favorited.favorited, true)

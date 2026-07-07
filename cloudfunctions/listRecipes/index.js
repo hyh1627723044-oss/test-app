@@ -10,11 +10,15 @@ exports.main = async (event) => {
   const keyword = String(event.keyword || '').trim()
   const category = String(event.category || '').trim()
   const mealType = String(event.meal_type || '').trim()
+  const onlyMine = Boolean(event.only_mine)
+  const wxContext = cloud.getWXContext()
 
-  const where = _.or([
-    { is_public: true },
-    { owner_openid: cloud.getWXContext().OPENID }
-  ])
+  const where = onlyMine
+    ? { owner_openid: wxContext.OPENID }
+    : _.or([
+      { is_public: true },
+      { owner_openid: wxContext.OPENID }
+    ])
 
   const filters = [where]
   if (category) {

@@ -270,3 +270,457 @@
   font-size: 27rpx;
   color: #4d4036;
 }
+
+.draw-card {
+  position: relative;
+  margin-top: 24rpx;
+  padding: 30rpx 26rpx 28rpx;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.draw-tape {
+  position: absolute;
+  left: 52rpx;
+  top: -14rpx;
+  width: 126rpx;
+  height: 32rpx;
+  border-radius: 10rpx;
+  background-color: rgba(217, 173, 120, 0.66);
+  transform: rotate(-4deg);
+}
+
+.draw-head {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.draw-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.draw-eyebrow {
+  display: block;
+  font-size: 23rpx;
+  color: #8a5a34;
+}
+
+.draw-title {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 38rpx;
+  line-height: 46rpx;
+  color: #251b14;
+  font-weight: 600;
+}
+
+.draw-title::after {
+  content: '';
+  display: block;
+  width: 158rpx;
+  height: 6rpx;
+  margin-top: 7rpx;
+  border-radius: 8rpx;
+  background-color: #c87420;
+  transform: rotate(-2deg);
+}
+
+.draw-desc {
+  display: block;
+  margin-top: 14rpx;
+  font-size: 25rpx;
+  line-height: 36rpx;
+  color: #756a60;
+}
+
+.draw-badge {
+  min-width: 88rpx;
+  height: 54rpx;
+  padding: 0 16rpx;
+  border-radius: 18rpx;
+  background-color: #fff1dd;
+  border: 2rpx solid #e1c6a9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.draw-badge-text {
+  font-size: 24rpx;
+  color: #a2672a;
+  font-weight: 600;
+}
+
+.draw-mode-row {
+  margin-top: 22rpx;
+  display: flex;
+  flex-direction: row;
+}
+
+.draw-mode {
+  height: 58rpx;
+  margin-right: 14rpx;
+  padding: 0 28rpx;
+  border-radius: 22rpx;
+  background-color: #fff6ec;
+  border: 2rpx solid #e1c6a9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.draw-mode-active {
+  background-color: #2b2119;
+  border-color: #2b2119;
+}
+
+.draw-mode-text {
+  font-size: 25rpx;
+  color: #a2672a;
+}
+
+.draw-mode-active .draw-mode-text {
+  color: #fff8ef;
+}
+
+.draw-tag-scroll {
+  margin-top: 18rpx;
+  white-space: nowrap;
+}
+
+.draw-tag-row {
+  display: inline-flex;
+  flex-direction: row;
+}
+
+.draw-tag {
+  height: 52rpx;
+  margin-right: 12rpx;
+  padding: 0 22rpx;
+  border-radius: 18rpx;
+  background-color: #f8f3ee;
+  border: 1px dashed #dec8ae;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.draw-tag-active {
+  background-color: #dfe9d7;
+  border-color: #b7c7a7;
+}
+
+.draw-tag-text {
+  font-size: 23rpx;
+  color: #6f6258;
+}
+
+.draw-tag-active .draw-tag-text {
+  color: #526343;
+  font-weight: 600;
+}
+
+.draw-stage {
+  min-height: 318rpx;
+  margin-top: 24rpx;
+  border-radius: 28rpx;
+  background-color: #fff7eb;
+  border: 2rpx dashed #dec8ae;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.wheel-wrap {
+  position: relative;
+  width: 278rpx;
+  height: 278rpx;
+}
+
+.wheel-pointer {
+  position: absolute;
+  left: 50%;
+  top: -8rpx;
+  width: 0;
+  height: 0;
+  margin-left: -18rpx;
+  border-left: 18rpx solid transparent;
+  border-right: 18rpx solid transparent;
+  border-top: 34rpx solid #c87420;
+  z-index: 3;
+}
+
+.wheel {
+  position: relative;
+  width: 278rpx;
+  height: 278rpx;
+  border-radius: 150rpx;
+  background: conic-gradient(#ffd89a 0deg 80deg, #dfe9d7 80deg 160deg, #f5a889 160deg 240deg, #fff1dd 240deg 360deg);
+  border: 6rpx solid #2b2119;
+  box-shadow: 8rpx 8rpx 0 rgba(126, 84, 50, 0.14);
+  transition: transform 1.15s cubic-bezier(0.18, 0.86, 0.24, 1);
+}
+
+.wheel-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 58rpx;
+  height: 58rpx;
+  margin-left: -29rpx;
+  margin-top: -29rpx;
+  border-radius: 34rpx;
+  background-color: #fffaf1;
+  border: 5rpx solid #2b2119;
+  z-index: 2;
+}
+
+.wheel-label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 118rpx;
+  margin-left: -59rpx;
+  font-size: 20rpx;
+  line-height: 26rpx;
+  color: #4a3325;
+  text-align: center;
+  font-weight: 600;
+}
+
+.wheel-label-one {
+  transform: translateY(-104rpx);
+}
+
+.wheel-label-two {
+  transform: rotate(120deg) translateY(-104rpx);
+}
+
+.wheel-label-three {
+  transform: rotate(240deg) translateY(-104rpx);
+}
+
+.gacha-wrap {
+  position: relative;
+  width: 300rpx;
+  height: 288rpx;
+}
+
+.gacha-machine {
+  position: absolute;
+  left: 48rpx;
+  top: 0;
+  width: 204rpx;
+  height: 260rpx;
+}
+
+.gacha-glass {
+  position: absolute;
+  left: 18rpx;
+  top: 0;
+  width: 168rpx;
+  height: 138rpx;
+  border-radius: 90rpx 90rpx 50rpx 50rpx;
+  background-color: rgba(255, 255, 255, 0.58);
+  border: 5rpx solid #2b2119;
+}
+
+.gacha-body {
+  position: absolute;
+  left: 0;
+  top: 112rpx;
+  width: 204rpx;
+  height: 132rpx;
+  border-radius: 28rpx;
+  background-color: #f5a889;
+  border: 5rpx solid #2b2119;
+}
+
+.gacha-knob {
+  position: absolute;
+  left: 74rpx;
+  top: 28rpx;
+  width: 54rpx;
+  height: 54rpx;
+  border-radius: 32rpx;
+  background-color: #ffd36d;
+  border: 5rpx solid #2b2119;
+}
+
+.gacha-mouth {
+  position: absolute;
+  left: 56rpx;
+  bottom: 12rpx;
+  width: 92rpx;
+  height: 22rpx;
+  border-radius: 18rpx;
+  background-color: #fff8ef;
+  border: 4rpx solid #2b2119;
+}
+
+.gacha-ball {
+  position: absolute;
+  width: 42rpx;
+  height: 42rpx;
+  border-radius: 24rpx;
+  border: 4rpx solid #2b2119;
+}
+
+.gacha-ball-one {
+  left: 34rpx;
+  top: 58rpx;
+  background-color: #ffd36d;
+}
+
+.gacha-ball-two {
+  left: 82rpx;
+  top: 38rpx;
+  background-color: #dfe9d7;
+}
+
+.gacha-ball-three {
+  left: 102rpx;
+  top: 82rpx;
+  background-color: #f28b63;
+}
+
+.gacha-capsule {
+  position: absolute;
+  left: 116rpx;
+  bottom: 0;
+  width: 68rpx;
+  height: 48rpx;
+  border-radius: 34rpx;
+  background-color: #ffd36d;
+  border: 5rpx solid #2b2119;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(-40rpx) scale(0.7);
+  transition: all 0.38s ease;
+}
+
+.gacha-open .gacha-machine {
+  animation: gachaShake 0.42s ease;
+}
+
+.gacha-open .gacha-capsule {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.gacha-capsule-text {
+  font-size: 24rpx;
+  color: #4a3325;
+  font-weight: 600;
+}
+
+@keyframes gachaShake {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+  75% { transform: rotate(-2deg); }
+}
+
+.draw-button {
+  height: 76rpx;
+  margin-top: 22rpx;
+  border-radius: 26rpx;
+  background-color: #c87420;
+  border: 4rpx solid #2b2119;
+  box-shadow: 5rpx 5rpx 0 rgba(200, 116, 32, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.draw-button-text {
+  font-size: 29rpx;
+  color: #fff8ef;
+  font-weight: 600;
+}
+
+.draw-result {
+  margin-top: 22rpx;
+  padding: 22rpx;
+  border-radius: 24rpx;
+  background-color: #fff6ec;
+  border: 2rpx dashed #d8bfa4;
+}
+
+.draw-result-label {
+  display: block;
+  font-size: 22rpx;
+  color: #8a5a34;
+}
+
+.draw-result-title {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 36rpx;
+  line-height: 44rpx;
+  color: #251b14;
+  font-weight: 600;
+}
+
+.draw-result-desc {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 25rpx;
+  line-height: 36rpx;
+  color: #756a60;
+}
+
+.draw-result-tags {
+  margin-top: 12rpx;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.draw-result-tag {
+  margin: 0 10rpx 8rpx 0;
+  padding: 6rpx 12rpx;
+  border-radius: 14rpx;
+  background-color: #fff1dd;
+  font-size: 22rpx;
+  color: #a2672a;
+}
+
+.draw-action-row {
+  margin-top: 14rpx;
+  display: flex;
+  flex-direction: row;
+}
+
+.draw-action-btn {
+  height: 58rpx;
+  margin-right: 14rpx;
+  padding: 0 22rpx;
+  border-radius: 20rpx;
+  background-color: #fffaf1;
+  border: 2rpx solid #e1c6a9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.draw-action-primary {
+  background-color: #2b2119;
+  border-color: #2b2119;
+}
+
+.draw-action-text {
+  font-size: 24rpx;
+  color: #8a5a34;
+}
+
+.draw-action-primary-text {
+  font-size: 24rpx;
+  color: #fff8ef;
+}

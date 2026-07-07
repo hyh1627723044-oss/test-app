@@ -63,6 +63,102 @@
     </view>
   </view>
 
+  <view class="draw-card paper-card">
+    <view class="draw-tape"></view>
+    <view class="draw-head">
+      <view class="draw-copy">
+        <text class="draw-eyebrow">选择困难救星</text>
+        <text class="draw-title">今天随机吃什么？</text>
+        <text class="draw-desc">从我的菜谱里抽一道，可以先按标签缩小池子。</text>
+      </view>
+      <view class="draw-badge">
+        <text class="draw-badge-text">{{drawPool.length}} 道</text>
+      </view>
+    </view>
+
+    <view class="draw-mode-row">
+      <view
+        class="draw-mode {{activeDrawMode === item.id ? 'draw-mode-active' : ''}}"
+        wx:for="{{drawModes}}"
+        wx:key="id"
+        data-mode="{{item.id}}"
+        bind:tap="onChangeDrawMode"
+      >
+        <text class="draw-mode-text">{{item.name}}</text>
+      </view>
+    </view>
+
+    <scroll-view class="draw-tag-scroll" scroll-x>
+      <view class="draw-tag-row">
+        <view
+          class="draw-tag {{activeDrawTag === item ? 'draw-tag-active' : ''}}"
+          wx:for="{{drawTags}}"
+          wx:key="*this"
+          data-tag="{{item}}"
+          bind:tap="onSelectDrawTag"
+        >
+          <text class="draw-tag-text">{{item}}</text>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class="draw-stage">
+      <view wx:if="{{activeDrawMode === 'wheel'}}" class="wheel-wrap">
+        <view class="wheel-pointer"></view>
+        <view class="wheel" style="{{wheelStyle}}">
+          <view class="wheel-ring"></view>
+          <view class="wheel-label wheel-label-one">
+            <text>{{drawPool[0] ? drawPool[0].title : '加点菜谱'}}</text>
+          </view>
+          <view class="wheel-label wheel-label-two">
+            <text>{{drawPool[1] ? drawPool[1].title : '再抽一次'}}</text>
+          </view>
+          <view class="wheel-label wheel-label-three">
+            <text>{{drawPool[2] ? drawPool[2].title : '今天吃啥'}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{activeDrawMode === 'gacha'}}" class="gacha-wrap {{gachaOpen ? 'gacha-open' : ''}}">
+        <view class="gacha-machine">
+          <view class="gacha-glass">
+            <view class="gacha-ball gacha-ball-one"></view>
+            <view class="gacha-ball gacha-ball-two"></view>
+            <view class="gacha-ball gacha-ball-three"></view>
+          </view>
+          <view class="gacha-body">
+            <view class="gacha-knob"></view>
+            <view class="gacha-mouth"></view>
+          </view>
+        </view>
+        <view class="gacha-capsule">
+          <text class="gacha-capsule-text">菜</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="draw-button" bind:tap="onStartDraw">
+      <text class="draw-button-text">{{isDrawing ? '抽取中...' : '开始抽菜'}}</text>
+    </view>
+
+    <view class="draw-result" wx:if="{{drawResult}}">
+      <text class="draw-result-label">抽到了</text>
+      <text class="draw-result-title">{{drawResult.title}}</text>
+      <text class="draw-result-desc">{{drawResult.description || '这道菜今天很有缘。'}}</text>
+      <view class="draw-result-tags" wx:if="{{drawResult.tags.length > 0}}">
+        <text class="draw-result-tag" wx:for="{{drawResult.tags}}" wx:key="*this">#{{item}}</text>
+      </view>
+      <view class="draw-action-row">
+        <view class="draw-action-btn" bind:tap="onViewDrawRecipe">
+          <text class="draw-action-text">查看详情</text>
+        </view>
+        <view class="draw-action-btn draw-action-primary" bind:tap="onAddDrawToPlan">
+          <text class="draw-action-primary-text">加入今日</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
   <view class="bottom-nav">
     <view class="nav-item" data-id="recipes" bind:tap="onTapTab">
       <image class="nav-icon" src="/assets/illustrations/tab-recipes.png" mode="aspectFit" />
