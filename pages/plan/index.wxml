@@ -1,5 +1,5 @@
 <view class="page-shell">
-  <view class="plan-head">
+  <view class="plan-head paper-card paper-hero">
     <view class="head-decor head-decor-left"></view>
     <view class="head-decor head-decor-right"></view>
     <text class="eyebrow">{{dateText}}</text>
@@ -20,7 +20,7 @@
   </view>
 
   <view class="slot-list">
-    <view class="slot-card slot-card-{{item.decor_type}}" wx:for="{{slots}}" wx:key="id">
+    <view class="slot-card paper-card slot-card-{{item.decor_type}}" wx:for="{{slots}}" wx:key="id">
       <view class="slot-tape"></view>
       <view class="slot-decor">
         <view class="slot-decor-core"></view>
@@ -30,7 +30,7 @@
       <view class="slot-left">
         <text class="slot-time">{{item.time}}</text>
         <text class="slot-name">{{item.name}}</text>
-        <text class="slot-hint">Meal note</text>
+        <text class="slot-hint">今日便签</text>
       </view>
       <view class="slot-content">
         <block wx:if="{{item.recipes.length > 0}}">
@@ -54,7 +54,7 @@
     </view>
   </view>
 
-  <view class="choose-card" bind:tap="onTapChooseRecipes">
+  <view class="choose-card paper-dashed-card" bind:tap="onTapChooseRecipes">
     <view class="choose-copy">
       <text class="choose-title">还想加一道？</text>
       <text class="choose-desc">去菜谱里挑一挑，把它安排进今天。</text>

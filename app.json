@@ -8,9 +8,9 @@
   ],
   "window": {
     "navigationBarTitleText": "菜单",
-    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarBackgroundColor": "#fff3df",
     "navigationBarTextStyle": "black",
-    "backgroundColor": "#f6f1ec"
+    "backgroundColor": "#fff3df"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

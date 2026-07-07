@@ -1,5 +1,5 @@
 <view class="page-shell">
-  <view class="hero">
+  <view class="hero paper-card paper-hero">
     <view class="hero-copy">
       <text class="eyebrow">今日菜单</text>
       <text class="hero-title">今天想吃点什么？</text>
@@ -7,7 +7,7 @@
     </view>
   </view>
 
-  <view class="search-card">
+  <view class="search-card paper-card">
     <view class="search-top">
       <view class="search-box">
         <input
@@ -60,14 +60,14 @@
   </scroll-view>
 
   <view class="recipe-list">
-    <view wx:if="{{displayRecipes.length === 0}}" class="empty-state">
+    <view wx:if="{{displayRecipes.length === 0}}" class="empty-state paper-card">
       <image class="empty-image" src="/assets/illustrations/empty-recipes.png" mode="aspectFit" />
       <text class="empty-title">还没找到这道菜</text>
       <text class="empty-desc">换个菜名或标签试试，也可以先添加自己的菜谱。</text>
     </view>
     <block wx:if="{{displayRecipes.length > 0}}">
     <view
-      class="recipe-card"
+      class="recipe-card paper-card"
       wx:for="{{displayRecipes}}"
       wx:key="id"
       data-id="{{item.id}}"

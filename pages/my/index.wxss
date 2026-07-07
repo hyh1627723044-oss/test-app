@@ -1,19 +1,8 @@
-﻿.page-shell {
-  min-height: 100vh;
-  padding: 28rpx 28rpx 210rpx;
-  box-sizing: border-box;
-  background-color: #fbfaf7;
-}
-
-.profile-card,
+﻿.profile-card,
 .stats,
 .feature-card,
 .menu-card {
   box-sizing: border-box;
-  background-color: #fffaf1;
-  border: 4rpx solid #2b2119;
-  border-radius: 30rpx;
-  box-shadow: 8rpx 8rpx 0 #ead8c8;
 }
 
 .profile-card {
@@ -280,47 +269,4 @@
 .menu-line-text {
   font-size: 27rpx;
   color: #4d4036;
-}
-
-.bottom-nav {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 188rpx;
-  padding: 14rpx 42rpx 22rpx;
-  box-sizing: border-box;
-  background-color: #fbfaf7;
-  border-top: 1px solid #eee5dc;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
-.nav-item {
-  width: 160rpx;
-  height: 150rpx;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  opacity: 0.62;
-}
-
-.nav-item-active {
-  opacity: 1;
-}
-
-.nav-icon {
-  width: 108rpx;
-  height: 92rpx;
-}
-
-.nav-label {
-  margin-top: 4rpx;
-  font-size: 34rpx;
-  line-height: 40rpx;
-  color: #251b14;
-  font-weight: 500;
 }

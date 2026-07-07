@@ -1,5 +1,5 @@
 <view class="page-shell">
-  <view class="profile-card">
+  <view class="profile-card paper-card paper-hero">
     <view class="profile-tape"></view>
     <view class="avatar">
       <text class="avatar-text">我</text>
@@ -12,14 +12,14 @@
     <view class="profile-heart"></view>
   </view>
 
-  <view class="stats">
+  <view class="stats paper-card">
     <view class="stat-item" wx:for="{{stats}}" wx:key="label">
       <text class="stat-value">{{item.value}}</text>
       <text class="stat-label">{{item.label}}</text>
     </view>
   </view>
 
-  <view class="feature-card my-recipes-card">
+  <view class="feature-card paper-card my-recipes-card">
     <image class="my-recipes-image" src="/assets/illustrations/my-recipes-pot.png" mode="aspectFit" />
     <view class="feature-copy">
       <text class="feature-title">我的菜谱</text>
@@ -28,7 +28,7 @@
     <text class="feature-arrow">›</text>
   </view>
 
-  <view class="feature-card plan-entry-card" bind:tap="onTapPlan">
+  <view class="feature-card paper-card plan-entry-card" bind:tap="onTapPlan">
     <image class="feature-image" src="/assets/illustrations/empty-plan.png" mode="aspectFit" />
     <view class="feature-copy">
       <text class="feature-title">饮食计划</text>
@@ -37,7 +37,7 @@
     <text class="feature-arrow">›</text>
   </view>
 
-  <view class="feature-card ai-card">
+  <view class="feature-card paper-card ai-card">
     <image class="ai-image" src="/assets/illustrations/ai-chef.png" mode="aspectFit" />
     <view class="feature-copy">
       <text class="feature-title">AI 推荐</text>
@@ -46,7 +46,7 @@
     <text class="feature-arrow">›</text>
   </view>
 
-  <view class="menu-card">
+  <view class="menu-card paper-card">
     <view class="menu-tape"></view>
     <text class="menu-title">下一步功能</text>
     <view class="menu-line">
