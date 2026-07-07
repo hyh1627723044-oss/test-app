@@ -89,6 +89,7 @@ Page({
           time: timeMap[slot.id] || '',
           decor_type: decorMap[slot.id] || 'leaf',
           recipes: slot.items.map((item) => ({
+            item_id: item._id,
             id: item.recipe_id,
             title: item.recipe_title || '未命名菜品',
             cover: item.recipe_primary_cover_file_id || '',
@@ -102,6 +103,83 @@ Page({
 
   onTapChooseRecipes() {
     wx.redirectTo({ url: '/pages/index/index' })
+  },
+
+  onManagePlanItem(e) {
+    const { itemId, slot } = e.currentTarget.dataset
+    if (!itemId || !wx.cloud) return
+
+    const slotOptions = [
+      { id: 'breakfast', label: '换到早餐' },
+      { id: 'lunch', label: '换到午餐' },
+      { id: 'afternoon_tea', label: '换到下午茶' },
+      { id: 'dinner', label: '换到晚餐' },
+      { id: 'night_snack', label: '换到夜宵' }
+    ].filter((item) => item.id !== slot)
+    const itemList = slotOptions.map((item) => item.label).concat('删除这项')
+
+    wx.showActionSheet({
+      itemList,
+      success: (res) => {
+        if (res.tapIndex === itemList.length - 1) {
+          this.deletePlanItem(itemId)
+          return
+        }
+        this.updatePlanItemSlot(itemId, slotOptions[res.tapIndex].id)
+      }
+    })
+  },
+
+  updatePlanItemSlot(itemId, mealSlot) {
+    wx.showLoading({ title: '更新中' })
+    wx.cloud.callFunction({
+      name: 'updateMealPlanItem',
+      data: {
+        item_id: itemId,
+        meal_slot: mealSlot
+      },
+      success: (res) => {
+        wx.hideLoading()
+        if (res.result && res.result.ok === false) {
+          wx.showToast({ title: '更新失败', icon: 'none' })
+          return
+        }
+        wx.showToast({ title: '已更新', icon: 'success' })
+        this.loadMealPlan(this.data.planDate)
+      },
+      fail: () => {
+        wx.hideLoading()
+        wx.showToast({ title: '更新失败', icon: 'none' })
+      }
+    })
+  },
+
+  deletePlanItem(itemId) {
+    wx.showModal({
+      title: '删除安排',
+      content: '确定从这一天的计划里移除吗？',
+      success: (res) => {
+        if (!res.confirm) return
+        wx.showLoading({ title: '删除中' })
+        wx.cloud.callFunction({
+          name: 'deleteMealPlanItem',
+          data: { item_id: itemId },
+          success: (result) => {
+            wx.hideLoading()
+            if (result.result && result.result.ok === false) {
+              wx.showToast({ title: '删除失败', icon: 'none' })
+              return
+            }
+            wx.showToast({ title: '已删除', icon: 'success' })
+            this.loadMealPlan(this.data.planDate)
+          },
+          fail: () => {
+            wx.hideLoading()
+            wx.showToast({ title: '删除失败', icon: 'none' })
+          }
+        })
+      }
+    })
   },
 
   shiftDate(offset) {

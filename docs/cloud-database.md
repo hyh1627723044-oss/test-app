@@ -88,9 +88,24 @@
 ```json
 {
   "_id": "favorite_id",
-  "user_id": "user_id",
+  "owner_openid": "微信 openid",
   "recipe_id": "recipe_id",
+  "recipe_title": "番茄炒蛋",
+  "recipe_primary_cover_file_id": "cloud://env/recipes/openid/recipe_id/cover-001.jpg",
   "created_at": "2026-07-03T10:00:00+08:00"
+}
+```
+
+### user_tags
+
+```json
+{
+  "_id": "tag_id",
+  "owner_openid": "微信 openid",
+  "name": "冰箱清库存",
+  "use_count": 1,
+  "created_at": "2026-07-03T10:00:00+08:00",
+  "updated_at": "2026-07-03T10:00:00+08:00"
 }
 ```
 
@@ -123,6 +138,15 @@ recipes/{openid}/{recipe_id}/cover-002.jpg
 listRecipes       查询公开菜谱和自己的菜谱
 getRecipe         查询菜品详情
 createRecipe      创建菜品，保存多张封面 file_id
+updateRecipe      更新自己的菜品，并清理被移除的旧封面 file_id
+deleteRecipe      软删除自己的菜品，并清理封面图
 addMealPlanItem   把菜加入某天某餐
+updateMealPlanItem 修改某个计划项的餐次、备注、提醒
+deleteMealPlanItem 删除某个计划项
 getMealPlan       查询某天计划，并按餐次分组
+toggleFavorite    收藏或取消收藏菜品
+listFavorites     查询我的收藏
+listTags          查询系统标签和我的标签
+upsertTag         新增或刷新我的标签
+deleteTag         删除我的标签
 ```

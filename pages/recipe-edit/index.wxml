@@ -143,6 +143,6 @@
   </view>
 
   <view class="submit-btn" bind:tap="onSubmit">
-    <text class="submit-text">保存菜品</text>
+    <text class="submit-text">{{isEditing ? '更新菜品' : '保存菜品'}}</text>
   </view>
 </view>

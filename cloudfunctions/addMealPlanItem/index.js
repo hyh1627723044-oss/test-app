@@ -27,7 +27,7 @@ exports.main = async (event) => {
     .get()
     .catch(() => null)
 
-  if (!recipeResult || !recipeResult.data) {
+  if (!recipeResult || !recipeResult.data || recipeResult.data.is_deleted) {
     return fail('RECIPE_NOT_FOUND', 'recipe not found')
   }
 

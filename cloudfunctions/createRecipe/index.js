@@ -40,9 +40,35 @@ exports.main = async (event) => {
   }
 
   const result = await db.collection('recipes').add({ data: payload })
+  await syncUserTags(wxContext.OPENID, payload.tags)
   return {
     ok: true,
     id: result._id
+  }
+}
+
+async function syncUserTags(openid, tags) {
+  const now = new Date()
+  for (const tag of tags) {
+    const found = await db.collection('user_tags')
+      .where({ owner_openid: openid, name: tag })
+      .limit(1)
+      .get()
+    if (found.data.length > 0) {
+      await db.collection('user_tags').doc(found.data[0]._id).update({
+        data: { updated_at: now }
+      })
+    } else {
+      await db.collection('user_tags').add({
+        data: {
+          owner_openid: openid,
+          name: tag,
+          use_count: 1,
+          created_at: now,
+          updated_at: now
+        }
+      })
+    }
   }
 }
 
@@ -82,7 +108,7 @@ function normalizeSteps(steps) {
 
 function normalizeStringList(list) {
   if (!Array.isArray(list)) return []
-  return list.map((item) => String(item).trim()).filter(Boolean)
+  return Array.from(new Set(list.map((item) => String(item).trim()).filter(Boolean)))
 }
 
 function toNumber(value, fallback) {

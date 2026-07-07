@@ -26,6 +26,7 @@ recipes
 meal_plans
 meal_plan_items
 favorites
+user_tags
 ai_recommendations
 users
 ```
@@ -36,14 +37,23 @@ users
 
 如果你的微信开发者工具里有多个云环境，可以在 `app.js` 的 `wx.cloud.init` 里显式指定 `env`。
 
-已放入第一批云函数：
+已放入云函数：
 
 ```text
 listRecipes
 getRecipe
 createRecipe
+updateRecipe
+deleteRecipe
 addMealPlanItem
+updateMealPlanItem
+deleteMealPlanItem
 getMealPlan
+toggleFavorite
+listFavorites
+listTags
+upsertTag
+deleteTag
 ```
 
 本地单元测试：

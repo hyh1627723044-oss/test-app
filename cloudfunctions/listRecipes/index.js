@@ -31,14 +31,15 @@ exports.main = async (event) => {
     .limit(limit)
     .get()
 
+  const visibleRecipes = result.data.filter((recipe) => !recipe.is_deleted)
   const recipes = keyword
-    ? result.data.filter((recipe) => {
+    ? visibleRecipes.filter((recipe) => {
       const title = recipe.title || ''
       const description = recipe.description || ''
       const tags = Array.isArray(recipe.tags) ? recipe.tags.join(' ') : ''
       return (title + ' ' + description + ' ' + tags).indexOf(keyword) >= 0
     })
-    : result.data
+    : visibleRecipes
 
   return {
     recipes

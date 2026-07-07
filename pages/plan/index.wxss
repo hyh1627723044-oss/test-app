@@ -274,6 +274,15 @@
   align-items: center;
 }
 
+.recipe-chip-action {
+  margin-left: 14rpx;
+  padding-left: 14rpx;
+  border-left: 1px dashed #d8bfa4;
+  font-size: 22rpx;
+  color: #a2672a;
+  flex-shrink: 0;
+}
+
 .recipe-dot {
   width: 12rpx;
   height: 12rpx;

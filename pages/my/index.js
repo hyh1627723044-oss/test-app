@@ -7,9 +7,13 @@ Page({
     ]
   },
 
-  onLoad() {},
+  onLoad() {
+    this.loadFavorites()
+  },
 
-  onShow() {},
+  onShow() {
+    this.loadFavorites()
+  },
 
   onShareAppMessage() {
     return {
@@ -27,5 +31,21 @@ Page({
     if (id === 'plan') {
       wx.redirectTo({ url: '/pages/plan/index' })
     }
+  },
+
+  loadFavorites() {
+    if (!wx.cloud) return
+    wx.cloud.callFunction({
+      name: 'listFavorites',
+      success: (res) => {
+        const favorites = res.result && res.result.favorites
+        if (!Array.isArray(favorites)) return
+        const stats = this.data.stats.map((item) => {
+          if (item.label !== '收藏') return item
+          return { ...item, value: favorites.length }
+        })
+        this.setData({ stats })
+      }
+    })
   }
 })

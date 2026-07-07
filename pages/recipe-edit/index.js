@@ -1,5 +1,7 @@
 Page({
   data: {
+    recipeId: '',
+    isEditing: false,
     title: '',
     description: '',
     categoryIndex: 0,
@@ -63,15 +65,104 @@ Page({
     coverImages: []
   },
 
-  onLoad() {},
+  onLoad(options) {
+    this.loadTags()
+    if (options && options.id) {
+      this.setData({
+        recipeId: options.id,
+        isEditing: true
+      })
+      this.loadRecipe(options.id)
+    }
+  },
 
   onShow() {},
 
   onShareAppMessage() {
     return {
-      title: '添加一道好菜',
-      path: '/pages/recipe-edit/index'
+      title: this.data.isEditing ? '编辑一道好菜' : '添加一道好菜',
+      path: this.data.isEditing
+        ? '/pages/recipe-edit/index?id=' + this.data.recipeId
+        : '/pages/recipe-edit/index'
     }
+  },
+
+  loadTags() {
+    if (!wx.cloud) return
+    wx.cloud.callFunction({
+      name: 'listTags',
+      success: (res) => {
+        if (!res.result || !res.result.ok) return
+        const systemTags = Array.isArray(res.result.tags) ? res.result.tags : this.data.systemTags
+        this.setData({
+          systemTags,
+          visibleSystemTags: this.data.showAllSystemTags ? systemTags : systemTags.slice(0, 8)
+        })
+      }
+    })
+  },
+
+  loadRecipe(id) {
+    if (!id || !wx.cloud) return
+    wx.showLoading({ title: '加载中' })
+    wx.cloud.callFunction({
+      name: 'getRecipe',
+      data: { id },
+      success: (res) => {
+        wx.hideLoading()
+        if (!res.result || !res.result.ok || !res.result.recipe || !res.result.can_edit) {
+          wx.showToast({ title: '没有编辑权限', icon: 'none' })
+          setTimeout(() => wx.navigateBack(), 500)
+          return
+        }
+        this.fillForm(res.result.recipe)
+      },
+      fail: () => {
+        wx.hideLoading()
+        wx.showToast({ title: '加载失败', icon: 'none' })
+      }
+    })
+  },
+
+  fillForm(recipe) {
+    const categoryIndex = Math.max(0, this.data.categoryOptions.findIndex((item) => item.value === recipe.category))
+    const difficultyIndex = Math.max(0, this.data.difficultyOptions.findIndex((item) => item.value === recipe.difficulty))
+    const selectedMealTypes = Array.isArray(recipe.meal_types) ? recipe.meal_types : []
+    const mealTypes = this.data.mealTypes.map((item) => ({
+      ...item,
+      selected: selectedMealTypes.indexOf(item.id) >= 0
+    }))
+    const ingredientsText = Array.isArray(recipe.ingredients)
+      ? recipe.ingredients.map((item) => [item.name, item.amount].filter(Boolean).join('，')).join('\n')
+      : ''
+    const stepsText = Array.isArray(recipe.steps)
+      ? recipe.steps.map((item) => item.text).filter(Boolean).join('\n')
+      : ''
+    const coverImages = Array.isArray(recipe.cover_images)
+      ? recipe.cover_images.map((item, index) => ({
+        file_id: item.file_id,
+        temp_file_path: item.file_id,
+        sort_order: item.sort_order || index + 1,
+        width: item.width || 0,
+        height: item.height || 0
+      }))
+      : []
+
+    this.setData({
+      title: recipe.title || '',
+      description: recipe.description || '',
+      categoryIndex,
+      difficultyIndex,
+      mealTypes,
+      selectedTags: Array.isArray(recipe.tags) ? recipe.tags : [],
+      ingredientsText,
+      stepsText,
+      cookTime: recipe.cook_time_minutes ? String(recipe.cook_time_minutes) : '',
+      servings: recipe.servings ? String(recipe.servings) : '1',
+      calories: recipe.calories ? String(recipe.calories) : '',
+      isPublic: Boolean(recipe.is_public),
+      coverImages
+    })
   },
 
   onInputTitle(e) {
@@ -133,6 +224,13 @@ Page({
     if (!tag) return
     this.toggleTag(tag, true)
     this.setData({ customTagText: '' })
+    if (wx.cloud) {
+      wx.cloud.callFunction({
+        name: 'upsertTag',
+        data: { name: tag },
+        success: () => this.loadTags()
+      })
+    }
   },
 
   onRemoveSelectedTag(e) {
@@ -184,8 +282,9 @@ Page({
         const category = this.data.categoryOptions[this.data.categoryIndex].value
         const difficulty = this.data.difficultyOptions[this.data.difficultyIndex].value
         return wx.cloud.callFunction({
-          name: 'createRecipe',
+          name: this.data.isEditing ? 'updateRecipe' : 'createRecipe',
           data: {
+            id: this.data.recipeId,
             title: this.data.title.trim(),
             description: this.data.description.trim(),
             category,
@@ -209,7 +308,7 @@ Page({
           wx.showToast({ title: '保存失败', icon: 'none' })
           return
         }
-        wx.showToast({ title: '已保存', icon: 'success' })
+        wx.showToast({ title: this.data.isEditing ? '已更新' : '已保存', icon: 'success' })
         wx.navigateBack()
       })
       .catch(() => {
@@ -224,6 +323,14 @@ Page({
 
     const timestamp = Date.now()
     const tasks = files.map((file, index) => {
+      if (file.file_id && !file.temp_file_path.startsWith('http://tmp') && !file.temp_file_path.startsWith('wxfile://')) {
+        return Promise.resolve({
+          file_id: file.file_id,
+          sort_order: index + 1,
+          width: file.width || 0,
+          height: file.height || 0
+        })
+      }
       const ext = this.getFileExt(file.temp_file_path)
       const cloudPath = 'recipes/temp/' + timestamp + '/cover-' + (index + 1) + ext
       return wx.cloud.uploadFile({

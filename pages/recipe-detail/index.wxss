@@ -67,6 +67,38 @@
   color: #8a5a34;
 }
 
+.owner-actions {
+  margin-top: 16rpx;
+  display: flex;
+  flex-direction: row;
+}
+
+.owner-action-btn {
+  height: 54rpx;
+  margin-right: 14rpx;
+  padding: 0 20rpx;
+  border-radius: 18rpx;
+  background-color: #fff6ec;
+  border: 2rpx solid #e1c6a9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.owner-action-danger {
+  background-color: #fff1ee;
+  border-color: #f0b8a5;
+}
+
+.owner-action-text {
+  font-size: 24rpx;
+  color: #a2672a;
+}
+
+.owner-action-danger-text {
+  color: #b45135;
+}
+
 .recipe-desc {
   display: block;
   margin-top: 16rpx;

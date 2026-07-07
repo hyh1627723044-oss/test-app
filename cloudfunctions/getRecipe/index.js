@@ -18,7 +18,7 @@ exports.main = async (event) => {
     .get()
     .catch(() => null)
 
-  if (!result || !result.data) {
+  if (!result || !result.data || result.data.is_deleted) {
     return fail('RECIPE_NOT_FOUND', 'recipe not found')
   }
 
@@ -27,9 +27,19 @@ exports.main = async (event) => {
     return fail('RECIPE_FORBIDDEN', 'recipe is not accessible')
   }
 
+  const favoriteResult = await db.collection('favorites')
+    .where({
+      owner_openid: wxContext.OPENID,
+      recipe_id: recipeId
+    })
+    .limit(1)
+    .get()
+
   return {
     ok: true,
-    recipe
+    recipe,
+    can_edit: recipe.owner_openid === wxContext.OPENID,
+    is_favorited: favoriteResult.data.length > 0
   }
 }
 

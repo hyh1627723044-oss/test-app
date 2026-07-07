@@ -47,6 +47,7 @@ Page({
   onLoad() {
     const recipes = this.withRecipeDecorations(this.data.recipes)
     this.setData({ recipes, displayRecipes: recipes })
+    this.loadTags()
     this.loadRecipes()
   },
 
@@ -75,6 +76,17 @@ Page({
             this.applyFilters()
           })
         }
+      }
+    })
+  },
+
+  loadTags() {
+    if (!wx.cloud) return
+    wx.cloud.callFunction({
+      name: 'listTags',
+      success: (res) => {
+        if (!res.result || !res.result.ok || !Array.isArray(res.result.tags)) return
+        this.setData({ quickTags: res.result.tags.slice(0, 8) })
       }
     })
   },
@@ -136,9 +148,29 @@ Page({
   },
 
   onTapManageTags() {
-    wx.showToast({
-      title: '标签管理后续开放',
-      icon: 'none'
+    if (!wx.cloud) {
+      wx.showToast({ title: '云开发未启用', icon: 'none' })
+      return
+    }
+    wx.showModal({
+      title: '添加标签',
+      editable: true,
+      placeholderText: '比如 低卡晚餐',
+      success: (res) => {
+        const tag = String(res.content || '').trim()
+        if (!res.confirm || !tag) return
+        wx.cloud.callFunction({
+          name: 'upsertTag',
+          data: { name: tag },
+          success: () => {
+            wx.showToast({ title: '已添加', icon: 'success' })
+            this.loadTags()
+          },
+          fail: () => {
+            wx.showToast({ title: '添加失败', icon: 'none' })
+          }
+        })
+      }
     })
   },
 

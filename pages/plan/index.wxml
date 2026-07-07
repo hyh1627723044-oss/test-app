@@ -40,10 +40,18 @@
             wx:key="id"
             wx:for-item="recipe"
             data-id="{{recipe.id}}"
+            data-item-id="{{recipe.item_id}}"
+            data-slot="{{item.id}}"
             bind:tap="onTapRecipe"
           >
             <view class="recipe-dot"></view>
             <text class="recipe-chip-text">{{recipe.title}}</text>
+            <text
+              class="recipe-chip-action"
+              data-item-id="{{recipe.item_id}}"
+              data-slot="{{item.id}}"
+              catchtap="onManagePlanItem"
+            >管理</text>
           </view>
         </block>
         <view wx:else class="empty-slot">

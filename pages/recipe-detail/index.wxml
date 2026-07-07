@@ -19,7 +19,15 @@
     <view class="title-row">
       <text class="recipe-title">{{recipe.title}}</text>
       <view class="favorite-btn" bind:tap="onFavorite">
-        <text class="favorite-text">收藏</text>
+        <text class="favorite-text">{{isFavorited ? '已收藏' : '收藏'}}</text>
+      </view>
+    </view>
+    <view class="owner-actions" wx:if="{{canEdit}}">
+      <view class="owner-action-btn" bind:tap="onEditRecipe">
+        <text class="owner-action-text">编辑菜谱</text>
+      </view>
+      <view class="owner-action-btn owner-action-danger" bind:tap="onDeleteRecipe">
+        <text class="owner-action-text owner-action-danger-text">删除</text>
       </view>
     </view>
     <text class="recipe-desc">{{recipe.description}}</text>

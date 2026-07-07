@@ -3,6 +3,8 @@ Page({
     recipeId: '',
     selectedDate: '',
     selectedSlot: 'lunch',
+    isFavorited: false,
+    canEdit: false,
     recipe: {
       id: 'recipe_tomato_egg',
       _id: 'recipe_tomato_egg',
@@ -67,7 +69,11 @@ Page({
       data: { id },
       success: (res) => {
         if (res.result && res.result.ok && res.result.recipe) {
-          this.setData({ recipe: res.result.recipe })
+          this.setData({
+            recipe: res.result.recipe,
+            isFavorited: Boolean(res.result.is_favorited),
+            canEdit: Boolean(res.result.can_edit)
+          })
         }
       }
     })
@@ -113,7 +119,66 @@ Page({
   },
 
   onFavorite() {
-    wx.showToast({ title: '收藏功能待接入', icon: 'none' })
+    if (!wx.cloud) {
+      wx.showToast({ title: '云开发未启用', icon: 'none' })
+      return
+    }
+
+    wx.cloud.callFunction({
+      name: 'toggleFavorite',
+      data: {
+        recipe_id: this.data.recipe._id || this.data.recipe.id
+      },
+      success: (res) => {
+        if (res.result && res.result.ok === false) {
+          wx.showToast({ title: '操作失败', icon: 'none' })
+          return
+        }
+        const favorited = Boolean(res.result && res.result.favorited)
+        this.setData({ isFavorited: favorited })
+        wx.showToast({ title: favorited ? '已收藏' : '已取消', icon: 'success' })
+      },
+      fail: () => {
+        wx.showToast({ title: '操作失败', icon: 'none' })
+      }
+    })
+  },
+
+  onEditRecipe() {
+    const id = this.data.recipe._id || this.data.recipe.id
+    if (!id) return
+    wx.navigateTo({ url: '/pages/recipe-edit/index?id=' + id })
+  },
+
+  onDeleteRecipe() {
+    const id = this.data.recipe._id || this.data.recipe.id
+    if (!id || !wx.cloud) return
+
+    wx.showModal({
+      title: '删除菜谱',
+      content: '删除后首页不会再展示，相关封面图片也会清理。确定删除吗？',
+      success: (res) => {
+        if (!res.confirm) return
+        wx.showLoading({ title: '删除中' })
+        wx.cloud.callFunction({
+          name: 'deleteRecipe',
+          data: { recipe_id: id },
+          success: (result) => {
+            wx.hideLoading()
+            if (result.result && result.result.ok === false) {
+              wx.showToast({ title: '删除失败', icon: 'none' })
+              return
+            }
+            wx.showToast({ title: '已删除', icon: 'success' })
+            setTimeout(() => wx.navigateBack(), 400)
+          },
+          fail: () => {
+            wx.hideLoading()
+            wx.showToast({ title: '删除失败', icon: 'none' })
+          }
+        })
+      }
+    })
   },
 
   getToday() {
