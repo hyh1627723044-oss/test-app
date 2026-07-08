@@ -104,36 +104,13 @@
 
     <view class="draw-stage">
       <view wx:if="{{activeDrawMode === 'wheel'}}" class="wheel-wrap">
-        <view class="wheel-pointer"></view>
-        <view class="wheel" style="{{wheelStyle}}">
-          <view class="wheel-ring"></view>
-          <view class="wheel-label wheel-label-one">
-            <text>{{drawPool[0] ? drawPool[0].title : '加点菜谱'}}</text>
-          </view>
-          <view class="wheel-label wheel-label-two">
-            <text>{{drawPool[1] ? drawPool[1].title : '再抽一次'}}</text>
-          </view>
-          <view class="wheel-label wheel-label-three">
-            <text>{{drawPool[2] ? drawPool[2].title : '今天吃啥'}}</text>
-          </view>
-        </view>
+        <image class="wheel-pointer-image" src="/assets/illustrations/random-wheel-pointer.png" mode="aspectFit" />
+        <image class="wheel-image" src="/assets/illustrations/random-wheel.png" mode="aspectFit" style="{{wheelStyle}}" />
       </view>
 
       <view wx:if="{{activeDrawMode === 'gacha'}}" class="gacha-wrap {{gachaOpen ? 'gacha-open' : ''}}">
-        <view class="gacha-machine">
-          <view class="gacha-glass">
-            <view class="gacha-ball gacha-ball-one"></view>
-            <view class="gacha-ball gacha-ball-two"></view>
-            <view class="gacha-ball gacha-ball-three"></view>
-          </view>
-          <view class="gacha-body">
-            <view class="gacha-knob"></view>
-            <view class="gacha-mouth"></view>
-          </view>
-        </view>
-        <view class="gacha-capsule">
-          <text class="gacha-capsule-text">菜</text>
-        </view>
+        <image class="gacha-machine-image" src="/assets/illustrations/gacha-machine.png" mode="aspectFit" />
+        <image class="gacha-capsule-image" src="/assets/illustrations/gacha-capsule.png" mode="aspectFit" />
       </view>
     </view>
 
