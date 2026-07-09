@@ -1,0 +1,57 @@
+<view class="ai-page">
+  <view class="ai-hero paper-card paper-hero">
+    <image class="ai-hero-image" src="/assets/illustrations/ai-chef.png" mode="aspectFit" />
+    <view class="ai-hero-copy">
+      <text class="ai-eyebrow">AI 小厨师</text>
+      <text class="ai-title">今天想吃什么？</text>
+      <text class="ai-desc">不用填表，像聊天一样告诉我你的想法。</text>
+    </view>
+  </view>
+
+  <view class="suggestion-row">
+    <view class="suggestion" data-text="想吃清淡一点的热菜" bind:tap="onUseSuggestion">清淡热菜</view>
+    <view class="suggestion" data-text="冰箱里有鸡蛋和番茄，做什么好？" bind:tap="onUseSuggestion">冰箱清库存</view>
+    <view class="suggestion" data-text="今晚想吃简单快手的家常菜" bind:tap="onUseSuggestion">简单快手</view>
+  </view>
+
+  <view class="chat-list">
+    <view class="message-row message-row-{{item.role}}" wx:for="{{messages}}" wx:key="id">
+      <view class="message-bubble message-bubble-{{item.role}}">
+        <text class="message-text">{{item.content}}</text>
+      </view>
+    </view>
+    <view class="message-row message-row-assistant" wx:if="{{sending}}">
+      <view class="message-bubble message-bubble-assistant">
+        <text class="typing-text">小厨师正在翻菜谱...</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="recommend-list" wx:if="{{recommendations.length > 0}}">
+    <text class="section-title">这次推荐</text>
+    <view class="recommend-card paper-card" wx:for="{{recommendations}}" wx:key="title">
+      <image class="recommend-decor" src="/assets/illustrations/decor-{{item.decor_type}}.png" mode="aspectFit" />
+      <text class="recommend-title">{{item.title}}</text>
+      <text class="recommend-reason">{{item.reason}}</text>
+      <view class="recommend-meta">
+        <text class="recommend-time" wx:if="{{item.cook_time_minutes}}">{{item.cook_time_minutes}} 分钟</text>
+        <text class="recommend-tag" wx:for="{{item.tags}}" wx:key="*this">#{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="input-spacer"></view>
+  <view class="chat-input-bar">
+    <input
+      class="chat-input"
+      value="{{inputText}}"
+      placeholder="直接说说你想吃什么..."
+      confirm-type="send"
+      bind:input="onInputMessage"
+      bind:confirm="onSendMessage"
+    />
+    <view class="send-btn {{sending ? 'send-btn-disabled' : ''}}" bind:tap="onSendMessage">
+      <text class="send-btn-text">发送</text>
+    </view>
+  </view>
+</view>

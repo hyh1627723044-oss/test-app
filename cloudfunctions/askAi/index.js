@@ -13,6 +13,7 @@ const INTENTS = {
   recommend_today: {
     modelType: 'text',
     responseShape: {
+      assistant_message: 'string in Simplified Chinese',
       recommendations: [
         {
           title: 'string in Simplified Chinese',
@@ -27,17 +28,20 @@ const INTENTS = {
     systemPrompt: [
       'You are a warm and practical home cooking menu assistant.',
       'Recommend simple everyday dishes based on meal slot, taste, available ingredients, avoid list, and people count.',
+      'Respond naturally to the latest user message and use prior conversation context when provided.',
       'Do not provide medical or therapeutic nutrition advice.',
       'All user-facing strings in the JSON must be Simplified Chinese.',
       'Return strict JSON only. No Markdown. No extra explanation.'
     ].join(' '),
     userPrompt(payload) {
       return [
-        'Recommend 3 dishes for today.',
+        'Respond to the user and recommend up to 3 suitable dishes.',
         'The JSON shape must be:',
         JSON.stringify(this.responseShape),
         'User conditions:',
         JSON.stringify({
+          user_message: String(payload.user_message || ''),
+          conversation_history: normalizeHistory(payload.history),
           meal_slot: payload.meal_slot || 'dinner',
           taste: payload.taste || '',
           ingredients: normalizeStringList(payload.ingredients || []),
@@ -52,26 +56,31 @@ const INTENTS = {
   generate_plan: {
     modelType: 'text',
     responseShape: {
+      assistant_message: 'string in Simplified Chinese',
       plan_date: 'YYYY-MM-DD',
       slots: [
-        { meal_slot: 'breakfast', title: 'string in Simplified Chinese', reason: 'string in Simplified Chinese' },
-        { meal_slot: 'lunch', title: 'string in Simplified Chinese', reason: 'string in Simplified Chinese' },
-        { meal_slot: 'dinner', title: 'string in Simplified Chinese', reason: 'string in Simplified Chinese' }
+        { meal_slot: 'breakfast', recipe_id: 'id from existing_recipes', title: 'string in Simplified Chinese', reason: 'string in Simplified Chinese' },
+        { meal_slot: 'lunch', recipe_id: 'id from existing_recipes', title: 'string in Simplified Chinese', reason: 'string in Simplified Chinese' },
+        { meal_slot: 'dinner', recipe_id: 'id from existing_recipes', title: 'string in Simplified Chinese', reason: 'string in Simplified Chinese' }
       ]
     },
     systemPrompt: [
       'You are a home meal planning assistant.',
-      'Generate a one-day meal plan from existing recipes, taste preferences, and avoid list.',
+      'Generate a one-day meal plan using only recipes supplied in existing_recipes.',
+      'Every slot must preserve the exact recipe id from existing_recipes. Never invent recipe ids.',
+      'Respond naturally to the latest user message before presenting the plan.',
       'All user-facing strings in the JSON must be Simplified Chinese.',
       'Return strict JSON only. No Markdown.'
     ].join(' '),
     userPrompt(payload) {
       return [
-        'Generate a one-day meal plan. Prefer items from existing_recipes.',
+        'Generate a one-day meal plan using only existing_recipes.',
         'The JSON shape must be:',
         JSON.stringify(this.responseShape),
         'User conditions:',
         JSON.stringify({
+          user_message: String(payload.user_message || ''),
+          conversation_history: normalizeHistory(payload.history),
           plan_date: payload.plan_date || '',
           taste: payload.taste || '',
           avoid: normalizeStringList(payload.avoid || []),
@@ -129,6 +138,10 @@ exports.main = async (event) => {
     return fail('AI_NOT_CONFIGURED', 'TENCENT_MAAS_API_KEY is not configured')
   }
 
+  if (config.modelType === 'vision') {
+    payload.image_url = await resolveImageUrl(payload.image_url)
+  }
+
   const apiUrl = resolveApiUrl()
   const model = selectModel(config.modelType)
   const messages = buildMessages(config, payload)
@@ -181,6 +194,14 @@ function buildMessages(config, payload) {
     { role: 'system', content: config.systemPrompt },
     { role: 'user', content: config.userPrompt(payload) }
   ]
+}
+
+async function resolveImageUrl(imageUrl) {
+  const value = String(imageUrl || '')
+  if (!value.startsWith('cloud://')) return value
+  const result = await cloud.getTempFileURL({ fileList: [value] })
+  const file = result.fileList && result.fileList[0]
+  return file && file.tempFileURL ? file.tempFileURL : value
 }
 
 function callChatCompletion({ apiUrl, apiKey, model, messages }) {
@@ -256,6 +277,14 @@ async function saveAiRecord(record) {
 function normalizeStringList(list) {
   if (!Array.isArray(list)) return []
   return list.map((item) => String(item).trim()).filter(Boolean)
+}
+
+function normalizeHistory(history) {
+  if (!Array.isArray(history)) return []
+  return history.slice(-10).map((item) => ({
+    role: item && item.role === 'assistant' ? 'assistant' : 'user',
+    content: String(item && item.content || '').slice(0, 500)
+  })).filter((item) => item.content)
 }
 
 function fail(code, message) {

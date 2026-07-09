@@ -38,6 +38,14 @@ const cloudMock = {
   async deleteFile({ fileList }) {
     deletedFiles = deletedFiles.concat(fileList || [])
     return { fileList: fileList || [] }
+  },
+  async getTempFileURL({ fileList }) {
+    return {
+      fileList: (fileList || []).map((fileID) => ({
+        fileID,
+        tempFileURL: 'https://temp.example.com/dish.jpg'
+      }))
+    }
   }
 }
 
@@ -329,7 +337,14 @@ async function main() {
   process.env.TENCENT_MAAS_TEXT_MODEL = 'hy3-test'
   const aiRecommendation = await askAi.main({
     intent: 'recommend_today',
-    payload: { meal_slot: 'dinner', taste: 'light', ingredients: ['tomato', 'egg'], people_count: 1 }
+    payload: {
+      user_message: 'I want a light hot dish.',
+      history: [{ role: 'assistant', content: 'What would you like?' }],
+      meal_slot: 'dinner',
+      taste: 'light',
+      ingredients: ['tomato', 'egg'],
+      people_count: 1
+    }
   })
   assert.equal(aiRecommendation.ok, true)
   assert.equal(aiRecommendation.model, 'hy3-test')
@@ -337,17 +352,19 @@ async function main() {
   assert.equal(lastAiRequest.options.hostname, 'tokenhub.tencentmaas.com')
   assert.equal(lastAiRequest.options.path, '/v1/chat/completions')
   assert.equal(lastAiRequest.body.messages[0].role, 'system')
+  assert.equal(lastAiRequest.body.messages[1].content.includes('I want a light hot dish.'), true)
   assert.equal(collections.ai_recommendations.length, 1)
 
   const aiImageRecognition = await askAi.main({
     intent: 'recognize_recipe_image',
-    payload: { image_url: 'https://example.com/dish.jpg', note: 'home cooking' }
+    payload: { image_url: 'cloud://test-env/dish.jpg', note: 'home cooking' }
   })
   assert.equal(aiImageRecognition.ok, true)
   assert.equal(aiImageRecognition.model, 'hy-vision-2.0-instruct')
   assert.equal(lastAiRequest.body.model, 'hy-vision-2.0-instruct')
   assert.equal(Array.isArray(lastAiRequest.body.messages[1].content), true)
   assert.equal(lastAiRequest.body.messages[1].content[1].type, 'image_url')
+  assert.equal(lastAiRequest.body.messages[1].content[1].image_url.url, 'https://temp.example.com/dish.jpg')
   assert.equal(collections.ai_recommendations.length, 2)
 
   delete process.env.TENCENT_MAAS_API_KEY

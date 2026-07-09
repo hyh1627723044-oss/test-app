@@ -3,6 +3,13 @@ Page({
     activeTab: 'plan',
     dateText: '今天',
     planDate: '',
+    showAiPlanner: false,
+    aiPlanInput: '',
+    aiPlanSending: false,
+    aiPlanReply: '',
+    aiPlanProposal: [],
+    aiPlanHistory: [],
+    myRecipes: [],
     slots: [
       { id: 'breakfast', name: '早餐', time: '08:00', recipes: [], decor_type: 'flower', tape_color: 'yellow' },
       { id: 'lunch', name: '午餐', time: '12:00', recipes: [], decor_type: 'leaf', tape_color: 'green' },
@@ -16,6 +23,7 @@ Page({
     const planDate = this.getToday()
     this.setData({ planDate, dateText: this.formatDateText(planDate) })
     this.loadMealPlan(planDate)
+    this.loadMyRecipes()
   },
 
   onShow() {
@@ -43,6 +51,146 @@ Page({
 
   onNextDay() {
     this.shiftDate(1)
+  },
+
+  onToggleAiPlanner() {
+    this.setData({
+      showAiPlanner: !this.data.showAiPlanner,
+      aiPlanReply: this.data.aiPlanReply || '告诉我今天几个人吃、想吃什么、有什么忌口，或者时间上有什么安排。'
+    })
+  },
+
+  onInputAiPlan(e) {
+    this.setData({ aiPlanInput: e.detail.value })
+  },
+
+  loadMyRecipes() {
+    if (!wx.cloud) return
+    wx.cloud.callFunction({
+      name: 'listRecipes',
+      data: { only_mine: true, limit: 50 },
+      success: (res) => {
+        const recipes = res.result && res.result.recipes
+        if (!Array.isArray(recipes)) return
+        this.setData({
+          myRecipes: recipes.map((item) => ({
+            id: item._id || item.id,
+            title: item.title || '',
+            tags: Array.isArray(item.tags) ? item.tags : [],
+            meal_types: Array.isArray(item.meal_types) ? item.meal_types : []
+          })).filter((item) => item.id && item.title)
+        })
+      }
+    })
+  },
+
+  onAskAiPlan() {
+    const userMessage = this.data.aiPlanInput.trim()
+    if (!userMessage || this.data.aiPlanSending) return
+    if (this.data.myRecipes.length === 0) {
+      wx.showToast({ title: '先添加几道自己的菜谱', icon: 'none' })
+      return
+    }
+    if (!wx.cloud) {
+      wx.showToast({ title: '云开发未启用', icon: 'none' })
+      return
+    }
+
+    this.setData({ aiPlanSending: true })
+    wx.cloud.callFunction({
+      name: 'askAi',
+      data: {
+        intent: 'generate_plan',
+        payload: {
+          user_message: userMessage,
+          history: this.data.aiPlanHistory,
+          plan_date: this.data.planDate,
+          existing_recipes: this.data.myRecipes
+        }
+      },
+      success: (res) => {
+        const result = res.result
+        if (!result || !result.ok) {
+          wx.showToast({ title: 'AI 暂时不可用', icon: 'none' })
+          return
+        }
+        const aiResult = result.result || {}
+        const validIds = new Set(this.data.myRecipes.map((item) => item.id))
+        const slotLabels = {
+          breakfast: '早餐',
+          lunch: '午餐',
+          afternoon_tea: '下午茶',
+          dinner: '晚餐',
+          night_snack: '夜宵'
+        }
+        const proposal = (Array.isArray(aiResult.slots) ? aiResult.slots : [])
+          .filter((item) => item.recipe_id && validIds.has(item.recipe_id) && slotLabels[item.meal_slot])
+          .map((item) => ({
+            ...item,
+            meal_slot_label: slotLabels[item.meal_slot] || item.meal_slot
+          }))
+        this.setData({
+          aiPlanReply: aiResult.assistant_message || '我先按你的情况排了这份计划，确认后再加入。',
+          aiPlanProposal: proposal,
+          aiPlanHistory: this.data.aiPlanHistory.concat(
+            { role: 'user', content: userMessage },
+            {
+              role: 'assistant',
+              content: (aiResult.assistant_message || '') + '\n计划建议：' + JSON.stringify(proposal)
+            }
+          ).slice(-8)
+        })
+        if (proposal.length === 0) {
+          wx.showToast({ title: '没有匹配到可用菜谱', icon: 'none' })
+        }
+      },
+      fail: () => {
+        wx.showToast({ title: 'AI 暂时没有回应', icon: 'none' })
+      },
+      complete: () => {
+        this.setData({ aiPlanSending: false })
+      }
+    })
+  },
+
+  onConfirmAiPlan() {
+    const proposal = this.data.aiPlanProposal
+    if (proposal.length === 0 || !wx.cloud) return
+    wx.showModal({
+      title: '确认加入计划',
+      content: '将这份 AI 建议加入 ' + this.data.planDate + ' 的饮食计划吗？',
+      success: (modalResult) => {
+        if (!modalResult.confirm) return
+        wx.showLoading({ title: '加入计划中' })
+        Promise.all(proposal.map((item, index) => wx.cloud.callFunction({
+          name: 'addMealPlanItem',
+          data: {
+            recipe_id: item.recipe_id,
+            plan_date: this.data.planDate,
+            meal_slot: item.meal_slot,
+            sort_order: index + 1,
+            note: item.reason || '',
+            reminder_enabled: false
+          }
+        }))).then((results) => {
+          const failed = results.some((item) => item.result && item.result.ok === false)
+          if (failed) throw new Error('add plan item failed')
+          wx.hideLoading()
+          wx.showToast({ title: '计划已加入', icon: 'success' })
+          this.setData({
+            showAiPlanner: false,
+            aiPlanInput: '',
+            aiPlanProposal: [],
+            aiPlanReply: '',
+            aiPlanHistory: []
+          })
+          this.loadMealPlan(this.data.planDate)
+        }).catch(() => {
+          wx.hideLoading()
+          wx.showToast({ title: '加入计划失败', icon: 'none' })
+        })
+      }
+    })
   },
 
   onTapRecipe(e) {

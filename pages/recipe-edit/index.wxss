@@ -51,6 +51,52 @@
   border-radius: 22rpx;
 }
 
+.ai-recognize-btn {
+  min-height: 118rpx;
+  margin-top: 20rpx;
+  padding: 14rpx 22rpx;
+  box-sizing: border-box;
+  border-radius: 26rpx;
+  background-color: #ffe2b5;
+  border: 3rpx solid #6f5137;
+  box-shadow: 5rpx 6rpx 0 rgba(112, 70, 38, 0.18);
+  display: flex;
+  align-items: center;
+}
+
+.ai-recognize-btn-disabled {
+  opacity: 0.62;
+}
+
+.ai-recognize-icon {
+  width: 90rpx;
+  height: 90rpx;
+  flex-shrink: 0;
+}
+
+.ai-recognize-copy {
+  flex: 1;
+  padding-left: 18rpx;
+}
+
+.ai-recognize-title,
+.ai-recognize-desc {
+  display: block;
+}
+
+.ai-recognize-title {
+  font-size: 30rpx;
+  color: #3b2718;
+  font-weight: 600;
+}
+
+.ai-recognize-desc {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  line-height: 32rpx;
+  color: #72543d;
+}
+
 .form-card {
   margin-top: 24rpx;
   padding: 26rpx;

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "AI 推荐",
+  "navigationBarBackgroundColor": "#f8e6bd",
+  "navigationBarTextStyle": "black",
+  "enablePullDownRefresh": false,
+  "usingComponents": {}
+}

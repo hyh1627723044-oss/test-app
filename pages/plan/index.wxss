@@ -100,6 +100,168 @@
   margin-top: 28rpx;
 }
 
+.ai-plan-entry {
+  margin-top: 24rpx;
+  min-height: 132rpx;
+  padding: 18rpx 24rpx;
+  display: flex;
+  align-items: center;
+}
+
+.ai-plan-image {
+  width: 102rpx;
+  height: 102rpx;
+  flex-shrink: 0;
+}
+
+.ai-plan-entry-copy {
+  flex: 1;
+  min-width: 0;
+  padding-left: 20rpx;
+}
+
+.ai-plan-entry-title,
+.ai-plan-entry-desc {
+  display: block;
+}
+
+.ai-plan-entry-title {
+  font-size: 32rpx;
+  color: #3b2718;
+  font-weight: 600;
+}
+
+.ai-plan-entry-desc {
+  margin-top: 7rpx;
+  font-size: 23rpx;
+  color: #72543d;
+}
+
+.ai-plan-arrow {
+  font-size: 44rpx;
+  color: #9a5d2f;
+}
+
+.ai-plan-panel {
+  margin-top: 18rpx;
+  padding: 24rpx;
+}
+
+.ai-plan-message {
+  padding: 18rpx 20rpx;
+  border-radius: 22rpx 22rpx 22rpx 7rpx;
+  background-color: #fff0da;
+  border: 2rpx solid #c89d68;
+}
+
+.ai-plan-message-text {
+  font-size: 25rpx;
+  line-height: 36rpx;
+  color: #4b321f;
+}
+
+.ai-plan-input-row {
+  margin-top: 18rpx;
+  display: flex;
+  align-items: center;
+}
+
+.ai-plan-input {
+  flex: 1;
+  height: 72rpx;
+  padding: 0 18rpx;
+  box-sizing: border-box;
+  border-radius: 22rpx;
+  background-color: #fff9e8;
+  border: 2rpx solid #cfa46f;
+  color: #3b2718;
+  font-size: 25rpx;
+}
+
+.ai-plan-send {
+  width: 116rpx;
+  height: 72rpx;
+  margin-left: 12rpx;
+  border-radius: 22rpx;
+  background-color: #ee8e36;
+  border: 3rpx solid #6f5137;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-plan-send-disabled {
+  opacity: 0.58;
+}
+
+.ai-plan-send-text {
+  font-size: 24rpx;
+  color: #fff6df;
+  font-weight: 600;
+}
+
+.ai-plan-proposal {
+  margin-top: 20rpx;
+}
+
+.ai-plan-item {
+  padding: 16rpx 0;
+  border-bottom: 2rpx dashed #cda978;
+  display: flex;
+  align-items: flex-start;
+}
+
+.ai-plan-slot {
+  width: 106rpx;
+  margin-right: 14rpx;
+  padding: 7rpx 10rpx;
+  box-sizing: border-box;
+  border-radius: 14rpx;
+  background-color: #d8dfa5;
+  color: #68753f;
+  font-size: 21rpx;
+  text-align: center;
+}
+
+.ai-plan-item-copy {
+  flex: 1;
+}
+
+.ai-plan-dish,
+.ai-plan-reason {
+  display: block;
+}
+
+.ai-plan-dish {
+  font-size: 27rpx;
+  color: #3b2718;
+  font-weight: 600;
+}
+
+.ai-plan-reason {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  line-height: 32rpx;
+  color: #72543d;
+}
+
+.ai-plan-confirm {
+  height: 70rpx;
+  margin-top: 20rpx;
+  border-radius: 24rpx;
+  background-color: #ee8e36;
+  border: 3rpx solid #6f5137;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-plan-confirm-text {
+  font-size: 26rpx;
+  color: #fff6df;
+  font-weight: 600;
+}
+
 .slot-card {
   position: relative;
   min-height: 160rpx;

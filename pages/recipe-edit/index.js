@@ -62,7 +62,8 @@ Page({
     servings: '1',
     calories: '',
     isPublic: true,
-    coverImages: []
+    coverImages: [],
+    aiRecognizing: false
   },
 
   onLoad(options) {
@@ -262,6 +263,81 @@ Page({
         }))
         this.setData({ coverImages })
       }
+    })
+  },
+
+  onAiRecognize() {
+    if (this.data.aiRecognizing || this.data.coverImages.length === 0) return
+    if (!wx.cloud) {
+      wx.showToast({ title: '云开发未启用', icon: 'none' })
+      return
+    }
+
+    this.setData({ aiRecognizing: true })
+    wx.showLoading({ title: 'AI 识别中' })
+    this.ensureFirstCoverUploaded()
+      .then((fileId) => wx.cloud.callFunction({
+        name: 'askAi',
+        data: {
+          intent: 'recognize_recipe_image',
+          payload: {
+            image_url: fileId,
+            note: '请识别菜品，并提取适合菜谱表单的菜名、简介、食材和标签。'
+          }
+        }
+      }))
+      .then((res) => {
+        const result = res.result
+        if (!result || !result.ok) throw new Error('AI recognition failed')
+        this.applyAiRecognition(result.result || {})
+        wx.hideLoading()
+        wx.showToast({ title: '已识别，可继续修改', icon: 'success' })
+      })
+      .catch(() => {
+        wx.hideLoading()
+        wx.showToast({ title: '图片识别失败', icon: 'none' })
+      })
+      .finally(() => {
+        this.setData({ aiRecognizing: false })
+      })
+  },
+
+  ensureFirstCoverUploaded() {
+    const first = this.data.coverImages[0]
+    if (first.file_id) return Promise.resolve(first.file_id)
+    const ext = this.getFileExt(first.temp_file_path)
+    const cloudPath = 'recipes/temp/' + Date.now() + '/ai-cover' + ext
+    return wx.cloud.uploadFile({
+      cloudPath,
+      filePath: first.temp_file_path
+    }).then((res) => {
+      const coverImages = this.data.coverImages.slice()
+      coverImages[0] = {
+        ...first,
+        file_id: res.fileID,
+        temp_file_path: res.fileID,
+        sort_order: 1
+      }
+      this.setData({ coverImages })
+      return res.fileID
+    })
+  },
+
+  applyAiRecognition(result) {
+    const ingredients = Array.isArray(result.ingredients)
+      ? result.ingredients.map((item) => {
+        if (typeof item === 'string') return item
+        return [item.name, item.amount].filter(Boolean).join('，')
+      }).filter(Boolean)
+      : []
+    const tags = Array.isArray(result.tags)
+      ? result.tags.map((item) => String(item).trim()).filter(Boolean)
+      : []
+    this.setData({
+      title: result.title || this.data.title,
+      description: result.description || this.data.description,
+      ingredientsText: ingredients.length > 0 ? ingredients.join('\n') : this.data.ingredientsText,
+      selectedTags: Array.from(new Set(this.data.selectedTags.concat(tags)))
     })
   },
 

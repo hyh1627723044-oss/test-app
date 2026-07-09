@@ -4,13 +4,14 @@
     "pages/recipe-detail/index",
     "pages/recipe-edit/index",
     "pages/plan/index",
-    "pages/my/index"
+    "pages/my/index",
+    "pages/ai-recommend/index"
   ],
   "window": {
     "navigationBarTitleText": "菜单",
-    "navigationBarBackgroundColor": "#fff3df",
+    "navigationBarBackgroundColor": "#f8e6bd",
     "navigationBarTextStyle": "black",
-    "backgroundColor": "#fff3df"
+    "backgroundColor": "#f8e6bd"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

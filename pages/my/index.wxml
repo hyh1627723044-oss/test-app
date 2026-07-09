@@ -39,7 +39,7 @@
     <text class="feature-arrow">›</text>
   </view>
 
-  <view class="feature-card paper-card ai-card">
+  <view class="feature-card paper-card ai-card" bind:tap="onTapAiRecommend">
     <image class="feature-tape" src="/assets/illustrations/tape-pink.png" mode="aspectFit" />
     <image class="ai-image" src="/assets/illustrations/ai-chef.png" mode="aspectFit" />
     <view class="feature-copy">

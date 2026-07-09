@@ -19,6 +19,46 @@
     </view>
   </view>
 
+  <view class="ai-plan-entry paper-card" bind:tap="onToggleAiPlanner">
+    <image class="ai-plan-image" src="/assets/illustrations/ai-chef.png" mode="aspectFit" />
+    <view class="ai-plan-entry-copy">
+      <text class="ai-plan-entry-title">AI 帮我排一天</text>
+      <text class="ai-plan-entry-desc">说说今天的情况，确认后再加入计划。</text>
+    </view>
+    <text class="ai-plan-arrow">{{showAiPlanner ? '⌃' : '›'}}</text>
+  </view>
+
+  <view class="ai-plan-panel paper-card" wx:if="{{showAiPlanner}}">
+    <view class="ai-plan-message">
+      <text class="ai-plan-message-text">{{aiPlanReply}}</text>
+    </view>
+    <view class="ai-plan-input-row">
+      <input
+        class="ai-plan-input"
+        value="{{aiPlanInput}}"
+        placeholder="例如：两个人，晚餐想清淡一点..."
+        confirm-type="send"
+        bind:input="onInputAiPlan"
+        bind:confirm="onAskAiPlan"
+      />
+      <view class="ai-plan-send {{aiPlanSending ? 'ai-plan-send-disabled' : ''}}" bind:tap="onAskAiPlan">
+        <text class="ai-plan-send-text">{{aiPlanSending ? '思考中' : '发送'}}</text>
+      </view>
+    </view>
+    <view class="ai-plan-proposal" wx:if="{{aiPlanProposal.length > 0}}">
+      <view class="ai-plan-item" wx:for="{{aiPlanProposal}}" wx:key="meal_slot">
+        <text class="ai-plan-slot">{{item.meal_slot_label}}</text>
+        <view class="ai-plan-item-copy">
+          <text class="ai-plan-dish">{{item.title}}</text>
+          <text class="ai-plan-reason">{{item.reason}}</text>
+        </view>
+      </view>
+      <view class="ai-plan-confirm" bind:tap="onConfirmAiPlan">
+        <text class="ai-plan-confirm-text">确认加入计划</text>
+      </view>
+    </view>
+  </view>
+
   <view class="slot-list">
     <view class="slot-card paper-card slot-card-{{item.decor_type}}" wx:for="{{slots}}" wx:key="id">
       <image class="slot-tape" src="/assets/illustrations/tape-{{item.tape_color}}.png" mode="aspectFit" />

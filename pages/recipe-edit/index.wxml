@@ -16,6 +16,18 @@
     </scroll-view>
   </view>
 
+  <view
+    wx:if="{{coverImages.length > 0}}"
+    class="ai-recognize-btn {{aiRecognizing ? 'ai-recognize-btn-disabled' : ''}}"
+    bind:tap="onAiRecognize"
+  >
+    <image class="ai-recognize-icon" src="/assets/illustrations/ai-chef.png" mode="aspectFit" />
+    <view class="ai-recognize-copy">
+      <text class="ai-recognize-title">{{aiRecognizing ? 'AI 正在识别...' : 'AI 识别并填写'}}</text>
+      <text class="ai-recognize-desc">根据第一张图片填写菜名、简介、食材和标签</text>
+    </view>
+  </view>
+
   <view class="form-card">
     <text class="field-label">菜名</text>
     <input class="field-input" placeholder="比如 番茄炒蛋" value="{{title}}" bind:input="onInputTitle" />

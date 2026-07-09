@@ -1,17 +1,17 @@
 Page({
   data: {
     stats: [
-      { label: '??', value: 0 },
-      { label: '??', value: 3 },
-      { label: '??', value: 0 }
+      { label: '菜谱', value: 0 },
+      { label: '计划', value: 3 },
+      { label: '收藏', value: 0 }
     ],
     drawModes: [
-      { id: 'wheel', name: '??' },
-      { id: 'gacha', name: '??' }
+      { id: 'wheel', name: '转盘' },
+      { id: 'gacha', name: '扭蛋' }
     ],
     activeDrawMode: 'wheel',
-    drawTags: ['??'],
-    activeDrawTag: '??',
+    drawTags: ['全部'],
+    activeDrawTag: '全部',
     drawRecipes: [],
     drawPool: [],
     drawResult: null,
@@ -32,7 +32,7 @@ Page({
 
   onShareAppMessage() {
     return {
-      title: '????',
+      title: '我的厨房',
       path: '/pages/my/index'
     }
   },
@@ -48,6 +48,10 @@ Page({
     }
   },
 
+  onTapAiRecommend() {
+    wx.navigateTo({ url: '/pages/ai-recommend/index' })
+  },
+
   loadFavorites() {
     if (!wx.cloud) return
     wx.cloud.callFunction({
@@ -55,7 +59,7 @@ Page({
       success: (res) => {
         const favorites = res.result && res.result.favorites
         if (!Array.isArray(favorites)) return
-        this.updateStat('??', favorites.length)
+        this.updateStat('收藏', favorites.length)
       }
     })
   },
@@ -78,7 +82,7 @@ Page({
           meal_types: Array.isArray(recipe.meal_types) ? recipe.meal_types : []
         }))
         this.setData({ drawRecipes: normalized }, () => {
-          this.updateStat('??', normalized.length)
+          this.updateStat('菜谱', normalized.length)
           this.buildDrawTags()
           this.applyDrawFilter()
         })
@@ -95,20 +99,20 @@ Page({
   },
 
   buildDrawTags() {
-    const tagSet = new Set(['??'])
+    const tagSet = new Set(['全部'])
     this.data.drawRecipes.forEach((recipe) => {
       recipe.tags.forEach((tag) => tagSet.add(tag))
     })
     const drawTags = Array.from(tagSet).slice(0, 12)
     const activeDrawTag = drawTags.indexOf(this.data.activeDrawTag) >= 0
       ? this.data.activeDrawTag
-      : '??'
+      : '全部'
     this.setData({ drawTags, activeDrawTag })
   },
 
   applyDrawFilter() {
     const activeTag = this.data.activeDrawTag
-    const drawPool = activeTag === '??'
+    const drawPool = activeTag === '全部'
       ? this.data.drawRecipes
       : this.data.drawRecipes.filter((recipe) => recipe.tags.indexOf(activeTag) >= 0)
     this.setData({ drawPool })
@@ -134,7 +138,7 @@ Page({
   onStartDraw() {
     if (this.data.isDrawing) return
     if (this.data.drawPool.length === 0) {
-      wx.showToast({ title: '????????', icon: 'none' })
+      wx.showToast({ title: '这个标签下还没有菜谱', icon: 'none' })
       return
     }
 
@@ -193,18 +197,18 @@ Page({
     const recipe = this.data.drawResult
     if (!recipe || !recipe.id || !wx.cloud) return
     const slotOptions = [
-      { id: 'breakfast', label: '??' },
-      { id: 'lunch', label: '??' },
-      { id: 'afternoon_tea', label: '???' },
-      { id: 'dinner', label: '??' },
-      { id: 'night_snack', label: '??' }
+      { id: 'breakfast', label: '早餐' },
+      { id: 'lunch', label: '午餐' },
+      { id: 'afternoon_tea', label: '下午茶' },
+      { id: 'dinner', label: '晚餐' },
+      { id: 'night_snack', label: '夜宵' }
     ]
     wx.showActionSheet({
       itemList: slotOptions.map((item) => item.label),
       success: (res) => {
         const slot = slotOptions[res.tapIndex]
         if (!slot) return
-        wx.showLoading({ title: '???' })
+        wx.showLoading({ title: '加入中' })
         wx.cloud.callFunction({
           name: 'addMealPlanItem',
           data: {
@@ -216,14 +220,14 @@ Page({
           success: (result) => {
             wx.hideLoading()
             if (result.result && result.result.ok === false) {
-              wx.showToast({ title: '????', icon: 'none' })
+              wx.showToast({ title: '加入失败', icon: 'none' })
               return
             }
-            wx.showToast({ title: '?????', icon: 'success' })
+            wx.showToast({ title: '已加入计划', icon: 'success' })
           },
           fail: () => {
             wx.hideLoading()
-            wx.showToast({ title: '????', icon: 'none' })
+            wx.showToast({ title: '加入失败', icon: 'none' })
           }
         })
       }
