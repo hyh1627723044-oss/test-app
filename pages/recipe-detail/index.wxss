@@ -1,49 +1,99 @@
 .page-shell {
   min-height: 100vh;
-  padding: 24rpx;
+  padding: 28rpx 28rpx 190rpx;
   box-sizing: border-box;
-  background-color: #fbfaf7;
 }
 
-.cover-section,
-.cover-swiper,
-.cover-image,
-.cover-empty {
-  width: 100%;
-  height: 430rpx;
-  border-radius: 28rpx;
+.detail-card {
+  position: relative;
+  padding: 22rpx;
   overflow: hidden;
 }
 
+.card-tape {
+  position: absolute;
+  left: 34rpx;
+  top: -24rpx;
+  width: 150rpx;
+  height: 66rpx;
+  transform: rotate(-4deg);
+  z-index: 2;
+}
+
+.card-decor {
+  position: absolute;
+  right: 20rpx;
+  top: 18rpx;
+  width: 78rpx;
+  height: 78rpx;
+  z-index: 2;
+}
+
+.detail-main {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.cover-section {
+  width: 236rpx;
+  height: 236rpx;
+  border-radius: 24rpx;
+  overflow: hidden;
+  background-color: #f0c993;
+  border: 1px solid #d7b17e;
+  flex-shrink: 0;
+}
+
+.cover-swiper,
+.cover-image,
 .cover-empty {
-  background-color: #eee0d7;
+  width: 236rpx;
+  height: 236rpx;
+}
+
+.cover-empty {
+  background-color: #f0c993;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .cover-empty-text {
-  font-size: 52rpx;
+  width: 146rpx;
+  height: 146rpx;
+  border-radius: 76rpx;
+  background-color: #fff6df;
+  border: 5rpx solid #4b321f;
+  box-shadow: 7rpx 7rpx 0 rgba(196, 105, 31, 0.25);
+  text-align: center;
+  line-height: 146rpx;
+  font-size: 72rpx;
   color: #8a4f1c;
   font-weight: 600;
 }
 
-.detail-card,
+.detail-copy {
+  flex: 1;
+  min-width: 0;
+  padding-left: 22rpx;
+  padding-right: 54rpx;
+  box-sizing: border-box;
+}
+
 .section {
   margin-top: 22rpx;
   padding: 26rpx;
   box-sizing: border-box;
-  background-color: #ffffff;
-  border: 1px solid #eee5dc;
-  border-radius: 24rpx;
 }
 
 .recipe-title {
   flex: 1;
-  font-size: 42rpx;
-  line-height: 52rpx;
+  font-size: 38rpx;
+  line-height: 46rpx;
   color: #251b14;
   font-weight: 600;
+  word-break: break-all;
 }
 
 .title-row {
@@ -53,13 +103,16 @@
 }
 
 .favorite-btn {
-  height: 56rpx;
-  padding: 0 22rpx;
+  min-width: 96rpx;
+  height: 50rpx;
+  padding: 0 16rpx;
   border-radius: 20rpx;
-  background-color: #f6eee6;
+  background-color: #fff6df;
+  border: 2rpx solid #cfa46f;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .favorite-text {
@@ -102,8 +155,8 @@
 .recipe-desc {
   display: block;
   margin-top: 16rpx;
-  font-size: 28rpx;
-  line-height: 40rpx;
+  font-size: 25rpx;
+  line-height: 36rpx;
   color: #74675d;
 }
 
@@ -121,7 +174,7 @@
   margin-bottom: 14rpx;
   padding: 10rpx 18rpx;
   border-radius: 18rpx;
-  background-color: #f6eee6;
+  background-color: #fff0da;
   font-size: 24rpx;
   color: #8a5a34;
 }
@@ -131,7 +184,7 @@
 }
 
 .slot-pill-active {
-  background-color: #2b2119;
+  background-color: #4b321f;
 }
 
 .slot-text {
@@ -154,7 +207,7 @@
   margin: 0 12rpx 12rpx 0;
   padding: 8rpx 14rpx;
   border-radius: 16rpx;
-  background-color: #fff6ec;
+  background-color: #ffe2b5;
   font-size: 22rpx;
   color: #a2672a;
 }
@@ -163,7 +216,8 @@
   height: 74rpx;
   padding: 0 20rpx;
   border-radius: 18rpx;
-  background-color: #f8f3ee;
+  background-color: #fff6df;
+  border: 2rpx dashed #cfa46f;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -180,8 +234,8 @@
   height: 76rpx;
   margin-top: 10rpx;
   border-radius: 24rpx;
-  background-color: #c87420;
-  border: 4rpx solid #2b2119;
+  background-color: #ee8e36;
+  border: 4rpx solid #4b321f;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -226,7 +280,7 @@
   height: 42rpx;
   margin-right: 16rpx;
   border-radius: 21rpx;
-  background-color: #c87420;
+  background-color: #ee8e36;
   color: #fff8ef;
   font-size: 24rpx;
   line-height: 42rpx;

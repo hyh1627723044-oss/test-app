@@ -5,6 +5,15 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 
 exports.main = async (event) => {
+  try {
+    return await addMealPlanItem(event)
+  } catch (error) {
+    console.error('[addMealPlanItem] unexpected error', error)
+    return fail(resolveDatabaseErrorCode(error), error.message || 'add meal plan item failed')
+  }
+}
+
+async function addMealPlanItem(event) {
   const wxContext = cloud.getWXContext()
   const now = new Date()
   const planDate = String(event.plan_date || '').trim()
@@ -82,6 +91,14 @@ exports.main = async (event) => {
     meal_plan_id: mealPlanId,
     item_id: item._id
   }
+}
+
+function resolveDatabaseErrorCode(error) {
+  const message = String(error && error.message || '')
+  if (/collection|not exist|not found|DATABASE_COLLECTION_NOT_EXIST/i.test(message)) {
+    return 'COLLECTION_NOT_FOUND'
+  }
+  return 'DATABASE_ERROR'
 }
 
 function fail(code, message) {

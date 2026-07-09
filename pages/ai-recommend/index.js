@@ -76,6 +76,7 @@ Page({
       success: (res) => {
         const result = res.result
         if (!result || !result.ok) {
+          console.error('[ai-recommend] askAi returned error', result)
           this.showAiError(result)
           return
         }
@@ -101,7 +102,8 @@ Page({
           recommendations
         })
       },
-      fail: () => {
+      fail: (error) => {
+        console.error('[ai-recommend] askAi failed', error)
         wx.showToast({ title: 'AI 暂时没有回应', icon: 'none' })
       },
       complete: () => {
@@ -128,6 +130,8 @@ Page({
   showAiError(result) {
     const title = result && result.code === 'AI_NOT_CONFIGURED'
       ? 'AI 尚未配置'
+      : result && result.code === 'AI_REQUEST_FAILED'
+        ? 'AI 请求失败'
       : 'AI 暂时不可用'
     wx.showToast({ title, icon: 'none' })
   }

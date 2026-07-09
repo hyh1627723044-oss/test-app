@@ -120,6 +120,15 @@ const INTENTS = {
 }
 
 exports.main = async (event) => {
+  try {
+    return await askAi(event)
+  } catch (error) {
+    console.error('[askAi] unexpected error', error)
+    return fail('AI_REQUEST_FAILED', error.message || 'AI request failed')
+  }
+}
+
+async function askAi(event) {
   const wxContext = cloud.getWXContext()
   const intent = String(event.intent || '').trim()
   const payload = event.payload && typeof event.payload === 'object' ? event.payload : {}

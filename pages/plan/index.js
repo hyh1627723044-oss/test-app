@@ -111,6 +111,7 @@ Page({
       success: (res) => {
         const result = res.result
         if (!result || !result.ok) {
+          console.error('[plan] askAi returned error', result)
           wx.showToast({ title: 'AI 暂时不可用', icon: 'none' })
           return
         }
@@ -144,7 +145,8 @@ Page({
           wx.showToast({ title: '没有匹配到可用菜谱', icon: 'none' })
         }
       },
-      fail: () => {
+      fail: (error) => {
+        console.error('[plan] askAi failed', error)
         wx.showToast({ title: 'AI 暂时没有回应', icon: 'none' })
       },
       complete: () => {
@@ -174,7 +176,10 @@ Page({
           }
         }))).then((results) => {
           const failed = results.some((item) => item.result && item.result.ok === false)
-          if (failed) throw new Error('add plan item failed')
+          if (failed) {
+            console.error('[plan] addMealPlanItem returned error', results.map((item) => item.result))
+            throw new Error('add plan item failed')
+          }
           wx.hideLoading()
           wx.showToast({ title: '计划已加入', icon: 'success' })
           this.setData({
@@ -185,7 +190,8 @@ Page({
             aiPlanHistory: []
           })
           this.loadMealPlan(this.data.planDate)
-        }).catch(() => {
+        }).catch((error) => {
+          console.error('[plan] confirm AI plan failed', error)
           wx.hideLoading()
           wx.showToast({ title: '加入计划失败', icon: 'none' })
         })
@@ -216,7 +222,10 @@ Page({
       name: 'getMealPlan',
       data: { plan_date: planDate },
       success: (res) => {
-        if (!res.result || !res.result.ok || !Array.isArray(res.result.slots)) return
+        if (!res.result || !res.result.ok || !Array.isArray(res.result.slots)) {
+          console.error('[plan] getMealPlan returned error', res.result)
+          return
+        }
         const timeMap = {
           breakfast: '08:00',
           lunch: '12:00',
@@ -253,6 +262,9 @@ Page({
           }))
         }))
         this.setData({ slots })
+      },
+      fail: (error) => {
+        console.error('[plan] getMealPlan failed', error)
       }
     })
   },

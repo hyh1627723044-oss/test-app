@@ -1,21 +1,30 @@
 <view class="page-shell">
-  <view class="cover-section">
-    <swiper
-      wx:if="{{recipe.cover_images.length > 0}}"
-      class="cover-swiper"
-      indicator-dots
-      circular
-    >
-      <swiper-item wx:for="{{recipe.cover_images}}" wx:key="file_id">
-        <image class="cover-image" src="{{item.file_id}}" mode="aspectFill" />
-      </swiper-item>
-    </swiper>
-    <view wx:else class="cover-empty">
-      <text class="cover-empty-text">{{recipe.title}}</text>
-    </view>
-  </view>
-
-  <view class="detail-card">
+  <view class="detail-card paper-card">
+    <image class="card-tape" src="/assets/illustrations/tape-green.png" mode="aspectFit" />
+    <image class="card-decor" src="/assets/illustrations/decor-leaf.png" mode="aspectFit" />
+    <view class="detail-main">
+      <view class="cover-section">
+        <swiper
+          wx:if="{{recipe.cover_images.length > 0}}"
+          class="cover-swiper"
+          indicator-dots
+          circular
+        >
+          <swiper-item wx:for="{{recipe.cover_images}}" wx:key="file_id">
+            <image class="cover-image" src="{{item.file_id}}" mode="aspectFill" />
+          </swiper-item>
+        </swiper>
+        <image
+          wx:elif="{{recipe.primary_cover_file_id}}"
+          class="cover-image"
+          src="{{recipe.primary_cover_file_id}}"
+          mode="aspectFill"
+        />
+        <view wx:else class="cover-empty">
+          <text class="cover-empty-text">{{coverLetter}}</text>
+        </view>
+      </view>
+      <view class="detail-copy">
     <view class="title-row">
       <text class="recipe-title">{{recipe.title}}</text>
       <view class="favorite-btn" bind:tap="onFavorite">
@@ -40,9 +49,11 @@
     <view class="tag-row" wx:if="{{recipe.tags.length > 0}}">
       <text class="tag-pill" wx:for="{{recipe.tags}}" wx:key="*this">#{{item}}</text>
     </view>
+      </view>
+    </view>
   </view>
 
-  <view class="section">
+  <view class="section paper-card">
     <text class="section-title">加入计划</text>
     <picker mode="date" value="{{selectedDate}}" bind:change="onChangeDate">
       <view class="date-picker">
@@ -66,7 +77,7 @@
     </view>
   </view>
 
-  <view class="section">
+  <view class="section paper-card">
     <text class="section-title">食材</text>
     <view class="ingredient-item" wx:for="{{recipe.ingredients}}" wx:key="name">
       <text class="ingredient-name">{{item.name}}</text>
@@ -74,7 +85,7 @@
     </view>
   </view>
 
-  <view class="section">
+  <view class="section paper-card">
     <text class="section-title">做法</text>
     <view class="step-item" wx:for="{{recipe.steps}}" wx:key="order">
       <text class="step-index">{{item.order}}</text>

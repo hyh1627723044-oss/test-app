@@ -5,6 +5,15 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 
 exports.main = async (event) => {
+  try {
+    return await toggleFavorite(event)
+  } catch (error) {
+    console.error('[toggleFavorite] unexpected error', error)
+    return fail(resolveDatabaseErrorCode(error), error.message || 'toggle favorite failed')
+  }
+}
+
+async function toggleFavorite(event) {
   const wxContext = cloud.getWXContext()
   const recipeId = String(event.recipe_id || event.id || '').trim()
   const action = String(event.action || 'toggle')
@@ -46,6 +55,14 @@ exports.main = async (event) => {
   }
 
   return { ok: true, favorited: true }
+}
+
+function resolveDatabaseErrorCode(error) {
+  const message = String(error && error.message || '')
+  if (/collection|not exist|not found|DATABASE_COLLECTION_NOT_EXIST/i.test(message)) {
+    return 'COLLECTION_NOT_FOUND'
+  }
+  return 'DATABASE_ERROR'
 }
 
 function fail(code, message) {

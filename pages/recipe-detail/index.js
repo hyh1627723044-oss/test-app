@@ -5,6 +5,7 @@ Page({
     selectedSlot: 'lunch',
     isFavorited: false,
     canEdit: false,
+    coverLetter: '菜',
     recipe: {
       id: 'recipe_tomato_egg',
       _id: 'recipe_tomato_egg',
@@ -71,10 +72,14 @@ Page({
         if (res.result && res.result.ok && res.result.recipe) {
           this.setData({
             recipe: res.result.recipe,
+            coverLetter: this.getCoverLetter(res.result.recipe.title),
             isFavorited: Boolean(res.result.is_favorited),
             canEdit: Boolean(res.result.can_edit)
           })
         }
+      },
+      fail: (error) => {
+        console.error('[recipe-detail] getRecipe failed', error)
       }
     })
   },
@@ -104,7 +109,8 @@ Page({
       },
       success: (res) => {
         if (res.result && res.result.ok === false) {
-          wx.showToast({ title: '加入失败', icon: 'none' })
+          console.error('[recipe-detail] addMealPlanItem returned error', res.result)
+          wx.showToast({ title: this.getCloudErrorTitle(res.result, '加入失败'), icon: 'none' })
           return
         }
         wx.showToast({
@@ -112,7 +118,8 @@ Page({
           icon: 'success'
         })
       },
-      fail: () => {
+      fail: (error) => {
+        console.error('[recipe-detail] addMealPlanItem failed', error)
         wx.showToast({ title: '加入失败', icon: 'none' })
       }
     })
@@ -131,14 +138,16 @@ Page({
       },
       success: (res) => {
         if (res.result && res.result.ok === false) {
-          wx.showToast({ title: '操作失败', icon: 'none' })
+          console.error('[recipe-detail] toggleFavorite returned error', res.result)
+          wx.showToast({ title: this.getCloudErrorTitle(res.result, '操作失败'), icon: 'none' })
           return
         }
         const favorited = Boolean(res.result && res.result.favorited)
         this.setData({ isFavorited: favorited })
         wx.showToast({ title: favorited ? '已收藏' : '已取消', icon: 'success' })
       },
-      fail: () => {
+      fail: (error) => {
+        console.error('[recipe-detail] toggleFavorite failed', error)
         wx.showToast({ title: '操作失败', icon: 'none' })
       }
     })
@@ -187,5 +196,23 @@ Page({
     const month = String(date.getMonth() + 1).padStart(2, '0')
     const day = String(date.getDate()).padStart(2, '0')
     return year + '-' + month + '-' + day
+  },
+
+  getCloudErrorTitle(result, fallback) {
+    const codeMap = {
+      COLLECTION_NOT_FOUND: '数据库集合未创建',
+      DATABASE_ERROR: '数据库写入失败',
+      RECIPE_NOT_FOUND: '菜谱不存在',
+      RECIPE_FORBIDDEN: '没有操作权限',
+      PLAN_DATE_REQUIRED: '请选择日期',
+      MEAL_SLOT_REQUIRED: '请选择餐次',
+      RECIPE_ID_REQUIRED: '菜谱 ID 缺失'
+    }
+    return codeMap[result && result.code] || fallback
+  },
+
+  getCoverLetter(title) {
+    const text = String(title || '').trim()
+    return text ? text.slice(0, 1) : '菜'
   }
 })

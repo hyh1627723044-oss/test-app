@@ -71,7 +71,7 @@
       <view class="slot-content">
         <block wx:if="{{item.recipes.length > 0}}">
           <view
-            class="recipe-chip"
+            class="planned-recipe"
             wx:for="{{item.recipes}}"
             wx:key="id"
             wx:for-item="recipe"
@@ -80,10 +80,26 @@
             data-slot="{{item.id}}"
             bind:tap="onTapRecipe"
           >
-            <view class="recipe-dot"></view>
-            <text class="recipe-chip-text">{{recipe.title}}</text>
+            <view class="planned-cover">
+              <image
+                wx:if="{{recipe.cover}}"
+                class="planned-cover-image"
+                src="{{recipe.cover}}"
+                mode="aspectFill"
+              />
+              <image
+                wx:else
+                class="planned-cover-empty"
+                src="/assets/illustrations/empty-plan.png"
+                mode="aspectFit"
+              />
+            </view>
+            <view class="planned-copy">
+              <text class="planned-title">{{recipe.title}}</text>
+              <text class="planned-note" wx:if="{{recipe.note}}">{{recipe.note}}</text>
+            </view>
             <text
-              class="recipe-chip-action"
+              class="planned-action"
               data-item-id="{{recipe.item_id}}"
               data-slot="{{item.id}}"
               catchtap="onManagePlanItem"
