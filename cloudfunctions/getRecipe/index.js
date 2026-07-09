@@ -5,6 +5,15 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 
 exports.main = async (event) => {
+  try {
+    return await getRecipe(event)
+  } catch (error) {
+    console.error('[getRecipe] unexpected error', error)
+    return fail('DATABASE_ERROR', error.message || 'get recipe failed')
+  }
+}
+
+async function getRecipe(event) {
   const wxContext = cloud.getWXContext()
   const recipeId = String(event.id || '').trim()
 
@@ -34,10 +43,14 @@ exports.main = async (event) => {
     })
     .limit(1)
     .get()
+    .catch((error) => {
+      console.error('[getRecipe] favorite lookup failed', error)
+      return { data: [] }
+    })
 
   return {
     ok: true,
-    recipe,
+    recipe: Object.assign({}, recipe, { id: recipe._id || recipeId }),
     can_edit: recipe.owner_openid === wxContext.OPENID,
     is_favorited: favoriteResult.data.length > 0
   }

@@ -79,17 +79,23 @@
 
   <view class="section paper-card">
     <text class="section-title">食材</text>
-    <view class="ingredient-item" wx:for="{{recipe.ingredients}}" wx:key="name">
-      <text class="ingredient-name">{{item.name}}</text>
-      <text class="ingredient-amount">{{item.amount}}</text>
-    </view>
+    <block wx:if="{{recipe.ingredients.length > 0}}">
+      <view class="ingredient-item" wx:for="{{recipe.ingredients}}" wx:key="name">
+        <text class="ingredient-name">{{item.name}}</text>
+        <text class="ingredient-amount">{{item.amount}}</text>
+      </view>
+    </block>
+    <text wx:else class="section-empty">还没有填写食材</text>
   </view>
 
   <view class="section paper-card">
     <text class="section-title">做法</text>
-    <view class="step-item" wx:for="{{recipe.steps}}" wx:key="order">
-      <text class="step-index">{{item.order}}</text>
-      <text class="step-text">{{item.text}}</text>
-    </view>
+    <block wx:if="{{recipe.steps.length > 0}}">
+      <view class="step-item" wx:for="{{recipe.steps}}" wx:key="order">
+        <text class="step-index">{{item.order}}</text>
+        <text class="step-text">{{item.text}}</text>
+      </view>
+    </block>
+    <text wx:else class="section-empty">还没有填写做法</text>
   </view>
 </view>

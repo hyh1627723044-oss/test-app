@@ -135,12 +135,68 @@ Page({
 
   onTapRecipe(e) {
     const { id } = e.currentTarget.dataset
+    if (!id) {
+      wx.showToast({ title: '菜谱 ID 缺失', icon: 'none' })
+      return
+    }
     wx.navigateTo({ url: '/pages/recipe-detail/index?id=' + id })
   },
 
   onTapAddToPlan(e) {
     const { id } = e.currentTarget.dataset
-    wx.navigateTo({ url: '/pages/recipe-detail/index?id=' + id + '&action=plan' })
+    if (!id) {
+      wx.showToast({ title: '菜谱 ID 缺失', icon: 'none' })
+      return
+    }
+    if (!wx.cloud) {
+      wx.showToast({ title: '云开发未启用', icon: 'none' })
+      return
+    }
+
+    const recipe = this.findRecipeById(id)
+    const slots = [
+      { id: 'breakfast', label: '早餐' },
+      { id: 'lunch', label: '午餐' },
+      { id: 'afternoon_tea', label: '下午茶' },
+      { id: 'dinner', label: '晚餐' },
+      { id: 'night_snack', label: '夜宵' }
+    ]
+
+    wx.showActionSheet({
+      itemList: slots.map((item) => item.label),
+      success: (res) => {
+        const slot = slots[res.tapIndex]
+        if (!slot) return
+        wx.showLoading({ title: '加入计划中' })
+        wx.cloud.callFunction({
+          name: 'addMealPlanItem',
+          data: {
+            recipe_id: id,
+            plan_date: this.getToday(),
+            meal_slot: slot.id,
+            reminder_enabled: false
+          },
+          success: (result) => {
+            wx.hideLoading()
+            if (result.result && result.result.ok === false) {
+              console.error('[index] addMealPlanItem returned error', result.result)
+              wx.showToast({ title: this.getCloudErrorTitle(result.result, '加入失败'), icon: 'none' })
+              return
+            }
+            wx.showToast({ title: '已加入' + slot.label, icon: 'success' })
+          },
+          fail: (error) => {
+            wx.hideLoading()
+            console.error('[index] addMealPlanItem failed', error)
+            wx.showToast({ title: '加入失败', icon: 'none' })
+          }
+        })
+      },
+      fail: (error) => {
+        if (error && error.errMsg && error.errMsg.indexOf('cancel') >= 0) return
+        console.error('[index] choose meal slot failed', error, recipe)
+      }
+    })
   },
 
   onTapAddRecipe() {
@@ -205,9 +261,12 @@ Page({
     const decorTypes = ['flower', 'leaf', 'star', 'moon']
     const tapeColors = ['yellow', 'green', 'pink']
     return recipes.map((recipe, index) => {
-      const key = recipe.id || recipe.title || String(index)
+      const id = recipe._id || recipe.id || ''
+      const key = id || recipe.title || String(index)
       const charTotal = key.split('').reduce((total, char) => total + char.charCodeAt(0), 0)
       return Object.assign({}, recipe, {
+        id,
+        cover_letter: String(recipe.title || '').trim().slice(0, 1) || '菜',
         decor_type: decorTypes[charTotal % decorTypes.length],
         tape_color: tapeColors[charTotal % tapeColors.length]
       })
@@ -221,5 +280,30 @@ Page({
       recipe.description || '',
       tags
     ].join(' ')
+  },
+
+  findRecipeById(id) {
+    return this.data.recipes.find((recipe) => recipe.id === id || recipe._id === id) || null
+  },
+
+  getToday() {
+    const date = new Date()
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return year + '-' + month + '-' + day
+  },
+
+  getCloudErrorTitle(result, fallback) {
+    const codeMap = {
+      COLLECTION_NOT_FOUND: '数据库集合未创建',
+      DATABASE_ERROR: '数据库写入失败',
+      RECIPE_NOT_FOUND: '菜谱不存在',
+      RECIPE_FORBIDDEN: '没有操作权限',
+      PLAN_DATE_REQUIRED: '请选择日期',
+      MEAL_SLOT_REQUIRED: '请选择餐次',
+      RECIPE_ID_REQUIRED: '菜谱 ID 缺失'
+    }
+    return codeMap[result && result.code] || fallback
   }
 })

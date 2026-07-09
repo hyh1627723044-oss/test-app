@@ -7,28 +7,20 @@ Page({
     canEdit: false,
     coverLetter: '菜',
     recipe: {
-      id: 'recipe_tomato_egg',
-      _id: 'recipe_tomato_egg',
-      title: '番茄炒蛋',
-      description: '十分钟快手家常菜，适合午餐和晚餐。',
+      id: '',
+      _id: '',
+      title: '加载中',
+      description: '',
       primary_cover_file_id: '',
       cover_images: [],
-      tags: ['快手', '家常', '下饭'],
-      meal_types: ['lunch', 'dinner'],
-      cook_time_minutes: 10,
+      tags: [],
+      meal_types: [],
+      cook_time_minutes: 0,
       difficulty: 'easy',
-      servings: 2,
-      calories: 320,
-      ingredients: [
-        { name: '番茄', amount: '2 个' },
-        { name: '鸡蛋', amount: '3 个' },
-        { name: '盐', amount: '少许' }
-      ],
-      steps: [
-        { order: 1, text: '番茄切块，鸡蛋打散。' },
-        { order: 2, text: '先把鸡蛋炒至凝固后盛出。' },
-        { order: 3, text: '番茄炒出汁后倒回鸡蛋，调味即可。' }
-      ]
+      servings: 1,
+      calories: 0,
+      ingredients: [],
+      steps: []
     },
     difficultyMap: {
       easy: '简单',
@@ -70,13 +62,17 @@ Page({
       data: { id },
       success: (res) => {
         if (res.result && res.result.ok && res.result.recipe) {
+          const recipe = this.normalizeRecipe(res.result.recipe)
           this.setData({
-            recipe: res.result.recipe,
-            coverLetter: this.getCoverLetter(res.result.recipe.title),
+            recipe,
+            coverLetter: this.getCoverLetter(recipe.title),
             isFavorited: Boolean(res.result.is_favorited),
             canEdit: Boolean(res.result.can_edit)
           })
+          return
         }
+        console.error('[recipe-detail] getRecipe returned error', res.result)
+        wx.showToast({ title: this.getCloudErrorTitle(res.result, '加载失败'), icon: 'none' })
       },
       fail: (error) => {
         console.error('[recipe-detail] getRecipe failed', error)
@@ -214,5 +210,16 @@ Page({
   getCoverLetter(title) {
     const text = String(title || '').trim()
     return text ? text.slice(0, 1) : '菜'
+  },
+
+  normalizeRecipe(recipe) {
+    return Object.assign({}, recipe, {
+      id: recipe.id || recipe._id || '',
+      ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients : [],
+      steps: Array.isArray(recipe.steps) ? recipe.steps : [],
+      tags: Array.isArray(recipe.tags) ? recipe.tags : [],
+      meal_types: Array.isArray(recipe.meal_types) ? recipe.meal_types : [],
+      cover_images: Array.isArray(recipe.cover_images) ? recipe.cover_images : []
+    })
   }
 })

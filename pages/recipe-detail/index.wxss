@@ -255,6 +255,13 @@
   font-weight: 600;
 }
 
+.section-empty {
+  display: block;
+  padding: 18rpx 0;
+  font-size: 26rpx;
+  color: #9e8068;
+}
+
 .ingredient-item {
   display: flex;
   flex-direction: row;

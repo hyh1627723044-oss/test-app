@@ -86,13 +86,7 @@
         </block>
         <block wx:if="{{!item.primary_cover_file_id}}">
         <view class="recipe-cover-empty">
-          <view class="recipe-letter-card">
-            <view class="letter-spark letter-spark-left"></view>
-            <view class="letter-spark letter-spark-right"></view>
-            <text class="recipe-cover-letter">{{item.cover_letter}}</text>
-            <view class="letter-leaf letter-leaf-left"></view>
-            <view class="letter-leaf letter-leaf-right"></view>
-          </view>
+          <text class="recipe-cover-title">{{item.title}}</text>
         </view>
         </block>
       </view>
@@ -109,7 +103,7 @@
         <view class="recipe-action-row">
           <view class="action-divider"></view>
           <view class="plan-btn" data-id="{{item.id}}" catchtap="onTapAddToPlan">
-            <text class="plan-btn-icon">▣</text>
+            <image class="plan-btn-icon" src="/assets/illustrations/icon-plan-add.png" mode="aspectFit" />
             <text class="plan-btn-text">加入计划</text>
           </view>
         </view>
