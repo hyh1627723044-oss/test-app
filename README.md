@@ -54,6 +54,16 @@ listFavorites
 listTags
 upsertTag
 deleteTag
+askAi
+```
+
+AI 云函数默认使用混元 OpenAI 兼容接口，密钥不写入代码。开通后在云函数环境变量里配置：
+
+```text
+HUNYUAN_API_KEY
+HUNYUAN_API_URL=https://api.hunyuan.cloud.tencent.com/v1/chat/completions
+HUNYUAN_TEXT_MODEL=hunyuan-turbos-latest
+HUNYUAN_VISION_MODEL=hunyuan-vision
 ```
 
 本地单元测试：

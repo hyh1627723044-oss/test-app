@@ -114,11 +114,19 @@
 ```json
 {
   "_id": "recommendation_id",
-  "user_id": "user_id",
-  "prompt": "今晚吃什么清淡一点？",
-  "context": {},
-  "result": {},
-  "created_recipe_ids": [],
+  "owner_openid": "微信 openid",
+  "intent": "recommend_today",
+  "payload": {
+    "meal_slot": "dinner",
+    "taste": "清淡",
+    "ingredients": ["番茄", "鸡蛋"]
+  },
+  "model": "hunyuan-turbos-latest",
+  "result": {
+    "recommendations": []
+  },
+  "raw_content": "{}",
+  "usage": {},
   "created_at": "2026-07-03T10:00:00+08:00"
 }
 ```
@@ -149,4 +157,22 @@ listFavorites     查询我的收藏
 listTags          查询系统标签和我的标签
 upsertTag         新增或刷新我的标签
 deleteTag         删除我的标签
+askAi            统一 AI 调用入口，按 intent 选择提示词并调用混元
+```
+
+## AI intents
+
+```text
+recommend_today          AI 推荐今天吃什么
+generate_plan            AI 生成一天饮食计划，后续接入
+recognize_recipe_image   AI 根据图片识别菜品/食材，后续接入
+```
+
+`askAi` 使用环境变量读取混元配置，不在前端和代码仓库保存 key：
+
+```text
+HUNYUAN_API_KEY
+HUNYUAN_API_URL
+HUNYUAN_TEXT_MODEL
+HUNYUAN_VISION_MODEL
 ```

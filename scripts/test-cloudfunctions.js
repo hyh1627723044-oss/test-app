@@ -1,18 +1,21 @@
 const assert = require('node:assert/strict')
 const Module = require('node:module')
 const path = require('node:path')
+const { EventEmitter } = require('node:events')
 
 const collections = {
   recipes: [],
   meal_plans: [],
   meal_plan_items: [],
   favorites: [],
-  user_tags: []
+  user_tags: [],
+  ai_recommendations: []
 }
 
 let currentOpenid = 'openid-user-1'
 let idCounter = 1
 let deletedFiles = []
+let lastAiRequest = null
 
 const command = {
   or(conditions) {
@@ -35,6 +38,50 @@ const cloudMock = {
   async deleteFile({ fileList }) {
     deletedFiles = deletedFiles.concat(fileList || [])
     return { fileList: fileList || [] }
+  }
+}
+
+
+const httpsMock = {
+  request(options, callback) {
+    const req = new EventEmitter()
+    let body = ''
+    req.write = (chunk) => {
+      body += chunk
+    }
+    req.end = () => {
+      lastAiRequest = { options, body: JSON.parse(body) }
+      const res = new EventEmitter()
+      res.statusCode = 200
+      res.setEncoding = () => {}
+      callback(res)
+      process.nextTick(() => {
+        res.emit('data', JSON.stringify({
+          choices: [
+            {
+              message: {
+                content: JSON.stringify({
+                  recommendations: [
+                    {
+                      title: 'Tomato Egg Noodle',
+                      reason: 'Uses existing ingredients and is quick.',
+                      tags: ['quick', 'family'],
+                      meal_slot: 'dinner',
+                      cook_time_minutes: 12,
+                      difficulty: 'easy'
+                    }
+                  ]
+                })
+              }
+            }
+          ],
+          usage: { total_tokens: 123 }
+        }))
+        res.emit('end')
+      })
+    }
+    req.on = EventEmitter.prototype.on.bind(req)
+    return req
   }
 }
 
@@ -128,6 +175,9 @@ Module._load = function patchedLoad(request, parent, isMain) {
   if (request === 'wx-server-sdk') {
     return cloudMock
   }
+  if (request === 'https') {
+    return httpsMock
+  }
   return originalLoad.call(this, request, parent, isMain)
 }
 
@@ -148,6 +198,7 @@ async function main() {
   const listTags = loadCloudFunction('listTags')
   const upsertTag = loadCloudFunction('upsertTag')
   const deleteTag = loadCloudFunction('deleteTag')
+  const askAi = loadCloudFunction('askAi')
 
   const invalidRecipe = await createRecipe.main({})
   assert.equal(invalidRecipe.ok, false)
@@ -258,6 +309,35 @@ async function main() {
   assert.equal(collections.recipes[0].title, 'Tomato Egg Noodle')
   assert.equal(deletedFiles.includes('cloud://cover-2.jpg'), true)
 
+
+
+  const unsupportedAi = await askAi.main({ intent: 'unknown' })
+  assert.equal(unsupportedAi.ok, false)
+  assert.equal(unsupportedAi.code, 'AI_INTENT_UNSUPPORTED')
+
+  delete process.env.HUNYUAN_API_KEY
+  const unconfiguredAi = await askAi.main({
+    intent: 'recommend_today',
+    payload: { meal_slot: 'dinner', ingredients: ['tomato', 'egg'] }
+  })
+  assert.equal(unconfiguredAi.ok, false)
+  assert.equal(unconfiguredAi.code, 'AI_NOT_CONFIGURED')
+
+  process.env.HUNYUAN_API_KEY = 'test-key'
+  process.env.HUNYUAN_TEXT_MODEL = 'hunyuan-test-model'
+  const aiRecommendation = await askAi.main({
+    intent: 'recommend_today',
+    payload: { meal_slot: 'dinner', taste: 'light', ingredients: ['tomato', 'egg'], people_count: 1 }
+  })
+  assert.equal(aiRecommendation.ok, true)
+  assert.equal(aiRecommendation.model, 'hunyuan-test-model')
+  assert.equal(aiRecommendation.result.recommendations[0].title, 'Tomato Egg Noodle')
+  assert.equal(lastAiRequest.options.hostname, 'api.hunyuan.cloud.tencent.com')
+  assert.equal(lastAiRequest.body.messages[0].role, 'system')
+  assert.equal(collections.ai_recommendations.length, 1)
+  delete process.env.HUNYUAN_API_KEY
+  delete process.env.HUNYUAN_TEXT_MODEL
+
   const privateRecipe = await createRecipe.main({
     title: 'Soup',
     is_public: false
@@ -295,6 +375,7 @@ function resetDb() {
   currentOpenid = 'openid-user-1'
   idCounter = 1
   deletedFiles = []
+  lastAiRequest = null
 }
 
 function matches(record, condition) {
