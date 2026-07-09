@@ -64,12 +64,10 @@ page {
   position: absolute;
   left: 0;
   right: 0;
-  top: -30rpx;
-  height: 32rpx;
-  background-image: url('/assets/illustrations/nav-torn-edge.png');
-  background-repeat: no-repeat;
-  background-position: center bottom;
-  background-size: 100% 100%;
+  top: -2rpx;
+  height: 2rpx;
+  background-color: #ead5b6;
+  box-shadow: 0 -8rpx 18rpx rgba(112, 70, 38, 0.08);
 }
 
 .nav-item {
