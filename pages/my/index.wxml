@@ -1,6 +1,6 @@
 <view class="page-shell">
   <view class="profile-card paper-card paper-hero">
-    <view class="profile-tape"></view>
+    <image class="profile-tape" src="/assets/illustrations/tape-pink.png" mode="aspectFit" />
     <view class="avatar">
       <text class="avatar-text">我</text>
     </view>
@@ -20,6 +20,7 @@
   </view>
 
   <view class="feature-card paper-card my-recipes-card">
+    <image class="feature-tape" src="/assets/illustrations/tape-yellow.png" mode="aspectFit" />
     <image class="my-recipes-image" src="/assets/illustrations/my-recipes-pot.png" mode="aspectFit" />
     <view class="feature-copy">
       <text class="feature-title">我的菜谱</text>
@@ -29,6 +30,7 @@
   </view>
 
   <view class="feature-card paper-card plan-entry-card" bind:tap="onTapPlan">
+    <image class="feature-tape" src="/assets/illustrations/tape-green.png" mode="aspectFit" />
     <image class="feature-image" src="/assets/illustrations/empty-plan.png" mode="aspectFit" />
     <view class="feature-copy">
       <text class="feature-title">饮食计划</text>
@@ -38,6 +40,7 @@
   </view>
 
   <view class="feature-card paper-card ai-card">
+    <image class="feature-tape" src="/assets/illustrations/tape-pink.png" mode="aspectFit" />
     <image class="ai-image" src="/assets/illustrations/ai-chef.png" mode="aspectFit" />
     <view class="feature-copy">
       <text class="feature-title">AI 推荐</text>
@@ -47,7 +50,7 @@
   </view>
 
   <view class="menu-card paper-card">
-    <view class="menu-tape"></view>
+    <image class="menu-tape" src="/assets/illustrations/tape-green.png" mode="aspectFit" />
     <text class="menu-title">下一步功能</text>
     <view class="menu-line">
       <view class="menu-dot"></view>
@@ -64,7 +67,7 @@
   </view>
 
   <view class="draw-card paper-card">
-    <view class="draw-tape"></view>
+    <image class="draw-tape" src="/assets/illustrations/tape-yellow.png" mode="aspectFit" />
     <view class="draw-head">
       <view class="draw-copy">
         <text class="draw-eyebrow">选择困难救星</text>

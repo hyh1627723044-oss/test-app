@@ -21,7 +21,7 @@
 
   <view class="slot-list">
     <view class="slot-card paper-card slot-card-{{item.decor_type}}" wx:for="{{slots}}" wx:key="id">
-      <view class="slot-tape"></view>
+      <image class="slot-tape" src="/assets/illustrations/tape-{{item.tape_color}}.png" mode="aspectFit" />
       <view class="slot-decor">
         <view class="slot-decor-core"></view>
         <view class="slot-decor-leaf slot-decor-leaf-one"></view>

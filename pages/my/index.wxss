@@ -17,12 +17,10 @@
 
 .profile-tape {
   position: absolute;
-  left: 46rpx;
-  top: -14rpx;
-  width: 126rpx;
-  height: 32rpx;
-  border-radius: 10rpx;
-  background-color: rgba(217, 173, 120, 0.72);
+  left: 38rpx;
+  top: -25rpx;
+  width: 150rpx;
+  height: 66rpx;
   transform: rotate(-5deg);
 }
 
@@ -154,15 +152,12 @@
   overflow: hidden;
 }
 
-.feature-card::before {
-  content: '';
+.feature-tape {
   position: absolute;
-  left: 34rpx;
-  top: -12rpx;
-  width: 104rpx;
-  height: 30rpx;
-  border-radius: 10rpx;
-  background-color: rgba(217, 173, 120, 0.64);
+  left: 28rpx;
+  top: -23rpx;
+  width: 138rpx;
+  height: 60rpx;
   transform: rotate(-5deg);
 }
 
@@ -217,12 +212,10 @@
 
 .menu-tape {
   position: absolute;
-  right: 44rpx;
-  top: -13rpx;
-  width: 118rpx;
-  height: 30rpx;
-  border-radius: 10rpx;
-  background-color: rgba(217, 173, 120, 0.66);
+  right: 34rpx;
+  top: -24rpx;
+  width: 144rpx;
+  height: 62rpx;
   transform: rotate(4deg);
 }
 
@@ -281,12 +274,10 @@
 
 .draw-tape {
   position: absolute;
-  left: 52rpx;
-  top: -14rpx;
-  width: 126rpx;
-  height: 32rpx;
-  border-radius: 10rpx;
-  background-color: rgba(217, 173, 120, 0.66);
+  left: 42rpx;
+  top: -25rpx;
+  width: 150rpx;
+  height: 66rpx;
   transform: rotate(-4deg);
 }
 

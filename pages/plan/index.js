@@ -4,11 +4,11 @@ Page({
     dateText: '今天',
     planDate: '',
     slots: [
-      { id: 'breakfast', name: '早餐', time: '08:00', recipes: [], decor_type: 'sun' },
-      { id: 'lunch', name: '午餐', time: '12:00', recipes: [], decor_type: 'leaf' },
-      { id: 'afternoon_tea', name: '下午茶', time: '15:30', recipes: [], decor_type: 'flower' },
-      { id: 'dinner', name: '晚餐', time: '18:30', recipes: [], decor_type: 'star' },
-      { id: 'night_snack', name: '夜宵', time: '21:30', recipes: [], decor_type: 'moon' }
+      { id: 'breakfast', name: '早餐', time: '08:00', recipes: [], decor_type: 'sun', tape_color: 'yellow' },
+      { id: 'lunch', name: '午餐', time: '12:00', recipes: [], decor_type: 'leaf', tape_color: 'green' },
+      { id: 'afternoon_tea', name: '下午茶', time: '15:30', recipes: [], decor_type: 'flower', tape_color: 'pink' },
+      { id: 'dinner', name: '晚餐', time: '18:30', recipes: [], decor_type: 'star', tape_color: 'green' },
+      { id: 'night_snack', name: '夜宵', time: '21:30', recipes: [], decor_type: 'moon', tape_color: 'yellow' }
     ]
   },
 
@@ -83,11 +83,19 @@ Page({
           dinner: 'star',
           night_snack: 'moon'
         }
+        const tapeColorMap = {
+          breakfast: 'yellow',
+          lunch: 'green',
+          afternoon_tea: 'pink',
+          dinner: 'green',
+          night_snack: 'yellow'
+        }
         const slots = res.result.slots.map((slot) => ({
           id: slot.id,
           name: slot.name,
           time: timeMap[slot.id] || '',
           decor_type: decorMap[slot.id] || 'leaf',
+          tape_color: tapeColorMap[slot.id] || 'yellow',
           recipes: slot.items.map((item) => ({
             item_id: item._id,
             id: item.recipe_id,

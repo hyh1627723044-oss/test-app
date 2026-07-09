@@ -73,7 +73,7 @@
       data-id="{{item.id}}"
       bind:tap="onTapRecipe"
     >
-      <view class="card-tape"></view>
+      <image class="card-tape" src="/assets/illustrations/tape-{{item.tape_color}}.png" mode="aspectFit" />
       <view class="card-decor card-decor-{{item.decor_type}}">
         <view class="decor-petal decor-petal-one"></view>
         <view class="decor-petal decor-petal-two"></view>

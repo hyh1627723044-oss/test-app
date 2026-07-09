@@ -113,13 +113,12 @@
 
 .slot-tape {
   position: absolute;
-  left: 36rpx;
-  top: -14rpx;
-  width: 116rpx;
-  height: 32rpx;
-  border-radius: 10rpx;
-  background-color: rgba(217, 173, 120, 0.72);
+  left: 28rpx;
+  top: -25rpx;
+  width: 146rpx;
+  height: 64rpx;
   transform: rotate(-5deg);
+  z-index: 2;
 }
 
 .slot-decor {

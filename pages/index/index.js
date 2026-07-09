@@ -203,11 +203,13 @@ Page({
 
   withRecipeDecorations(recipes) {
     const decorTypes = ['flower', 'leaf', 'star']
+    const tapeColors = ['yellow', 'green', 'pink']
     return recipes.map((recipe, index) => {
       const key = recipe.id || recipe.title || String(index)
       const charTotal = key.split('').reduce((total, char) => total + char.charCodeAt(0), 0)
       return Object.assign({}, recipe, {
-        decor_type: decorTypes[charTotal % decorTypes.length]
+        decor_type: decorTypes[charTotal % decorTypes.length],
+        tape_color: tapeColors[charTotal % tapeColors.length]
       })
     })
   },

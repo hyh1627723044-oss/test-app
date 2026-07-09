@@ -230,12 +230,10 @@
 
 .card-tape {
   position: absolute;
-  left: 46rpx;
-  top: -16rpx;
-  width: 126rpx;
-  height: 34rpx;
-  border-radius: 10rpx;
-  background-color: rgba(217, 173, 120, 0.72);
+  left: 38rpx;
+  top: -25rpx;
+  width: 150rpx;
+  height: 66rpx;
   transform: rotate(-4deg);
   z-index: 2;
 }
