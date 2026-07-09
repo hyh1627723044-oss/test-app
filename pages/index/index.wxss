@@ -220,52 +220,55 @@
 
 .recipe-card {
   position: relative;
-  min-height: 450rpx;
-  padding: 18rpx 18rpx 20rpx;
+  min-height: 300rpx;
+  padding: 22rpx 24rpx;
   margin-bottom: 28rpx;
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: stretch;
+  overflow: visible;
 }
 
 .card-tape {
   position: absolute;
-  left: 38rpx;
-  top: -25rpx;
-  width: 150rpx;
+  left: 46rpx;
+  top: -26rpx;
+  width: 142rpx;
   height: 66rpx;
-  transform: rotate(-4deg);
+  transform: rotate(-9deg);
   z-index: 2;
 }
 
 .card-decor {
   position: absolute;
-  right: 24rpx;
-  top: 22rpx;
-  width: 82rpx;
-  height: 82rpx;
+  right: 28rpx;
+  top: 30rpx;
+  width: 74rpx;
+  height: 74rpx;
   z-index: 3;
 }
 
 .recipe-cover {
   position: relative;
-  width: 100%;
-  height: 260rpx;
-  border-radius: 24rpx;
+  width: 270rpx;
+  height: 244rpx;
+  border-radius: 16rpx;
   overflow: hidden;
   background-color: #f0c993;
   border: 1px solid #d7b17e;
+  flex-shrink: 0;
 }
 
 .recipe-cover-image {
-  width: 100%;
-  height: 260rpx;
+  width: 270rpx;
+  height: 244rpx;
 }
 
 .recipe-cover-empty {
   position: relative;
-  width: 100%;
-  height: 260rpx;
+  width: 270rpx;
+  height: 244rpx;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -275,11 +278,11 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 190rpx;
-  height: 190rpx;
-  margin-left: -95rpx;
-  margin-top: -95rpx;
-  border-radius: 95rpx;
+  width: 146rpx;
+  height: 146rpx;
+  margin-left: -73rpx;
+  margin-top: -73rpx;
+  border-radius: 76rpx;
   background-color: #fff6df;
   border: 5rpx solid #4b321f;
   box-shadow: 8rpx 8rpx 0 rgba(196, 105, 31, 0.28);
@@ -289,8 +292,8 @@
 }
 
 .recipe-cover-letter {
-  font-size: 82rpx;
-  line-height: 96rpx;
+  font-size: 64rpx;
+  line-height: 76rpx;
   color: #a75d23;
   font-weight: 600;
 }
@@ -336,47 +339,54 @@
   transform: rotate(-18deg) scaleX(-1);
 }
 
-.time-badge {
-  position: absolute;
-  right: 18rpx;
-  top: 18rpx;
-  padding: 8rpx 16rpx;
-  border-radius: 18rpx;
-  background-color: #fff6df;
-  border: 3rpx solid #4b321f;
-}
-
-.time-badge-text {
-  font-size: 23rpx;
-  color: #9a5d2f;
-  font-weight: 600;
-}
-
 .recipe-info {
-  padding: 20rpx 4rpx 0;
+  flex: 1;
+  min-width: 0;
+  padding: 18rpx 66rpx 0 28rpx;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
 }
 
-.recipe-title-row {
+.recipe-title {
+  display: block;
+  width: 100%;
+  font-size: 38rpx;
+  line-height: 48rpx;
+  color: #3b2718;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.time-line {
+  margin-top: 10rpx;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
 }
 
-.recipe-title {
-  flex: 1;
-  font-size: 36rpx;
-  color: #3b2718;
-  font-weight: 600;
+.time-icon {
+  margin-right: 8rpx;
+  font-size: 24rpx;
+  color: #6f5137;
+}
+
+.time-text {
+  font-size: 24rpx;
+  color: #6f5137;
 }
 
 .recipe-desc {
   margin-top: 10rpx;
-  font-size: 24rpx;
-  line-height: 34rpx;
+  font-size: 25rpx;
+  line-height: 36rpx;
   color: #72543d;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .recipe-meal {
@@ -390,7 +400,7 @@
 }
 
 .recipe-tag-row {
-  margin-top: 12rpx;
+  margin-top: 14rpx;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -406,29 +416,42 @@
 }
 
 .recipe-action-row {
-  margin-top: 14rpx;
+  margin-top: auto;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 }
 
-.recipe-note {
-  font-size: 23rpx;
-  color: #95745a;
+.action-divider {
+  position: absolute;
+  left: 322rpx;
+  right: 156rpx;
+  bottom: 82rpx;
+  height: 0;
+  border-top: 2rpx dashed #d7b88f;
 }
 
 .plan-btn {
-  min-width: 146rpx;
-  height: 56rpx;
-  padding: 0 18rpx;
+  min-width: 176rpx;
+  height: 58rpx;
+  padding: 0 20rpx;
   box-sizing: border-box;
-  border-radius: 20rpx;
+  border-radius: 22rpx;
   background-color: #ee8e36;
   border: 4rpx solid #4b321f;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
+  z-index: 4;
+}
+
+.plan-btn-icon {
+  margin-right: 10rpx;
+  font-size: 22rpx;
+  line-height: 24rpx;
+  color: #fff6df;
 }
 
 .plan-btn-text {

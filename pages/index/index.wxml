@@ -95,22 +95,21 @@
           </view>
         </view>
         </block>
-        <view class="time-badge">
-          <text class="time-badge-text">{{item.cook_time_minutes}} 分钟</text>
-        </view>
       </view>
       <view class="recipe-info">
-        <view class="recipe-title-row">
-          <text class="recipe-title">{{item.title}}</text>
-          <text class="recipe-meal">{{item.meal_types[0]}}</text>
+        <text class="recipe-title">{{item.title}}</text>
+        <view class="time-line">
+          <text class="time-icon">◷</text>
+          <text class="time-text">{{item.cook_time_minutes}} 分钟</text>
         </view>
         <text class="recipe-desc">{{item.description}}</text>
         <view class="recipe-tag-row" wx:if="{{item.tags.length > 0}}">
           <text class="recipe-tag" wx:for="{{item.tags}}" wx:key="*this">#{{item}}</text>
         </view>
         <view class="recipe-action-row">
-          <text class="recipe-note">适合加入今天的菜单</text>
+          <view class="action-divider"></view>
           <view class="plan-btn" data-id="{{item.id}}" catchtap="onTapAddToPlan">
+            <text class="plan-btn-icon">▣</text>
             <text class="plan-btn-text">加入计划</text>
           </view>
         </view>
