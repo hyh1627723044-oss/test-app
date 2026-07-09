@@ -315,6 +315,7 @@ async function main() {
   assert.equal(unsupportedAi.ok, false)
   assert.equal(unsupportedAi.code, 'AI_INTENT_UNSUPPORTED')
 
+  delete process.env.TENCENT_MAAS_API_KEY
   delete process.env.HUNYUAN_API_KEY
   const unconfiguredAi = await askAi.main({
     intent: 'recommend_today',
@@ -323,20 +324,35 @@ async function main() {
   assert.equal(unconfiguredAi.ok, false)
   assert.equal(unconfiguredAi.code, 'AI_NOT_CONFIGURED')
 
-  process.env.HUNYUAN_API_KEY = 'test-key'
-  process.env.HUNYUAN_TEXT_MODEL = 'hunyuan-test-model'
+  process.env.TENCENT_MAAS_API_KEY = 'test-key'
+  process.env.TENCENT_MAAS_BASE_URL = 'https://tokenhub.tencentmaas.com/v1'
+  process.env.TENCENT_MAAS_TEXT_MODEL = 'hy3-test'
   const aiRecommendation = await askAi.main({
     intent: 'recommend_today',
     payload: { meal_slot: 'dinner', taste: 'light', ingredients: ['tomato', 'egg'], people_count: 1 }
   })
   assert.equal(aiRecommendation.ok, true)
-  assert.equal(aiRecommendation.model, 'hunyuan-test-model')
+  assert.equal(aiRecommendation.model, 'hy3-test')
   assert.equal(aiRecommendation.result.recommendations[0].title, 'Tomato Egg Noodle')
-  assert.equal(lastAiRequest.options.hostname, 'api.hunyuan.cloud.tencent.com')
+  assert.equal(lastAiRequest.options.hostname, 'tokenhub.tencentmaas.com')
+  assert.equal(lastAiRequest.options.path, '/v1/chat/completions')
   assert.equal(lastAiRequest.body.messages[0].role, 'system')
   assert.equal(collections.ai_recommendations.length, 1)
-  delete process.env.HUNYUAN_API_KEY
-  delete process.env.HUNYUAN_TEXT_MODEL
+
+  const aiImageRecognition = await askAi.main({
+    intent: 'recognize_recipe_image',
+    payload: { image_url: 'https://example.com/dish.jpg', note: 'home cooking' }
+  })
+  assert.equal(aiImageRecognition.ok, true)
+  assert.equal(aiImageRecognition.model, 'hy-vision-2.0-instruct')
+  assert.equal(lastAiRequest.body.model, 'hy-vision-2.0-instruct')
+  assert.equal(Array.isArray(lastAiRequest.body.messages[1].content), true)
+  assert.equal(lastAiRequest.body.messages[1].content[1].type, 'image_url')
+  assert.equal(collections.ai_recommendations.length, 2)
+
+  delete process.env.TENCENT_MAAS_API_KEY
+  delete process.env.TENCENT_MAAS_BASE_URL
+  delete process.env.TENCENT_MAAS_TEXT_MODEL
 
   const privateRecipe = await createRecipe.main({
     title: 'Soup',

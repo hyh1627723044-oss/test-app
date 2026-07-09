@@ -57,14 +57,16 @@ deleteTag
 askAi
 ```
 
-AI 云函数默认使用混元 OpenAI 兼容接口，密钥不写入代码。开通后在云函数环境变量里配置：
+AI 云函数使用腾讯 MaaS 的 OpenAI 兼容接口，密钥不写入代码。请在微信云开发控制台的 `askAi` 云函数环境变量里配置：
 
 ```text
-HUNYUAN_API_KEY
-HUNYUAN_API_URL=https://api.hunyuan.cloud.tencent.com/v1/chat/completions
-HUNYUAN_TEXT_MODEL=hunyuan-turbos-latest
-HUNYUAN_VISION_MODEL=hunyuan-vision
+TENCENT_MAAS_API_KEY=重新生成的 API Key
+TENCENT_MAAS_BASE_URL=https://tokenhub.tencentmaas.com/v1
+TENCENT_MAAS_TEXT_MODEL=hy3
+TENCENT_MAAS_VISION_MODEL=hy-vision-2.0-instruct
 ```
+
+`TENCENT_MAAS_BASE_URL` 填示例中的 `baseURL` 即可，云函数会自动拼接 `/chat/completions`。不要把 API Key 写入小程序前端或提交到 Git。
 
 本地单元测试：
 

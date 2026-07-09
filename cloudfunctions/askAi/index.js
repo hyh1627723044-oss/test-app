@@ -5,9 +5,9 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 
 const db = cloud.database()
 
-const DEFAULT_API_URL = 'https://api.hunyuan.cloud.tencent.com/v1/chat/completions'
-const DEFAULT_TEXT_MODEL = 'hunyuan-turbos-latest'
-const DEFAULT_VISION_MODEL = 'hunyuan-vision'
+const DEFAULT_API_BASE_URL = 'https://tokenhub.tencentmaas.com/v1'
+const DEFAULT_TEXT_MODEL = 'hy3'
+const DEFAULT_VISION_MODEL = 'hy-vision-2.0-instruct'
 
 const INTENTS = {
   recommend_today: {
@@ -124,12 +124,12 @@ exports.main = async (event) => {
     return fail('AI_IMAGE_URL_REQUIRED', 'image_url is required for vision intent')
   }
 
-  const apiKey = process.env.HUNYUAN_API_KEY || process.env.AI_API_KEY || ''
+  const apiKey = process.env.TENCENT_MAAS_API_KEY || process.env.HUNYUAN_API_KEY || process.env.AI_API_KEY || ''
   if (!apiKey) {
-    return fail('AI_NOT_CONFIGURED', 'HUNYUAN_API_KEY is not configured')
+    return fail('AI_NOT_CONFIGURED', 'TENCENT_MAAS_API_KEY is not configured')
   }
 
-  const apiUrl = process.env.HUNYUAN_API_URL || process.env.AI_API_URL || DEFAULT_API_URL
+  const apiUrl = resolveApiUrl()
   const model = selectModel(config.modelType)
   const messages = buildMessages(config, payload)
 
@@ -160,9 +160,20 @@ exports.main = async (event) => {
 
 function selectModel(modelType) {
   if (modelType === 'vision') {
-    return process.env.HUNYUAN_VISION_MODEL || process.env.AI_VISION_MODEL || DEFAULT_VISION_MODEL
+    return process.env.TENCENT_MAAS_VISION_MODEL || process.env.HUNYUAN_VISION_MODEL || process.env.AI_VISION_MODEL || DEFAULT_VISION_MODEL
   }
-  return process.env.HUNYUAN_TEXT_MODEL || process.env.AI_TEXT_MODEL || DEFAULT_TEXT_MODEL
+  return process.env.TENCENT_MAAS_TEXT_MODEL || process.env.HUNYUAN_TEXT_MODEL || process.env.AI_TEXT_MODEL || DEFAULT_TEXT_MODEL
+}
+
+function resolveApiUrl() {
+  const configuredUrl = process.env.TENCENT_MAAS_BASE_URL ||
+    process.env.HUNYUAN_API_URL ||
+    process.env.AI_API_URL ||
+    DEFAULT_API_BASE_URL
+  const normalizedUrl = configuredUrl.replace(/\/+$/, '')
+  return normalizedUrl.endsWith('/chat/completions')
+    ? normalizedUrl
+    : normalizedUrl + '/chat/completions'
 }
 
 function buildMessages(config, payload) {

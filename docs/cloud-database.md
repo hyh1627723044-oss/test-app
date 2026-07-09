@@ -121,7 +121,7 @@
     "taste": "清淡",
     "ingredients": ["番茄", "鸡蛋"]
   },
-  "model": "hunyuan-turbos-latest",
+  "model": "hy3",
   "result": {
     "recommendations": []
   },
@@ -171,8 +171,10 @@ recognize_recipe_image   AI 根据图片识别菜品/食材，后续接入
 `askAi` 使用环境变量读取混元配置，不在前端和代码仓库保存 key：
 
 ```text
-HUNYUAN_API_KEY
-HUNYUAN_API_URL
-HUNYUAN_TEXT_MODEL
-HUNYUAN_VISION_MODEL
+TENCENT_MAAS_API_KEY
+TENCENT_MAAS_BASE_URL=https://tokenhub.tencentmaas.com/v1
+TENCENT_MAAS_TEXT_MODEL=hy3
+TENCENT_MAAS_VISION_MODEL=hy-vision-2.0-instruct
 ```
+
+云函数会为 `TENCENT_MAAS_BASE_URL` 自动拼接 `/chat/completions`。旧的 `HUNYUAN_*` 和通用 `AI_*` 环境变量仍可兼容使用。
