@@ -202,7 +202,7 @@ Page({
   },
 
   withRecipeDecorations(recipes) {
-    const decorTypes = ['flower', 'leaf', 'star']
+    const decorTypes = ['flower', 'leaf', 'star', 'moon']
     const tapeColors = ['yellow', 'green', 'pink']
     return recipes.map((recipe, index) => {
       const key = recipe.id || recipe.title || String(index)

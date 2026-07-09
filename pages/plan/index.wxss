@@ -6,7 +6,7 @@
 
 .head-decor {
   position: absolute;
-  border: 4rpx solid #2b2119;
+  border: 4rpx solid #4b321f;
   transform: rotate(24deg);
 }
 
@@ -16,7 +16,7 @@
   width: 18rpx;
   height: 18rpx;
   border-radius: 6rpx;
-  background-color: #f28b63;
+  background-color: #ee7f4b;
 }
 
 .head-decor-right {
@@ -25,12 +25,12 @@
   width: 38rpx;
   height: 24rpx;
   border-radius: 28rpx 6rpx 28rpx 6rpx;
-  background-color: #dfe9d7;
+  background-color: #d8dfa5;
 }
 
 .eyebrow {
   font-size: 24rpx;
-  color: #8a5a34;
+  color: #9a5d2f;
 }
 
 .page-title {
@@ -38,7 +38,7 @@
   margin-top: 10rpx;
   font-size: 48rpx;
   line-height: 58rpx;
-  color: #251b14;
+  color: #3b2718;
   font-weight: 600;
 }
 
@@ -47,7 +47,7 @@
   height: 7rpx;
   margin-top: 8rpx;
   border-radius: 8rpx;
-  background-color: #c87420;
+  background-color: #ee8e36;
   transform: rotate(-2deg);
 }
 
@@ -57,7 +57,7 @@
   width: 548rpx;
   font-size: 26rpx;
   line-height: 38rpx;
-  color: #755f4d;
+  color: #72543d;
 }
 
 .date-bar {
@@ -74,8 +74,8 @@
   padding: 0 20rpx;
   box-sizing: border-box;
   border-radius: 20rpx;
-  background-color: #fffaf1;
-  border: 2rpx solid #dec8ae;
+  background-color: #fff9e8;
+  border: 2rpx solid #cda978;
   display: flex;
   align-items: center;
 }
@@ -87,7 +87,7 @@
 .date-step-text,
 .date-current {
   font-size: 24rpx;
-  color: #6d4b31;
+  color: #7d4f2d;
 }
 
 .date-current {
@@ -125,98 +125,8 @@
   position: absolute;
   right: 24rpx;
   top: 18rpx;
-  width: 62rpx;
-  height: 62rpx;
-  opacity: 0.92;
-}
-
-.slot-decor-core,
-.slot-decor-leaf {
-  position: absolute;
-  border: 4rpx solid #2b2119;
-}
-
-.slot-card-sun .slot-decor-core {
-  left: 18rpx;
-  top: 18rpx;
-  width: 24rpx;
-  height: 24rpx;
-  border-radius: 16rpx;
-  background-color: #f7c85f;
-}
-
-.slot-card-flower .slot-decor-core {
-  left: 20rpx;
-  top: 18rpx;
-  width: 24rpx;
-  height: 24rpx;
-  border-radius: 12rpx;
-  background-color: #f28b63;
-  transform: rotate(24deg);
-}
-
-.slot-card-star .slot-decor-core {
-  left: 18rpx;
-  top: 16rpx;
-  width: 30rpx;
-  height: 30rpx;
-  border-radius: 10rpx;
-  background-color: #f7c85f;
-  transform: rotate(28deg);
-}
-
-.slot-card-leaf .slot-decor-core,
-.slot-card-moon .slot-decor-core {
-  display: none;
-}
-
-.slot-decor-leaf {
-  width: 34rpx;
-  height: 20rpx;
-  border-radius: 26rpx 4rpx 26rpx 4rpx;
-  background-color: #dfe9d7;
-}
-
-.slot-decor-leaf-one {
-  left: 6rpx;
-  top: 30rpx;
-  transform: rotate(-36deg);
-}
-
-.slot-decor-leaf-two {
-  left: 28rpx;
-  top: 22rpx;
-  transform: rotate(36deg) scaleX(-1);
-}
-
-.slot-card-sun .slot-decor-leaf,
-.slot-card-flower .slot-decor-leaf,
-.slot-card-star .slot-decor-leaf {
-  display: none;
-}
-
-.slot-card-moon .slot-decor::after {
-  content: '';
-  position: absolute;
-  left: 20rpx;
-  top: 12rpx;
-  width: 32rpx;
-  height: 32rpx;
-  border-radius: 20rpx;
-  background-color: #f7c85f;
-  border: 4rpx solid #2b2119;
-}
-
-.slot-card-moon .slot-decor::before {
-  content: '';
-  position: absolute;
-  left: 32rpx;
-  top: 8rpx;
-  width: 28rpx;
-  height: 36rpx;
-  border-radius: 20rpx;
-  background-color: #fffaf1;
-  z-index: 2;
+  width: 76rpx;
+  height: 76rpx;
 }
 
 .slot-left {
@@ -230,7 +140,7 @@
 
 .slot-time {
   font-size: 24rpx;
-  color: #8a5a34;
+  color: #9a5d2f;
   font-weight: 600;
 }
 
@@ -238,14 +148,14 @@
   margin-top: 8rpx;
   font-size: 36rpx;
   line-height: 44rpx;
-  color: #251b14;
+  color: #3b2718;
   font-weight: 600;
 }
 
 .slot-hint {
   margin-top: 8rpx;
   font-size: 20rpx;
-  color: #b8a695;
+  color: #a47b59;
 }
 
 .slot-content {
@@ -257,7 +167,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  border-left: 2rpx dashed #dec8ae;
+  border-left: 2rpx dashed #cda978;
   padding-left: 22rpx;
 }
 
@@ -266,8 +176,8 @@
   margin: 8rpx 10rpx 8rpx 0;
   padding: 12rpx 18rpx;
   border-radius: 18rpx;
-  background-color: #fff1dd;
-  border: 2rpx solid #e1c6a9;
+  background-color: #ffe2b5;
+  border: 2rpx solid #cfa46f;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -276,9 +186,9 @@
 .recipe-chip-action {
   margin-left: 14rpx;
   padding-left: 14rpx;
-  border-left: 1px dashed #d8bfa4;
+  border-left: 1px dashed #c89d68;
   font-size: 22rpx;
-  color: #a2672a;
+  color: #a76225;
   flex-shrink: 0;
 }
 
@@ -287,12 +197,12 @@
   height: 12rpx;
   margin-right: 10rpx;
   border-radius: 8rpx;
-  background-color: #c87420;
+  background-color: #ee8e36;
 }
 
 .recipe-chip-text {
   font-size: 26rpx;
-  color: #5d4939;
+  color: #63452f;
 }
 
 .empty-slot {
@@ -310,7 +220,7 @@
 
 .empty-text {
   font-size: 26rpx;
-  color: #a99b90;
+  color: #9e8068;
 }
 
 .choose-card {
@@ -331,7 +241,7 @@
 .choose-title {
   display: block;
   font-size: 30rpx;
-  color: #251b14;
+  color: #3b2718;
   font-weight: 600;
 }
 
@@ -340,7 +250,7 @@
   margin-top: 8rpx;
   font-size: 24rpx;
   line-height: 34rpx;
-  color: #756a60;
+  color: #72543d;
 }
 
 .choose-btn {
@@ -348,8 +258,8 @@
   height: 58rpx;
   margin-left: 18rpx;
   border-radius: 20rpx;
-  background-color: #c87420;
-  border: 4rpx solid #2b2119;
+  background-color: #ee8e36;
+  border: 4rpx solid #4b321f;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -358,6 +268,6 @@
 
 .choose-btn-text {
   font-size: 24rpx;
-  color: #fff8ef;
+  color: #fff6df;
   font-weight: 600;
 }

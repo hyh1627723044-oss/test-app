@@ -74,16 +74,7 @@
       bind:tap="onTapRecipe"
     >
       <image class="card-tape" src="/assets/illustrations/tape-{{item.tape_color}}.png" mode="aspectFit" />
-      <view class="card-decor card-decor-{{item.decor_type}}">
-        <view class="decor-petal decor-petal-one"></view>
-        <view class="decor-petal decor-petal-two"></view>
-        <view class="decor-petal decor-petal-three"></view>
-        <view class="decor-petal decor-petal-four"></view>
-        <view class="decor-center"></view>
-        <view class="decor-leaf decor-leaf-one"></view>
-        <view class="decor-leaf decor-leaf-two"></view>
-        <view class="decor-star-core"></view>
-      </view>
+      <image class="card-decor" src="/assets/illustrations/decor-{{item.decor_type}}.png" mode="aspectFit" />
       <view class="recipe-cover">
         <block wx:if="{{item.primary_cover_file_id}}">
         <image

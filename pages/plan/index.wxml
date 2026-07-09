@@ -22,11 +22,7 @@
   <view class="slot-list">
     <view class="slot-card paper-card slot-card-{{item.decor_type}}" wx:for="{{slots}}" wx:key="id">
       <image class="slot-tape" src="/assets/illustrations/tape-{{item.tape_color}}.png" mode="aspectFit" />
-      <view class="slot-decor">
-        <view class="slot-decor-core"></view>
-        <view class="slot-decor-leaf slot-decor-leaf-one"></view>
-        <view class="slot-decor-leaf slot-decor-leaf-two"></view>
-      </view>
+      <image class="slot-decor" src="/assets/illustrations/decor-{{item.decor_type}}.png" mode="aspectFit" />
       <view class="slot-left">
         <text class="slot-time">{{item.time}}</text>
         <text class="slot-name">{{item.name}}</text>

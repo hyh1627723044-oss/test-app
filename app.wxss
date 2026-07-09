@@ -1,8 +1,8 @@
 page {
   min-height: 100vh;
-  color: #2f2118;
-  background-color: #fff3df;
-  background-image: linear-gradient(180deg, #fff6e8 0%, #fff1dc 48%, #fff8ef 100%);
+  color: #3b2718;
+  background-color: #f8e6bd;
+  background-image: linear-gradient(180deg, #f9edcf 0%, #f5dfb4 48%, #fff6df 100%);
 }
 
 .page-shell {
@@ -13,21 +13,21 @@ page {
 
 .paper-card {
   box-sizing: border-box;
-  background-color: #fffaf1;
-  border: 3rpx solid #4a3325;
+  background-color: #fff9e8;
+  border: 3rpx solid #6f5137;
   border-radius: 30rpx;
-  box-shadow: 7rpx 8rpx 0 rgba(126, 84, 50, 0.16);
+  box-shadow: 7rpx 8rpx 0 rgba(112, 70, 38, 0.22);
 }
 
 .paper-hero {
-  background-color: #fff2dc;
-  border-color: #4a3325;
+  background-color: #f8dfb4;
+  border-color: #6f5137;
 }
 
 .paper-dashed-card {
   box-sizing: border-box;
-  background-color: rgba(255, 250, 241, 0.86);
-  border: 2rpx dashed #d8bfa4;
+  background-color: rgba(255, 246, 223, 0.94);
+  border: 2rpx dashed #c89d68;
   border-radius: 28rpx;
 }
 
@@ -40,7 +40,7 @@ page {
 .doodle-underline {
   height: 7rpx;
   border-radius: 8rpx;
-  background-color: #cf7b28;
+  background-color: #e8792c;
   transform: rotate(-2deg);
 }
 
@@ -52,8 +52,7 @@ page {
   height: 188rpx;
   padding: 14rpx 42rpx 22rpx;
   box-sizing: border-box;
-  background-color: rgba(255, 248, 239, 0.96);
-  border-top: 1px solid #eadccc;
+  background-color: #fff6df;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -65,11 +64,12 @@ page {
   position: absolute;
   left: 0;
   right: 0;
-  top: -18rpx;
-  height: 20rpx;
-  background-image: radial-gradient(circle at 24rpx 18rpx, transparent 0, transparent 20rpx, #eadccc 21rpx, transparent 22rpx);
-  background-size: 48rpx 20rpx;
-  opacity: 0.72;
+  top: -30rpx;
+  height: 32rpx;
+  background-image: url('/assets/illustrations/nav-torn-edge.png');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: 100% 100%;
 }
 
 .nav-item {
@@ -85,7 +85,7 @@ page {
 
 .nav-item-active {
   opacity: 1;
-  background-color: rgba(255, 222, 176, 0.72);
+  background-color: #f6bd67;
 }
 
 .nav-icon {
@@ -97,6 +97,6 @@ page {
   margin-top: 4rpx;
   font-size: 34rpx;
   line-height: 40rpx;
-  color: #4a3325;
+  color: #6f5137;
   font-weight: 500;
 }

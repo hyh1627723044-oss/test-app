@@ -4,10 +4,10 @@ Page({
     dateText: '今天',
     planDate: '',
     slots: [
-      { id: 'breakfast', name: '早餐', time: '08:00', recipes: [], decor_type: 'sun', tape_color: 'yellow' },
+      { id: 'breakfast', name: '早餐', time: '08:00', recipes: [], decor_type: 'flower', tape_color: 'yellow' },
       { id: 'lunch', name: '午餐', time: '12:00', recipes: [], decor_type: 'leaf', tape_color: 'green' },
-      { id: 'afternoon_tea', name: '下午茶', time: '15:30', recipes: [], decor_type: 'flower', tape_color: 'pink' },
-      { id: 'dinner', name: '晚餐', time: '18:30', recipes: [], decor_type: 'star', tape_color: 'green' },
+      { id: 'afternoon_tea', name: '下午茶', time: '15:30', recipes: [], decor_type: 'star', tape_color: 'pink' },
+      { id: 'dinner', name: '晚餐', time: '18:30', recipes: [], decor_type: 'moon', tape_color: 'green' },
       { id: 'night_snack', name: '夜宵', time: '21:30', recipes: [], decor_type: 'moon', tape_color: 'yellow' }
     ]
   },
@@ -77,11 +77,11 @@ Page({
           night_snack: '21:30'
         }
         const decorMap = {
-          breakfast: 'sun',
+          breakfast: 'flower',
           lunch: 'leaf',
-          afternoon_tea: 'flower',
-          dinner: 'star',
-          night_snack: 'moon'
+          afternoon_tea: 'star',
+          dinner: 'moon',
+          night_snack: 'flower'
         }
         const tapeColorMap = {
           breakfast: 'yellow',
