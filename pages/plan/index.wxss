@@ -270,7 +270,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .slot-tape {
@@ -281,6 +281,7 @@
   height: 64rpx;
   transform: rotate(-5deg);
   z-index: 2;
+  pointer-events: none;
 }
 
 .slot-decor {
@@ -289,6 +290,8 @@
   top: 18rpx;
   width: 76rpx;
   height: 76rpx;
+  z-index: 3;
+  pointer-events: none;
 }
 
 .slot-left {

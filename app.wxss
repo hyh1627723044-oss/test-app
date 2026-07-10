@@ -57,6 +57,8 @@ page {
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
+  z-index: 1000;
+  isolation: isolate;
 }
 
 .bottom-nav::before {
@@ -68,9 +70,12 @@ page {
   height: 2rpx;
   background-color: #ead5b6;
   box-shadow: 0 -8rpx 18rpx rgba(112, 70, 38, 0.08);
+  pointer-events: none;
 }
 
 .nav-item {
+  position: relative;
+  z-index: 1;
   width: 160rpx;
   height: 150rpx;
   border-radius: 34rpx;
