@@ -385,6 +385,23 @@ async function main() {
   assert.equal(forbiddenUpdate.ok, false)
   assert.equal(forbiddenUpdate.code, 'RECIPE_FORBIDDEN')
 
+  collections.admins.push({
+    _id: 'admin_user_2',
+    openid: 'openid-user-2',
+    role: 'admin',
+    is_active: true
+  })
+  const adminDetail = await getRecipe.main({ id: privateRecipe.id })
+  assert.equal(adminDetail.ok, true)
+  assert.equal(adminDetail.can_edit, true)
+  const adminUpdate = await updateRecipe.main({
+    id: recipeId,
+    title: 'Admin Updated Recipe',
+    is_public: true
+  })
+  assert.equal(adminUpdate.ok, true)
+  assert.equal(collections.recipes[0].title, 'Admin Updated Recipe')
+
   currentOpenid = 'openid-user-1'
   const deletedRecipe = await deleteRecipe.main({ id: recipeId })
   assert.equal(deletedRecipe.ok, true)

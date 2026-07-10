@@ -1,0 +1,42 @@
+<view class="page-shell">
+  <view class="manage-hero paper-card paper-hero">
+    <image class="manage-pot" src="/assets/illustrations/my-recipes-pot.png" mode="aspectFit" />
+    <view class="manage-copy">
+      <text class="manage-eyebrow">我的厨房</text>
+      <text class="manage-title">我上传的菜谱</text>
+      <text class="manage-desc">编辑做法、重新上传封面，或删除不再需要的菜谱。</text>
+    </view>
+  </view>
+
+  <view class="add-recipe-btn" bind:tap="onAddRecipe">
+    <text class="add-recipe-text">+ 添加新菜谱</text>
+  </view>
+
+  <view class="empty-state paper-card" wx:if="{{!loading && recipes.length === 0}}">
+    <image class="empty-image" src="/assets/illustrations/empty-recipes.png" mode="aspectFit" />
+    <text class="empty-title">这里还没有菜谱</text>
+    <text class="empty-desc">上传第一道菜，慢慢把自己的菜单填满。</text>
+  </view>
+
+  <view class="recipe-list" wx:if="{{recipes.length > 0}}">
+    <view class="manage-recipe paper-card" wx:for="{{recipes}}" wx:key="id" data-id="{{item.id}}" bind:tap="onViewRecipe">
+      <image class="manage-tape" src="/assets/illustrations/tape-{{item.tape_color}}.png" mode="aspectFit" />
+      <image class="manage-decor" src="/assets/illustrations/decor-{{item.decor_type}}.png" mode="aspectFit" />
+      <view class="manage-cover">
+        <image wx:if="{{item.primary_cover_file_id}}" class="manage-cover-image" src="{{item.primary_cover_file_id}}" mode="aspectFill" />
+        <view wx:else class="manage-cover-empty"><text>{{item.cover_letter}}</text></view>
+      </view>
+      <view class="manage-info">
+        <text class="manage-recipe-title">{{item.title}}</text>
+        <text class="manage-recipe-desc">{{item.description || '还没有写简介'}}</text>
+        <view class="manage-tags" wx:if="{{item.tags.length > 0}}">
+          <text class="manage-tag" wx:for="{{item.tags}}" wx:key="*this">#{{item}}</text>
+        </view>
+        <view class="manage-actions">
+          <view class="manage-action" data-id="{{item.id}}" catchtap="onEditRecipe"><text>编辑</text></view>
+          <view class="manage-action manage-action-danger" data-id="{{item.id}}" catchtap="onDeleteRecipe"><text>删除</text></view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

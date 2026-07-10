@@ -18,8 +18,9 @@ exports.main = async (event) => {
   }
 
   const recipe = result.data
-  if (recipe.owner_openid !== wxContext.OPENID) {
-    return fail('RECIPE_FORBIDDEN', 'recipe is not yours')
+  const isAdmin = await checkAdmin(wxContext.OPENID)
+  if (recipe.owner_openid !== wxContext.OPENID && !isAdmin) {
+    return fail('RECIPE_FORBIDDEN', 'recipe cannot be managed')
   }
 
   const coverImages = normalizeCoverImages(event.cover_images || recipe.cover_images || [])
@@ -50,10 +51,19 @@ exports.main = async (event) => {
   }
 
   await db.collection('recipes').doc(recipeId).update({ data: payload })
-  await syncUserTags(wxContext.OPENID, payload.tags)
+  await syncUserTags(recipe.owner_openid, payload.tags)
   await cleanupRemovedFiles(recipe.cover_images || [], coverImages)
 
   return { ok: true, id: recipeId }
+}
+
+async function checkAdmin(openid) {
+  const result = await db.collection('admins')
+    .where({ openid, role: 'admin' })
+    .limit(1)
+    .get()
+    .catch(() => ({ data: [] }))
+  return result.data.some((item) => item.is_active !== false)
 }
 
 async function syncUserTags(openid, tags) {

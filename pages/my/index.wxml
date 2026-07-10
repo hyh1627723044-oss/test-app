@@ -19,7 +19,7 @@
     </view>
   </view>
 
-  <view class="feature-card paper-card my-recipes-card">
+  <view class="feature-card paper-card my-recipes-card" bind:tap="onTapMyRecipes">
     <image class="feature-tape" src="/assets/illustrations/tape-yellow.png" mode="aspectFit" />
     <image class="my-recipes-image" src="/assets/illustrations/my-recipes-pot.png" mode="aspectFit" />
     <view class="feature-copy">

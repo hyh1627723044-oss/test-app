@@ -5,6 +5,7 @@
     "pages/recipe-edit/index",
     "pages/plan/index",
     "pages/my/index",
+    "pages/my-recipes/index",
     "pages/ai-recommend/index"
   ],
   "window": {

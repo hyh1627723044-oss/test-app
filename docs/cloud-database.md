@@ -17,12 +17,34 @@
 }
 ```
 
+### admins
+
+仅由云开发控制台维护，前端不直接写入。`openid` 与用户上传菜谱中的 `owner_openid` 一致。
+
+```json
+{
+  "_id": "admin_id",
+  "openid": "管理员微信 openid",
+  "role": "admin",
+  "is_active": true,
+  "created_at": "2026-07-10T10:00:00+08:00"
+}
+```
+
+云函数权限规则：公开菜谱所有人只读；菜谱作者和启用的管理员可编辑、删除；私有菜谱仅作者和管理员可读取。
+
+## 权限配置
+
+所有业务集合（尤其是 `recipes`、`admins`、`meal_plans`、`meal_plan_items`）在云开发控制台应设置为“仅云函数读写”。小程序通过云函数访问数据，不能直接访问数据库，否则客户端可以绕过作者和管理员校验。
+
+首次配置管理员时，在 `admins` 集合手动新增一条记录；`openid` 可从该用户已上传菜谱的 `owner_openid` 字段取得。
+
 ### recipes
 
 ```json
 {
   "_id": "recipe_id",
-  "owner_user_id": "user_id",
+  "owner_openid": "微信 openid",
   "title": "番茄炒蛋",
   "description": "十分钟快手家常菜",
   "primary_cover_file_id": "cloud://env/recipes/openid/recipe_id/cover-001.jpg",
@@ -143,11 +165,11 @@ recipes/{openid}/{recipe_id}/cover-002.jpg
 ## 云函数
 
 ```text
-listRecipes       查询公开菜谱和自己的菜谱
-getRecipe         查询菜品详情
+listRecipes       查询公开菜谱和自己的菜谱，返回是否可编辑
+getRecipe         查询菜品详情，返回作者/管理员编辑权限
 createRecipe      创建菜品，保存多张封面 file_id
-updateRecipe      更新自己的菜品，并清理被移除的旧封面 file_id
-deleteRecipe      软删除自己的菜品，并清理封面图
+updateRecipe      更新作者或管理员可管理的菜品，并清理被移除的旧封面 file_id
+deleteRecipe      软删除作者或管理员可管理的菜品，并清理封面图
 addMealPlanItem   把菜加入某天某餐
 updateMealPlanItem 修改某个计划项的餐次、备注、提醒
 deleteMealPlanItem 删除某个计划项

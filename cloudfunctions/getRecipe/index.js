@@ -32,7 +32,9 @@ async function getRecipe(event) {
   }
 
   const recipe = result.data
-  if (!recipe.is_public && recipe.owner_openid !== wxContext.OPENID) {
+  const isAdmin = await checkAdmin(wxContext.OPENID)
+  const canEdit = recipe.owner_openid === wxContext.OPENID || isAdmin
+  if (!recipe.is_public && !canEdit) {
     return fail('RECIPE_FORBIDDEN', 'recipe is not accessible')
   }
 
@@ -51,9 +53,20 @@ async function getRecipe(event) {
   return {
     ok: true,
     recipe: Object.assign({}, recipe, { id: recipe._id || recipeId }),
-    can_edit: recipe.owner_openid === wxContext.OPENID,
+    can_edit: canEdit,
+    can_delete: canEdit,
+    is_admin: isAdmin,
     is_favorited: favoriteResult.data.length > 0
   }
+}
+
+async function checkAdmin(openid) {
+  const result = await db.collection('admins')
+    .where({ openid, role: 'admin' })
+    .limit(1)
+    .get()
+    .catch(() => ({ data: [] }))
+  return result.data.some((item) => item.is_active !== false)
 }
 
 function fail(code, message) {

@@ -52,6 +52,10 @@ Page({
     wx.navigateTo({ url: '/pages/ai-recommend/index' })
   },
 
+  onTapMyRecipes() {
+    wx.navigateTo({ url: '/pages/my-recipes/index' })
+  },
+
   loadFavorites() {
     if (!wx.cloud) return
     wx.cloud.callFunction({

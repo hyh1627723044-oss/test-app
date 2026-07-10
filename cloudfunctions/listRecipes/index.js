@@ -12,9 +12,13 @@ exports.main = async (event) => {
   const mealType = String(event.meal_type || '').trim()
   const onlyMine = Boolean(event.only_mine)
   const wxContext = cloud.getWXContext()
+  const isAdmin = await checkAdmin(wxContext.OPENID)
+  const includePrivate = Boolean(event.include_private) && isAdmin
 
   const where = onlyMine
     ? { owner_openid: wxContext.OPENID }
+    : includePrivate
+      ? {}
     : _.or([
       { is_public: true },
       { owner_openid: wxContext.OPENID }
@@ -36,7 +40,7 @@ exports.main = async (event) => {
     .get()
 
   const visibleRecipes = result.data.filter((recipe) => !recipe.is_deleted)
-  const recipes = keyword
+  const matchedRecipes = keyword
     ? visibleRecipes.filter((recipe) => {
       const title = recipe.title || ''
       const description = recipe.description || ''
@@ -45,9 +49,21 @@ exports.main = async (event) => {
     })
     : visibleRecipes
 
-  return {
-    recipes
-  }
+  const recipes = matchedRecipes.map((recipe) => Object.assign({}, recipe, {
+    can_edit: recipe.owner_openid === wxContext.OPENID || isAdmin,
+    can_delete: recipe.owner_openid === wxContext.OPENID || isAdmin
+  }))
+
+  return { recipes, is_admin: isAdmin }
+}
+
+async function checkAdmin(openid) {
+  const result = await db.collection('admins')
+    .where({ openid, role: 'admin' })
+    .limit(1)
+    .get()
+    .catch(() => ({ data: [] }))
+  return result.data.some((item) => item.is_active !== false)
 }
 
 function clamp(value, min, max) {
