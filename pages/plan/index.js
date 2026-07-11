@@ -8,6 +8,7 @@ Page({
     aiPlanSending: false,
     aiPlanReply: '',
     aiPlanProposal: [],
+    aiPlanSelectedCount: 0,
     aiPlanHistory: [],
     myRecipes: [],
     slots: [
@@ -128,11 +129,13 @@ Page({
           .filter((item) => item.recipe_id && validIds.has(item.recipe_id) && slotLabels[item.meal_slot])
           .map((item) => ({
             ...item,
-            meal_slot_label: slotLabels[item.meal_slot] || item.meal_slot
+            meal_slot_label: slotLabels[item.meal_slot] || item.meal_slot,
+            selected: true
           }))
         this.setData({
           aiPlanReply: aiResult.assistant_message || '我先按你的情况排了这份计划，确认后再加入。',
           aiPlanProposal: proposal,
+          aiPlanSelectedCount: proposal.length,
           aiPlanHistory: this.data.aiPlanHistory.concat(
             { role: 'user', content: userMessage },
             {
@@ -156,11 +159,15 @@ Page({
   },
 
   onConfirmAiPlan() {
-    const proposal = this.data.aiPlanProposal
-    if (proposal.length === 0 || !wx.cloud) return
+    const proposal = this.data.aiPlanProposal.filter((item) => item.selected)
+    if (proposal.length === 0) {
+      wx.showToast({ title: '请先勾选要加入的推荐', icon: 'none' })
+      return
+    }
+    if (!wx.cloud) return
     wx.showModal({
       title: '确认加入计划',
-      content: '将这份 AI 建议加入 ' + this.data.planDate + ' 的饮食计划吗？',
+      content: '将选中的 ' + proposal.length + ' 项建议加入 ' + this.data.planDate + ' 的饮食计划吗？',
       success: (modalResult) => {
         if (!modalResult.confirm) return
         wx.showLoading({ title: '加入计划中' })
@@ -186,6 +193,7 @@ Page({
             showAiPlanner: false,
             aiPlanInput: '',
             aiPlanProposal: [],
+            aiPlanSelectedCount: 0,
             aiPlanReply: '',
             aiPlanHistory: []
           })
@@ -266,6 +274,18 @@ Page({
       fail: (error) => {
         console.error('[plan] getMealPlan failed', error)
       }
+    })
+  },
+
+  onToggleAiPlanItem(e) {
+    const index = Number(e.currentTarget.dataset.index)
+    if (!Number.isInteger(index) || !this.data.aiPlanProposal[index]) return
+    const proposal = this.data.aiPlanProposal.map((item, itemIndex) => (
+      itemIndex === index ? { ...item, selected: !item.selected } : item
+    ))
+    this.setData({
+      aiPlanProposal: proposal,
+      aiPlanSelectedCount: proposal.filter((item) => item.selected).length
     })
   },
 

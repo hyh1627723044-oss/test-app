@@ -22,8 +22,8 @@
   <view class="ai-plan-entry paper-card" bind:tap="onToggleAiPlanner">
     <image class="ai-plan-image" src="/assets/illustrations/ai-chef.png" mode="aspectFit" />
     <view class="ai-plan-entry-copy">
-      <text class="ai-plan-entry-title">AI 帮我排一天</text>
-      <text class="ai-plan-entry-desc">说说今天的情况，确认后再加入计划。</text>
+      <text class="ai-plan-entry-title">AI 帮我安排</text>
+      <text class="ai-plan-entry-desc">可以只问一餐，勾选满意的建议再加入。</text>
     </view>
     <text class="ai-plan-arrow">{{showAiPlanner ? '⌃' : '›'}}</text>
   </view>
@@ -46,7 +46,17 @@
       </view>
     </view>
     <view class="ai-plan-proposal" wx:if="{{aiPlanProposal.length > 0}}">
-      <view class="ai-plan-item" wx:for="{{aiPlanProposal}}" wx:key="meal_slot">
+      <view
+        class="ai-plan-item {{item.selected ? 'ai-plan-item-selected' : 'ai-plan-item-unselected'}}"
+        wx:for="{{aiPlanProposal}}"
+        wx:key="meal_slot"
+        data-index="{{index}}"
+        bind:tap="onToggleAiPlanItem"
+        aria-label="{{item.selected ? '取消选择' : '选择'}}{{item.title}}"
+      >
+        <view class="ai-plan-check {{item.selected ? 'ai-plan-check-selected' : ''}}">
+          <text wx:if="{{item.selected}}" class="ai-plan-check-mark">✓</text>
+        </view>
         <text class="ai-plan-slot">{{item.meal_slot_label}}</text>
         <view class="ai-plan-item-copy">
           <text class="ai-plan-dish">{{item.title}}</text>
@@ -54,7 +64,7 @@
         </view>
       </view>
       <view class="ai-plan-confirm" bind:tap="onConfirmAiPlan">
-        <text class="ai-plan-confirm-text">确认加入计划</text>
+        <text class="ai-plan-confirm-text">确认加入计划（{{aiPlanSelectedCount}}）</text>
       </view>
     </view>
   </view>

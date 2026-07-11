@@ -84,7 +84,7 @@
   margin-top: 16rpx;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .quick-tag-scroll {
@@ -133,15 +133,30 @@
   color: #fff6df;
 }
 
-.add-recipe-mini {
-  width: 136rpx;
-  height: 54rpx;
-  margin-left: 12rpx;
-  border-radius: 18rpx;
+.category-bar {
+  margin: 26rpx 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.category-strip {
+  width: 0;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.add-recipe-icon-btn {
+  width: 190rpx;
+  height: 58rpx;
+  margin-left: 16rpx;
+  padding: 0 18rpx;
+  border-radius: 22rpx;
   background-color: #ee8e36;
-  border: 4rpx solid #4b321f;
+  border: 2rpx solid #9a5727;
+  box-shadow: 0 3rpx 0 #d6a06b;
   box-sizing: border-box;
-  box-shadow: 4rpx 4rpx 0 #d7b88f;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -149,15 +164,23 @@
   flex-shrink: 0;
 }
 
-.add-recipe-mini-text {
-  font-size: 24rpx;
-  color: #fff6df;
-  font-weight: 600;
+.add-recipe-icon-btn:active {
+  transform: translateY(2rpx);
+  box-shadow: none;
 }
 
-.category-strip {
+.add-recipe-icon {
+  width: 38rpx;
+  height: 38rpx;
+  margin-right: 8rpx;
+  flex-shrink: 0;
+}
+
+.add-recipe-text {
+  color: #fff6df;
+  font-size: 24rpx;
+  font-weight: 600;
   white-space: nowrap;
-  margin: 26rpx 0;
 }
 
 .category-pill {
@@ -294,7 +317,7 @@
 .recipe-info {
   flex: 1;
   min-width: 0;
-  padding: 18rpx 66rpx 0 28rpx;
+  padding: 18rpx 66rpx 78rpx 28rpx;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -368,18 +391,22 @@
 }
 
 .recipe-action-row {
-  margin-top: auto;
+  position: absolute;
+  left: 322rpx;
+  right: 24rpx;
+  bottom: 24rpx;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+  z-index: 4;
 }
 
 .action-divider {
   position: absolute;
-  left: 322rpx;
-  right: 156rpx;
-  bottom: 82rpx;
+  left: 0;
+  right: 192rpx;
+  bottom: 28rpx;
   height: 0;
   border-top: 2rpx dashed #d7b88f;
 }
@@ -391,12 +418,17 @@
   box-sizing: border-box;
   border-radius: 22rpx;
   background-color: #ee8e36;
-  border: 4rpx solid #4b321f;
+  border: 2rpx solid #9a5727;
+  box-shadow: 0 3rpx 0 #d6a06b;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  z-index: 4;
+}
+
+.plan-btn:active {
+  transform: translateY(2rpx);
+  box-shadow: none;
 }
 
 .plan-btn-icon {

@@ -1,0 +1,13 @@
+{
+  "version": "2.0",
+  "functionRoot": "cloudfunctions",
+  "functions": [
+    {
+      "name": "askAi",
+      "handler": "index.main",
+      "runtime": "Nodejs18.15",
+      "timeout": 60,
+      "memorySize": 256
+    }
+  ]
+}

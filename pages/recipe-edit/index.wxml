@@ -137,7 +137,10 @@
       bind:input="onInputIngredients"
     />
 
-    <text class="field-label">做法步骤</text>
+    <view class="field-label-row">
+      <text class="field-label field-label-inline">做法步骤</text>
+      <text wx:if="{{aiGeneratedSteps}}" class="ai-generated-note">AI 生成，仅供参考</text>
+    </view>
     <textarea
       class="field-textarea field-textarea-tall"
       placeholder="一行一步：番茄切块，鸡蛋打散"

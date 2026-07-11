@@ -41,23 +41,26 @@
           </view>
         </view>
       </scroll-view>
-      <view class="add-recipe-mini" bind:tap="onTapAddRecipe">
-        <text class="add-recipe-mini-text">新菜谱</text>
-      </view>
     </view>
   </view>
 
-  <scroll-view class="category-strip" scroll-x>
-    <view
-      class="category-pill {{activeCategory === item ? 'category-pill-active' : ''}}"
-      wx:for="{{categories}}"
-      wx:key="*this"
-      data-name="{{item}}"
-      bind:tap="onTapCategory"
-    >
-      <text class="category-text">{{item}}</text>
+  <view class="category-bar">
+    <scroll-view class="category-strip" scroll-x>
+      <view
+        class="category-pill {{activeCategory === item ? 'category-pill-active' : ''}}"
+        wx:for="{{categories}}"
+        wx:key="*this"
+        data-name="{{item}}"
+        bind:tap="onTapCategory"
+      >
+        <text class="category-text">{{item}}</text>
+      </view>
+    </scroll-view>
+    <view class="add-recipe-icon-btn" bind:tap="onTapAddRecipe" aria-label="添加菜谱">
+      <image class="add-recipe-icon" src="/assets/illustrations/icon-recipe-add.png" mode="aspectFit" />
+      <text class="add-recipe-text">添加菜谱</text>
     </view>
-  </scroll-view>
+  </view>
 
   <view class="recipe-list">
     <view wx:if="{{displayRecipes.length === 0}}" class="empty-state paper-card">

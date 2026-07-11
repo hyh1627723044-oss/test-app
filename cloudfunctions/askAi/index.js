@@ -8,6 +8,7 @@ const db = cloud.database()
 const DEFAULT_API_BASE_URL = 'https://tokenhub.tencentmaas.com/v1'
 const DEFAULT_TEXT_MODEL = 'hy3'
 const DEFAULT_VISION_MODEL = 'hy-vision-2.0-instruct'
+const AI_REQUEST_TIMEOUT_MS = 50000
 
 const INTENTS = {
   recommend_today: {
@@ -59,14 +60,15 @@ const INTENTS = {
       assistant_message: 'string in Simplified Chinese',
       plan_date: 'YYYY-MM-DD',
       slots: [
-        { meal_slot: 'breakfast', recipe_id: 'id from existing_recipes', title: 'string in Simplified Chinese', reason: 'string in Simplified Chinese' },
-        { meal_slot: 'lunch', recipe_id: 'id from existing_recipes', title: 'string in Simplified Chinese', reason: 'string in Simplified Chinese' },
-        { meal_slot: 'dinner', recipe_id: 'id from existing_recipes', title: 'string in Simplified Chinese', reason: 'string in Simplified Chinese' }
+        { meal_slot: 'breakfast|lunch|afternoon_tea|dinner|night_snack', recipe_id: 'id from existing_recipes', title: 'string in Simplified Chinese', reason: 'string in Simplified Chinese' }
       ]
     },
     systemPrompt: [
       'You are a home meal planning assistant.',
-      'Generate a one-day meal plan using only recipes supplied in existing_recipes.',
+      'Generate recommendations only for requested_meal_slots when that list is not empty.',
+      'If requested_meal_slots contains only dinner, return dinner only. Never add breakfast or lunch to make a full-day plan.',
+      'Only generate a full-day plan when the user explicitly asks for a whole day, or when requested_meal_slots is empty.',
+      'Use only recipes supplied in existing_recipes.',
       'Every slot must preserve the exact recipe id from existing_recipes. Never invent recipe ids.',
       'Respond naturally to the latest user message before presenting the plan.',
       'All user-facing strings in the JSON must be Simplified Chinese.',
@@ -74,7 +76,7 @@ const INTENTS = {
     ].join(' '),
     userPrompt(payload) {
       return [
-        'Generate a one-day meal plan using only existing_recipes.',
+        'Generate meal recommendations using only existing_recipes.',
         'The JSON shape must be:',
         JSON.stringify(this.responseShape),
         'User conditions:',
@@ -82,6 +84,7 @@ const INTENTS = {
           user_message: String(payload.user_message || ''),
           conversation_history: normalizeHistory(payload.history),
           plan_date: payload.plan_date || '',
+          requested_meal_slots: detectRequestedMealSlots(payload.user_message),
           taste: payload.taste || '',
           avoid: normalizeStringList(payload.avoid || []),
           existing_recipes: Array.isArray(payload.existing_recipes) ? payload.existing_recipes.slice(0, 30) : []
@@ -94,23 +97,34 @@ const INTENTS = {
     responseShape: {
       title: 'string in Simplified Chinese',
       description: 'string in Simplified Chinese',
-      ingredients: ['string in Simplified Chinese'],
+      category: 'home_cooking|breakfast|drink|dessert|light_meal',
+      difficulty: 'easy|normal|hard',
+      cook_time_minutes: 'positive integer estimate',
+      servings: 'positive integer estimate',
+      meal_types: ['breakfast|lunch|afternoon_tea|dinner|night_snack'],
       tags: ['string in Simplified Chinese'],
+      calories: 'non-negative integer kcal estimate per serving',
+      ingredients: [{ name: 'string in Simplified Chinese', amount: 'string in Simplified Chinese' }],
+      steps: ['short cooking step in Simplified Chinese'],
       confidence: 'low|medium|high'
     },
     systemPrompt: [
       'You are a dish and ingredient image recognition assistant.',
-      'Identify possible dish title, ingredients, and tags from the image.',
-      'If uncertain, lower confidence and do not invent detailed cooking steps.',
+      'Fill a recipe form from the image: title, description, category, difficulty, cooking time, servings, suitable meal types, tags, calories, ingredients, and steps.',
+      'Use only the enum values provided in the requested JSON shape.',
+      'Cooking time, servings, calories, ingredient amounts, and steps are estimates. Keep them conservative and practical.',
+      'If the dish is uncertain, lower confidence and avoid overly specific claims.',
+      'Do not provide medical or therapeutic nutrition advice.',
       'All user-facing strings in the JSON must be Simplified Chinese.',
       'Return strict JSON only. No Markdown.'
     ].join(' '),
     userPrompt(payload) {
       return [
         { type: 'text', text: [
-          'Recognize this food or ingredient image and return JSON.',
+          'Recognize this food image and fill every field in the recipe form.',
           'The JSON shape must be:',
           JSON.stringify(this.responseShape),
+          'Prefer concise steps and common Chinese home-cooking measurements.',
           'User note: ' + String(payload.note || '')
         ].join('\n') },
         { type: 'image_url', image_url: { url: String(payload.image_url || '') } }
@@ -156,7 +170,13 @@ async function askAi(event) {
   const messages = buildMessages(config, payload)
 
   const startedAt = new Date()
-  const aiResult = await callChatCompletion({ apiUrl, apiKey, model, messages })
+  const aiResult = await callChatCompletion({
+    apiUrl,
+    apiKey,
+    model,
+    messages,
+    forceJsonResponse: config.modelType !== 'vision'
+  })
   const parsed = parseJsonContent(aiResult.content)
 
   await saveAiRecord({
@@ -210,17 +230,25 @@ async function resolveImageUrl(imageUrl) {
   if (!value.startsWith('cloud://')) return value
   const result = await cloud.getTempFileURL({ fileList: [value] })
   const file = result.fileList && result.fileList[0]
-  return file && file.tempFileURL ? file.tempFileURL : value
+  if (!file || !file.tempFileURL) {
+    throw new Error('failed to resolve cloud image url')
+  }
+  return file.tempFileURL
 }
 
-function callChatCompletion({ apiUrl, apiKey, model, messages }) {
+function callChatCompletion({ apiUrl, apiKey, model, messages, forceJsonResponse }) {
   const url = new URL(apiUrl)
-  const body = JSON.stringify({
+  const payload = {
     model,
     messages,
-    temperature: 0.7,
-    response_format: { type: 'json_object' }
-  })
+    temperature: 0.7
+  }
+
+  if (forceJsonResponse) {
+    payload.response_format = { type: 'json_object' }
+  }
+
+  const body = JSON.stringify(payload)
 
   const options = {
     method: 'POST',
@@ -258,6 +286,9 @@ function callChatCompletion({ apiUrl, apiKey, model, messages }) {
     })
 
     req.on('error', reject)
+    req.setTimeout(AI_REQUEST_TIMEOUT_MS, () => {
+      req.destroy(new Error('AI_UPSTREAM_TIMEOUT'))
+    })
     req.write(body)
     req.end()
   })
@@ -294,6 +325,18 @@ function normalizeHistory(history) {
     role: item && item.role === 'assistant' ? 'assistant' : 'user',
     content: String(item && item.content || '').slice(0, 500)
   })).filter((item) => item.content)
+}
+
+function detectRequestedMealSlots(message) {
+  const text = String(message || '').toLowerCase()
+  if (/全天|一整天|一天的|整日|full day|whole day/.test(text)) return []
+  const slots = []
+  if (/早餐|早饭|早晨|breakfast/.test(text)) slots.push('breakfast')
+  if (/午餐|午饭|中午|lunch/.test(text)) slots.push('lunch')
+  if (/下午茶|茶点|afternoon tea/.test(text)) slots.push('afternoon_tea')
+  if (/晚餐|晚饭|晚上|dinner|supper/.test(text)) slots.push('dinner')
+  if (/夜宵|宵夜|夜间加餐|night snack/.test(text)) slots.push('night_snack')
+  return slots
 }
 
 function fail(code, message) {

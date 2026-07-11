@@ -233,6 +233,20 @@
   margin: 0 0 12rpx;
 }
 
+.field-label-row {
+  margin-top: 22rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ai-generated-note {
+  margin-bottom: 12rpx;
+  font-size: 22rpx;
+  color: #a76225;
+}
+
 .more-tags {
   padding: 8rpx 16rpx;
   border-radius: 16rpx;

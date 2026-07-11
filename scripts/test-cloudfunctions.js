@@ -59,6 +59,49 @@ const httpsMock = {
     }
     req.end = () => {
       lastAiRequest = { options, body: JSON.parse(body) }
+      const isVisionRequest = lastAiRequest.body.model === 'hy-vision-2.0-instruct'
+      const isPlanRequest = !isVisionRequest && Array.isArray(lastAiRequest.body.messages) &&
+        String(lastAiRequest.body.messages[1] && lastAiRequest.body.messages[1].content || '').includes('requested_meal_slots')
+      const responseContent = isVisionRequest
+        ? {
+            title: '麻辣香锅',
+            description: '香辣下饭的家常菜',
+            category: 'home_cooking',
+            difficulty: 'normal',
+            cook_time_minutes: 30,
+            servings: 2,
+            meal_types: ['lunch', 'dinner'],
+            tags: ['麻辣', '下饭'],
+            calories: 520,
+            ingredients: [{ name: '鸡肉', amount: '300克' }],
+            steps: ['鸡肉切块并腌制', '炒香调料后翻炒至熟'],
+            confidence: 'high'
+          }
+        : isPlanRequest
+          ? {
+              assistant_message: '为你推荐一份清淡晚餐。',
+              plan_date: '2026-07-12',
+              slots: [
+                {
+                  meal_slot: 'dinner',
+                  recipe_id: 'recipe_1',
+                  title: '番茄炒蛋',
+                  reason: '清淡家常'
+                }
+              ]
+            }
+          : {
+            recommendations: [
+              {
+                title: 'Tomato Egg Noodle',
+                reason: 'Uses existing ingredients and is quick.',
+                tags: ['quick', 'family'],
+                meal_slot: 'dinner',
+                cook_time_minutes: 12,
+                difficulty: 'easy'
+              }
+            ]
+          }
       const res = new EventEmitter()
       res.statusCode = 200
       res.setEncoding = () => {}
@@ -68,18 +111,7 @@ const httpsMock = {
           choices: [
             {
               message: {
-                content: JSON.stringify({
-                  recommendations: [
-                    {
-                      title: 'Tomato Egg Noodle',
-                      reason: 'Uses existing ingredients and is quick.',
-                      tags: ['quick', 'family'],
-                      meal_slot: 'dinner',
-                      cook_time_minutes: 12,
-                      difficulty: 'easy'
-                    }
-                  ]
-                })
+                content: JSON.stringify(responseContent)
               }
             }
           ],
@@ -87,6 +119,13 @@ const httpsMock = {
         }))
         res.emit('end')
       })
+    }
+    req.setTimeout = (timeout, callback) => {
+      req.timeout = timeout
+      req.timeoutCallback = callback
+    }
+    req.destroy = (error) => {
+      req.emit('error', error)
     }
     req.on = EventEmitter.prototype.on.bind(req)
     return req
@@ -353,7 +392,22 @@ async function main() {
   assert.equal(lastAiRequest.options.path, '/v1/chat/completions')
   assert.equal(lastAiRequest.body.messages[0].role, 'system')
   assert.equal(lastAiRequest.body.messages[1].content.includes('I want a light hot dish.'), true)
+  assert.deepEqual(lastAiRequest.body.response_format, { type: 'json_object' })
   assert.equal(collections.ai_recommendations.length, 1)
+
+  const dinnerPlan = await askAi.main({
+    intent: 'generate_plan',
+    payload: {
+      user_message: '晚餐想吃清淡一点',
+      plan_date: '2026-07-12',
+      existing_recipes: [{ id: 'recipe_1', title: '番茄炒蛋' }]
+    }
+  })
+  assert.equal(dinnerPlan.ok, true)
+  assert.equal(dinnerPlan.result.slots.length, 1)
+  assert.equal(dinnerPlan.result.slots[0].meal_slot, 'dinner')
+  assert.equal(lastAiRequest.body.messages[1].content.includes('"requested_meal_slots":["dinner"]'), true)
+  assert.equal(lastAiRequest.body.messages[0].content.includes('return dinner only'), true)
 
   const aiImageRecognition = await askAi.main({
     intent: 'recognize_recipe_image',
@@ -365,7 +419,18 @@ async function main() {
   assert.equal(Array.isArray(lastAiRequest.body.messages[1].content), true)
   assert.equal(lastAiRequest.body.messages[1].content[1].type, 'image_url')
   assert.equal(lastAiRequest.body.messages[1].content[1].image_url.url, 'https://temp.example.com/dish.jpg')
-  assert.equal(collections.ai_recommendations.length, 2)
+  assert.equal(lastAiRequest.body.response_format, undefined)
+  assert.equal(lastAiRequest.options.method, 'POST')
+  assert.equal(aiImageRecognition.result.category, 'home_cooking')
+  assert.equal(aiImageRecognition.result.difficulty, 'normal')
+  assert.equal(aiImageRecognition.result.cook_time_minutes, 30)
+  assert.equal(aiImageRecognition.result.servings, 2)
+  assert.deepEqual(aiImageRecognition.result.meal_types, ['lunch', 'dinner'])
+  assert.equal(aiImageRecognition.result.calories, 520)
+  assert.equal(aiImageRecognition.result.ingredients[0].amount, '300克')
+  assert.equal(aiImageRecognition.result.steps.length, 2)
+  assert.equal(lastAiRequest.body.messages[1].content[0].text.includes('cook_time_minutes'), true)
+  assert.equal(collections.ai_recommendations.length, 3)
 
   delete process.env.TENCENT_MAAS_API_KEY
   delete process.env.TENCENT_MAAS_BASE_URL

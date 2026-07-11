@@ -68,6 +68,8 @@ TENCENT_MAAS_VISION_MODEL=hy-vision-2.0-instruct
 
 `TENCENT_MAAS_BASE_URL` 填示例中的 `baseURL` 即可，云函数会自动拼接 `/chat/completions`。不要把 API Key 写入小程序前端或提交到 Git。
 
+`askAi` 会调用外部视觉模型，请在云开发控制台把该函数的超时时间设置为至少 `60 秒`。仓库中的 `cloudbaserc.json` 也已为 CLI 部署声明相同的超时时间。
+
 前端 AI 入口：
 
 - `我的 -> AI 推荐`：自由对话推荐今天吃什么。

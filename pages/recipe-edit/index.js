@@ -31,14 +31,28 @@ Page({
       '下饭',
       '家常',
       '高蛋白',
-      '早餐',
+      '麻辣',
       '清淡',
       '饮品',
+      '早餐',
       '甜口',
+      '香辣',
+      '微辣',
+      '酸辣',
+      '酸甜',
+      '咸香',
+      '蒜香',
+      '鲜香',
       '适合带饭',
       '儿童友好',
       '冰箱清库存',
       '少油',
+      '素食',
+      '减脂',
+      '一人食',
+      '汤羹',
+      '烘焙',
+      '宴客',
       '暖胃',
       '夏天',
       '夜宵'
@@ -49,7 +63,7 @@ Page({
       '下饭',
       '家常',
       '高蛋白',
-      '早餐',
+      '麻辣',
       '清淡',
       '饮品'
     ],
@@ -63,7 +77,8 @@ Page({
     calories: '',
     isPublic: true,
     coverImages: [],
-    aiRecognizing: false
+    aiRecognizing: false,
+    aiGeneratedSteps: false
   },
 
   onLoad(options) {
@@ -195,7 +210,7 @@ Page({
   },
 
   onInputSteps(e) {
-    this.setData({ stepsText: e.detail.value })
+    this.setData({ stepsText: e.detail.value, aiGeneratedSteps: false })
   },
 
   onChangeCategory(e) {
@@ -256,6 +271,7 @@ Page({
     wx.chooseMedia({
       count: 9,
       mediaType: ['image'],
+      sizeType: ['compressed'],
       success: (res) => {
         const coverImages = res.tempFiles.map((file, index) => ({
           temp_file_path: file.tempFilePath,
@@ -282,20 +298,30 @@ Page({
           intent: 'recognize_recipe_image',
           payload: {
             image_url: fileId,
-            note: '请识别菜品，并提取适合菜谱表单的菜名、简介、食材和标签。'
+            note: '请完整填写菜谱表单；耗时、份量、热量、食材用量和步骤允许合理估算。'
           }
         }
       }))
       .then((res) => {
         const result = res.result
-        if (!result || !result.ok) throw new Error('AI recognition failed')
+        if (!result || !result.ok) {
+          const code = result && result.code ? result.code : 'AI_RECOGNITION_FAILED'
+          console.error('[recipe-edit] askAi recognition returned error', result)
+          throw new Error(code)
+        }
         this.applyAiRecognition(result.result || {})
         wx.hideLoading()
         wx.showToast({ title: '已识别，可继续修改', icon: 'success' })
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error('[recipe-edit] askAi recognition failed', error)
         wx.hideLoading()
-        wx.showToast({ title: '图片识别失败', icon: 'none' })
+        const message = String(error && (error.errMsg || error.message) || '')
+        const isTimeout = /timeout|AI_UPSTREAM_TIMEOUT|FUNCTION.*TIME.*LIMIT/i.test(message)
+        wx.showToast({
+          title: isTimeout ? '识别超时，请重试' : '图片识别失败',
+          icon: 'none'
+        })
       })
       .finally(() => {
         this.setData({ aiRecognizing: false })
@@ -333,11 +359,34 @@ Page({
     const tags = Array.isArray(result.tags)
       ? result.tags.map((item) => String(item).trim()).filter(Boolean)
       : []
+    const steps = Array.isArray(result.steps)
+      ? result.steps.map((item) => String(item).trim()).filter(Boolean)
+      : []
+    const categoryIndex = this.data.categoryOptions.findIndex((item) => item.value === result.category)
+    const difficultyIndex = this.data.difficultyOptions.findIndex((item) => item.value === result.difficulty)
+    const validMealTypes = Array.isArray(result.meal_types)
+      ? result.meal_types.map((item) => String(item)).filter(Boolean)
+      : []
+    const mealTypes = this.data.mealTypes.map((item) => ({
+      ...item,
+      selected: validMealTypes.indexOf(item.id) >= 0
+    }))
+    const cookTime = toPositiveIntegerString(result.cook_time_minutes)
+    const servings = toPositiveIntegerString(result.servings)
+    const calories = toNonNegativeIntegerString(result.calories)
     this.setData({
       title: result.title || this.data.title,
       description: result.description || this.data.description,
+      categoryIndex: categoryIndex >= 0 ? categoryIndex : this.data.categoryIndex,
+      difficultyIndex: difficultyIndex >= 0 ? difficultyIndex : this.data.difficultyIndex,
+      cookTime: cookTime || this.data.cookTime,
+      servings: servings || this.data.servings,
+      mealTypes: validMealTypes.length > 0 ? mealTypes : this.data.mealTypes,
+      calories: calories || this.data.calories,
       ingredientsText: ingredients.length > 0 ? ingredients.join('\n') : this.data.ingredientsText,
-      selectedTags: Array.from(new Set(this.data.selectedTags.concat(tags)))
+      stepsText: steps.length > 0 ? steps.join('\n') : this.data.stepsText,
+      selectedTags: Array.from(new Set(this.data.selectedTags.concat(tags))),
+      aiGeneratedSteps: steps.length > 0
     })
   },
 
@@ -477,3 +526,13 @@ Page({
     return path.substring(index)
   }
 })
+
+function toPositiveIntegerString(value) {
+  const number = Math.round(Number(value))
+  return Number.isFinite(number) && number > 0 ? String(number) : ''
+}
+
+function toNonNegativeIntegerString(value) {
+  const number = Math.round(Number(value))
+  return Number.isFinite(number) && number >= 0 ? String(number) : ''
+}
