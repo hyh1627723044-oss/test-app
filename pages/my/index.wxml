@@ -49,23 +49,6 @@
     <text class="feature-arrow">›</text>
   </view>
 
-  <view class="menu-card paper-card">
-    <image class="menu-tape" src="/assets/illustrations/tape-green.png" mode="aspectFit" />
-    <text class="menu-title">下一步功能</text>
-    <view class="menu-line">
-      <view class="menu-dot"></view>
-      <text class="menu-line-text">云开发登录与 openid</text>
-    </view>
-    <view class="menu-line">
-      <view class="menu-dot"></view>
-      <text class="menu-line-text">上传菜品封面图列表</text>
-    </view>
-    <view class="menu-line">
-      <view class="menu-dot"></view>
-      <text class="menu-line-text">AI 推荐菜品和饮品</text>
-    </view>
-  </view>
-
   <view class="draw-card paper-card">
     <image class="draw-tape" src="/assets/illustrations/tape-yellow.png" mode="aspectFit" />
     <view class="draw-head">

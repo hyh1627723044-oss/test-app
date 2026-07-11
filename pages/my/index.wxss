@@ -1,7 +1,6 @@
 .profile-card,
 .stats,
-.feature-card,
-.menu-card {
+.feature-card {
   box-sizing: border-box;
 }
 
@@ -203,68 +202,6 @@
   font-size: 50rpx;
   color: #9a5d2f;
   flex-shrink: 0;
-}
-
-.menu-card {
-  position: relative;
-  margin-top: 24rpx;
-  padding: 30rpx 28rpx 22rpx;
-  overflow: visible;
-}
-
-.menu-tape {
-  position: absolute;
-  right: 34rpx;
-  top: -24rpx;
-  width: 144rpx;
-  height: 62rpx;
-  transform: rotate(4deg);
-  pointer-events: none;
-}
-
-.menu-title {
-  display: block;
-  margin-bottom: 18rpx;
-  font-size: 34rpx;
-  color: #3b2718;
-  font-weight: 600;
-}
-
-.menu-title::after {
-  content: '';
-  display: block;
-  width: 130rpx;
-  height: 6rpx;
-  margin-top: 8rpx;
-  border-radius: 8rpx;
-  background-color: #ee8e36;
-  transform: rotate(-2deg);
-}
-
-.menu-line {
-  min-height: 58rpx;
-  border-bottom: 1px dashed #cda978;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.menu-line:last-child {
-  border-bottom: 0;
-}
-
-.menu-dot {
-  width: 14rpx;
-  height: 14rpx;
-  margin-right: 14rpx;
-  border-radius: 10rpx;
-  background-color: #ee8e36;
-  flex-shrink: 0;
-}
-
-.menu-line-text {
-  font-size: 27rpx;
-  color: #5b3c29;
 }
 
 .draw-card {
