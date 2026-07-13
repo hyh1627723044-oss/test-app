@@ -1,6 +1,6 @@
-from app.models.category import Category
-from app.models.order import Order, OrderItem, OrderStatus
-from app.models.product import Product
+from app.models.favorite import Favorite
+from app.models.plan import MealPlan, MealPlanItem
+from app.models.recipe import Recipe, Tag
 from app.models.user import User
 
-__all__ = ["Category", "Order", "OrderItem", "OrderStatus", "Product", "User"]
+__all__ = ["Favorite", "MealPlan", "MealPlanItem", "Recipe", "Tag", "User"]

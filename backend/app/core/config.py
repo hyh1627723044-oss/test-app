@@ -5,12 +5,16 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    app_name: str = "Ordering API"
+    app_name: str = "Recipe Meal Planner API"
     app_env: str = "development"
-    database_url: str = "sqlite:///./app.db"
+    database_url: str = "postgresql+psycopg://recipe:recipe@localhost:5432/recipe_planner"
     jwt_secret: str = "change-me-in-production"
     access_token_expire_minutes: int = 60 * 24 * 30
     backend_cors_origins: str = Field(default="*", alias="BACKEND_CORS_ORIGINS")
+    tencent_maas_api_key: str = ""
+    tencent_maas_base_url: str = "https://tokenhub.tencentmaas.com/v1"
+    tencent_maas_text_model: str = "hy3"
+    tencent_maas_vision_model: str = "hy-vision-2.0-instruct"
 
     model_config = SettingsConfigDict(
         env_file=".env",

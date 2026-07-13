@@ -6,6 +6,7 @@ class UserRead(BaseModel):
     openid: str
     nickname: str
     avatar_url: str
+    is_admin: bool
 
     model_config = ConfigDict(from_attributes=True)
 
