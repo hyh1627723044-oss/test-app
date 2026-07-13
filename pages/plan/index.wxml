@@ -1,6 +1,6 @@
 <view class="page-shell">
   <view class="plan-head paper-card paper-hero">
-    <image class="plan-head-illustration" src="/assets/illustrations/empty-plan.png" mode="aspectFit" />
+    <image class="plan-head-illustration" src="/assets/illustrations/plan-header.png" mode="aspectFit" />
     <text class="eyebrow">{{dateText}}</text>
     <text class="page-title">今日计划</text>
     <view class="title-underline"></view>
@@ -135,7 +135,7 @@
 
   <view class="bottom-nav">
     <view class="nav-item" data-id="recipes" bind:tap="onTapTab">
-      <image class="nav-icon" src="/assets/illustrations/tab-recipes.png" mode="aspectFit" />
+      <image class="nav-icon nav-icon-recipes" src="/assets/illustrations/tab-recipes.png" mode="aspectFit" />
       <text class="nav-label">菜单</text>
     </view>
     <view class="nav-item nav-item-active" data-id="plan" bind:tap="onTapTab">

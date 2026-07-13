@@ -124,7 +124,7 @@
 
   <view class="bottom-nav">
     <view class="nav-item" data-id="recipes" bind:tap="onTapTab">
-      <image class="nav-icon" src="/assets/illustrations/tab-recipes.png" mode="aspectFit" />
+      <image class="nav-icon nav-icon-recipes" src="/assets/illustrations/tab-recipes.png" mode="aspectFit" />
       <text class="nav-label">菜单</text>
     </view>
     <view class="nav-item" data-id="plan" bind:tap="onTapTab">

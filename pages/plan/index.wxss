@@ -6,9 +6,9 @@
 
 .plan-head-illustration {
   position: absolute;
-  right: 22rpx;
-  top: 20rpx;
-  width: 142rpx;
+  right: 16rpx;
+  top: 18rpx;
+  width: 168rpx;
   height: 142rpx;
   opacity: 0.96;
   transform: rotate(3deg);
@@ -42,7 +42,7 @@
 .page-desc {
   display: block;
   margin-top: 18rpx;
-  width: 488rpx;
+  width: 458rpx;
   font-size: 26rpx;
   line-height: 38rpx;
   color: #72543d;
