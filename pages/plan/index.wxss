@@ -1,31 +1,18 @@
 .plan-head {
   position: relative;
-  padding: 36rpx 30rpx 30rpx;
+  padding: 34rpx 30rpx 28rpx;
   overflow: hidden;
 }
 
-.head-decor {
+.plan-head-illustration {
   position: absolute;
-  border: 4rpx solid #4b321f;
-  transform: rotate(24deg);
-}
-
-.head-decor-left {
-  right: 118rpx;
-  top: 26rpx;
-  width: 18rpx;
-  height: 18rpx;
-  border-radius: 6rpx;
-  background-color: #ee7f4b;
-}
-
-.head-decor-right {
-  right: 44rpx;
-  top: 34rpx;
-  width: 38rpx;
-  height: 24rpx;
-  border-radius: 28rpx 6rpx 28rpx 6rpx;
-  background-color: #d8dfa5;
+  right: 22rpx;
+  top: 20rpx;
+  width: 142rpx;
+  height: 142rpx;
+  opacity: 0.96;
+  transform: rotate(3deg);
+  pointer-events: none;
 }
 
 .eyebrow {
@@ -36,6 +23,7 @@
 .page-title {
   display: block;
   margin-top: 10rpx;
+  width: 470rpx;
   font-size: 48rpx;
   line-height: 58rpx;
   color: #3b2718;
@@ -54,14 +42,14 @@
 .page-desc {
   display: block;
   margin-top: 18rpx;
-  width: 548rpx;
+  width: 488rpx;
   font-size: 26rpx;
   line-height: 38rpx;
   color: #72543d;
 }
 
 .date-bar {
-  margin-top: 24rpx;
+  margin-top: 28rpx;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

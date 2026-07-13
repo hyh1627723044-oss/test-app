@@ -6,8 +6,8 @@
 
 .profile-card {
   position: relative;
-  min-height: 190rpx;
-  padding: 30rpx 28rpx;
+  min-height: 196rpx;
+  padding: 32rpx 30rpx;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -16,62 +16,47 @@
 
 .profile-tape {
   position: absolute;
-  left: 38rpx;
+  left: 32rpx;
   top: -25rpx;
-  width: 150rpx;
+  width: 142rpx;
   height: 66rpx;
   transform: rotate(-5deg);
   pointer-events: none;
 }
 
-.profile-heart {
+.profile-decor {
   position: absolute;
-  right: 34rpx;
-  top: 34rpx;
-  width: 24rpx;
-  height: 24rpx;
-  background-color: #ee7f4b;
-  border: 4rpx solid #4b321f;
-  border-radius: 18rpx 18rpx 4rpx 18rpx;
-  transform: rotate(45deg);
-}
-
-.profile-heart::before {
-  content: '';
-  position: absolute;
-  left: -12rpx;
-  top: 0;
-  width: 24rpx;
-  height: 24rpx;
-  border-radius: 18rpx;
-  background-color: #ee7f4b;
-  border-left: 4rpx solid #4b321f;
-  border-bottom: 4rpx solid #4b321f;
+  right: 24rpx;
+  top: 22rpx;
+  width: 58rpx;
+  height: 72rpx;
+  opacity: 0.82;
+  transform: rotate(14deg);
+  pointer-events: none;
 }
 
 .avatar {
-  width: 112rpx;
-  height: 112rpx;
-  border-radius: 58rpx;
-  background-color: #ee8e36;
-  border: 5rpx solid #4b321f;
-  box-shadow: 6rpx 6rpx 0 rgba(196, 105, 31, 0.30);
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 32rpx;
+  background-color: #fff6df;
+  border: 2rpx solid #cda978;
+  box-shadow: 5rpx 5rpx 0 rgba(196, 105, 31, 0.18);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
 }
 
-.avatar-text {
-  font-size: 40rpx;
-  color: #fff6df;
-  font-weight: 600;
+.avatar-image {
+  width: 102rpx;
+  height: 102rpx;
 }
 
 .profile-copy {
   flex: 1;
-  padding-left: 24rpx;
-  padding-right: 52rpx;
+  padding-left: 26rpx;
+  padding-right: 60rpx;
 }
 
 .eyebrow {
@@ -83,8 +68,8 @@
 
 .profile-name {
   display: block;
-  font-size: 42rpx;
-  line-height: 52rpx;
+  font-size: 40rpx;
+  line-height: 50rpx;
   color: #3b2718;
   font-weight: 600;
 }

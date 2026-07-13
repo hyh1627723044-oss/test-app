@@ -1,7 +1,6 @@
 <view class="page-shell">
   <view class="plan-head paper-card paper-hero">
-    <view class="head-decor head-decor-left"></view>
-    <view class="head-decor head-decor-right"></view>
+    <image class="plan-head-illustration" src="/assets/illustrations/empty-plan.png" mode="aspectFit" />
     <text class="eyebrow">{{dateText}}</text>
     <text class="page-title">今日计划</text>
     <view class="title-underline"></view>
