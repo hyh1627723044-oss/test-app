@@ -1,0 +1,33 @@
+page {
+  min-height: 100%;
+  color: #3b2718;
+  background: linear-gradient(180deg, #f9edcf 0%, #f5dfb4 48%, #fff6df 100%);
+  font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+.page-shell {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 42rpx 28rpx 214rpx;
+}
+
+.paper-card {
+  box-sizing: border-box;
+  background: #fff9e8;
+  border: 3rpx solid #6f5137;
+  border-radius: 30rpx;
+  box-shadow: 7rpx 8rpx 0 rgba(112, 70, 38, 0.22);
+}
+
+.paper-hero { background: #f8dfb4; }
+
+.doodle-underline {
+  width: 180rpx;
+  height: 8rpx;
+  margin-top: 12rpx;
+  border-radius: 99rpx;
+  background: #e8792c;
+  transform: rotate(-2deg);
+}
+
+.bottom-safe-space { height: 20rpx; }
