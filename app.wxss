@@ -7,7 +7,7 @@ page {
 
 .page-shell {
   min-height: 100vh;
-  padding: 28rpx 28rpx 184rpx;
+  padding: 28rpx 28rpx 142rpx;
   box-sizing: border-box;
 }
 
@@ -49,8 +49,8 @@ page {
   left: 0;
   right: 0;
   bottom: 0;
-  height: 164rpx;
-  padding: 10rpx 42rpx 14rpx;
+  height: 124rpx;
+  padding: 2rpx 42rpx 6rpx;
   box-sizing: border-box;
   background-color: #fff6df;
   display: flex;
@@ -76,9 +76,9 @@ page {
 .nav-item {
   position: relative;
   z-index: 1;
-  width: 148rpx;
-  height: 136rpx;
-  border-radius: 28rpx;
+  width: 142rpx;
+  height: 114rpx;
+  border-radius: 24rpx;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -92,20 +92,20 @@ page {
 }
 
 .nav-icon {
-  width: 88rpx;
-  height: 76rpx;
+  width: 82rpx;
+  height: 68rpx;
 }
 
 .nav-icon-recipes {
-  width: 104rpx;
-  height: 82rpx;
+  width: 94rpx;
+  height: 74rpx;
   margin-bottom: -4rpx;
 }
 
 .nav-label {
   margin-top: 0;
-  font-size: 30rpx;
-  line-height: 34rpx;
+  font-size: 28rpx;
+  line-height: 32rpx;
   color: #6f5137;
   font-weight: 500;
 }
