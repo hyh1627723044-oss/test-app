@@ -2,6 +2,8 @@
 .agents/
 .DS_Store
 node_modules/
+.npm-cache/
+app_frontend/dist/
 miniprogram_npm/
 project.private.config.json
 skills-lock.json
@@ -15,3 +17,4 @@ backend/*.db
 backend/*.sqlite3
 .gocache/
 .gomodcache/
+go_backend/uploads/

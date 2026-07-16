@@ -31,6 +31,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /api/health", h.Health)
 	mux.HandleFunc("POST /api/auth/dev-login", h.DevLogin)
+	mux.Handle("/uploads/", http.StripPrefix("/uploads/", http.FileServer(http.Dir("uploads"))))
 
 	protected := http.NewServeMux()
 	protected.HandleFunc("GET /api/recipes", h.ListRecipes)
@@ -50,6 +51,7 @@ func main() {
 	protected.HandleFunc("DELETE /api/favorites/{id}", h.DeleteFavorite)
 	protected.HandleFunc("POST /api/ai/recommend-today", h.RecommendToday)
 	protected.HandleFunc("POST /api/ai/recognize-recipe", h.RecognizeRecipe)
+	protected.HandleFunc("POST /api/uploads/images", h.UploadImage)
 	mux.Handle("/api/", httpx.AuthMiddleware(conn, cfg.JWTSecret, protected))
 
 	server := &http.Server{

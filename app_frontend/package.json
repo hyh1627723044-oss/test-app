@@ -9,12 +9,13 @@
     "build:app": "uni build -p app"
   },
   "dependencies": {
-    "@dcloudio/uni-app": "^3.0.0-4060520260629001",
-    "@dcloudio/uni-app-plus": "^3.0.0-4060520260629001",
-    "vue": "^3.5.13"
+    "@dcloudio/uni-app": "3.0.0-5010520260709002",
+    "@dcloudio/uni-app-plus": "3.0.0-5010520260709002",
+    "vue": "3.4.21"
   },
   "devDependencies": {
-    "@dcloudio/vite-plugin-uni": "^3.0.0-4060520260629001",
-    "vite": "^5.4.11"
+    "@dcloudio/vite-plugin-uni": "3.0.0-5010520260709002",
+    "sass": "^1.101.0",
+    "vite": "5.2.8"
   }
 }

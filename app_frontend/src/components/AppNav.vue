@@ -12,7 +12,7 @@
 defineProps({ active: { type: String, required: true } })
 
 const items = [
-  { id: 'recipes', label: '菜谱', icon: '/static/illustrations/tab-recipes.png', path: '/pages/recipes/index' },
+  { id: 'recipes', label: '菜单', icon: '/static/illustrations/tab-recipes.png', path: '/pages/recipes/index' },
   { id: 'plan', label: '计划', icon: '/static/illustrations/tab-plan.png', path: '/pages/plan/index' },
   { id: 'my', label: '我的', icon: '/static/illustrations/tab-my.png', path: '/pages/my/index' },
 ]

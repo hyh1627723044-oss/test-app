@@ -1,9 +1,47 @@
 <template>
   <view class="page-shell">
-    <view class="profile paper-card paper-hero"><image class="tape" src="/static/illustrations/tape-pink.png" mode="aspectFit" /><view class="avatar">我</view><view><text class="eyebrow">我的厨房</text><text class="name">体验用户</text><text class="profile-desc">管理我的菜谱和饮食计划。</text></view><text class="heart">♥</text></view>
-    <view class="stats paper-card"><view v-for="item in stats" :key="item.label"><text>{{ item.value }}</text><text>{{ item.label }}</text></view></view>
-    <view v-for="item in features" :key="item.title" class="feature paper-card"><image class="feature-tape" :src="`/static/illustrations/tape-${item.tape}.png`" mode="aspectFit" /><image :src="item.image" mode="aspectFit" /><view><text class="feature-title">{{ item.title }}</text><text class="feature-desc">{{ item.desc }}</text></view><text class="arrow">›</text></view>
-    <view class="draw paper-card"><image class="feature-tape" src="/static/illustrations/tape-yellow.png" mode="aspectFit" /><text class="eyebrow">选择困难救星</text><text class="draw-title">今天随机吃什么？</text><text class="draw-desc">从我的菜谱里抽一道，可以先按标签缩小池子。</text><view class="mode-row"><text :class="{ active: mode === 'wheel' }" @tap="mode = 'wheel'">转盘</text><text :class="{ active: mode === 'gacha' }" @tap="mode = 'gacha'">扭蛋</text></view><view class="draw-stage"><image :src="mode === 'wheel' ? '/static/illustrations/random-wheel.png' : '/static/illustrations/gacha-machine.png'" mode="aspectFit" /></view><button>开始抽菜</button></view>
+    <view class="profile paper-card paper-hero">
+      <image class="tape" src="/static/illustrations/tape-pink.png" mode="aspectFit" />
+      <view class="avatar">我</view>
+      <view>
+        <text class="eyebrow">我的厨房</text>
+        <text class="name">体验用户</text>
+        <text class="profile-desc">管理我的菜谱和饮食计划。</text>
+      </view>
+      <text class="heart">♡</text>
+    </view>
+
+    <view class="stats paper-card">
+      <view v-for="item in stats" :key="item.label">
+        <text>{{ item.value }}</text>
+        <text>{{ item.label }}</text>
+      </view>
+    </view>
+
+    <view v-for="item in features" :key="item.title" class="feature paper-card">
+      <image class="feature-tape" :src="`/static/illustrations/tape-${item.tape}.png`" mode="aspectFit" />
+      <image :src="item.image" mode="aspectFit" />
+      <view>
+        <text class="feature-title">{{ item.title }}</text>
+        <text class="feature-desc">{{ item.desc }}</text>
+      </view>
+      <text class="arrow">›</text>
+    </view>
+
+    <view class="draw paper-card">
+      <image class="feature-tape" src="/static/illustrations/tape-yellow.png" mode="aspectFit" />
+      <text class="eyebrow">选择困难救星</text>
+      <text class="draw-title">今天随机吃什么？</text>
+      <text class="draw-desc">从我的菜谱里抽一道，可以先按标签缩小池子。</text>
+      <view class="mode-row">
+        <text :class="{ active: mode === 'wheel' }" @tap="mode = 'wheel'">转盘</text>
+        <text :class="{ active: mode === 'gacha' }" @tap="mode = 'gacha'">扭蛋</text>
+      </view>
+      <view class="draw-stage">
+        <image :src="mode === 'wheel' ? '/static/illustrations/random-wheel.png' : '/static/illustrations/gacha-machine.png'" mode="aspectFit" />
+      </view>
+      <button>开始抽菜</button>
+    </view>
     <AppNav active="my" />
   </view>
 </template>
@@ -11,6 +49,7 @@
 <script setup>
 import { ref } from 'vue'
 import AppNav from '../../components/AppNav.vue'
+
 const mode = ref('wheel')
 const stats = [{ value: 3, label: '我的菜谱' }, { value: 2, label: '收藏菜品' }, { value: 2, label: '今日安排' }]
 const features = [
