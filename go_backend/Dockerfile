@@ -1,6 +1,10 @@
 ARG DOCKER_IMAGE_PREFIX=docker.io/library
+ARG GOPROXY=https://goproxy.cn,direct
 
 FROM ${DOCKER_IMAGE_PREFIX}/golang:1.24-alpine AS builder
+
+ARG GOPROXY
+ENV GOPROXY=${GOPROXY}
 
 WORKDIR /src
 COPY go.mod go.sum* ./
