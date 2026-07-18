@@ -1,33 +1,62 @@
 services:
   postgres:
-    image: postgres:16-alpine
+    image: ${DOCKER_IMAGE_PREFIX:-docker.io/library}/postgres:16-alpine
     environment:
-      POSTGRES_DB: recipe_planner
-      POSTGRES_USER: recipe
-      POSTGRES_PASSWORD: recipe
+      POSTGRES_DB: ${POSTGRES_DB:-recipe_planner}
+      POSTGRES_USER: ${POSTGRES_USER:-recipe}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-recipe}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U recipe -d recipe_planner"]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}",
+        ]
       interval: 5s
       timeout: 3s
       retries: 20
     restart: unless-stopped
 
   api:
-    build: .
+    build:
+      context: .
+      args:
+        DOCKER_IMAGE_PREFIX: ${DOCKER_IMAGE_PREFIX:-docker.io/library}
     ports:
-      - "8080:8080"
-    env_file:
-      - ./.env.example
+      - "${API_PORT:-8080}:8080"
     environment:
-      DATABASE_URL: postgres://recipe:recipe@postgres:5432/recipe_planner?sslmode=disable
+      APP_ENV: ${APP_ENV:-development}
+      HTTP_ADDR: :8080
+      DATABASE_URL: postgres://${POSTGRES_USER:-recipe}:${POSTGRES_PASSWORD:-recipe}@postgres:5432/${POSTGRES_DB:-recipe_planner}?sslmode=disable
+      JWT_SECRET: ${JWT_SECRET:-local-development-secret}
+      TENCENT_MAAS_API_KEY: ${TENCENT_MAAS_API_KEY:-}
+      TENCENT_MAAS_BASE_URL: ${TENCENT_MAAS_BASE_URL:-https://tokenhub.tencentmaas.com/v1}
+      TENCENT_MAAS_TEXT_MODEL: ${TENCENT_MAAS_TEXT_MODEL:-hy3}
+      TENCENT_MAAS_VISION_MODEL: ${TENCENT_MAAS_VISION_MODEL:-hy-vision-2.0-instruct}
+    volumes:
+      - uploads_data:/app/uploads
     depends_on:
       postgres:
         condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--quiet",
+          "--tries=1",
+          "--spider",
+          "http://127.0.0.1:8080/api/health",
+        ]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
     restart: unless-stopped
 
 volumes:
   postgres_data:
+  uploads_data:
