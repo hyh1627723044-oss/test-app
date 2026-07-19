@@ -1,0 +1,16 @@
+ARG DOCKER_IMAGE_PREFIX=docker.io/library
+
+FROM ${DOCKER_IMAGE_PREFIX}/node:20-alpine AS builder
+
+WORKDIR /src
+COPY app_frontend/package.json app_frontend/package-lock.json ./
+RUN npm ci --registry=https://registry.npmmirror.com
+
+COPY app_frontend/ ./
+ARG VITE_API_BASE_URL=https://api.suaji.online
+RUN VITE_API_BASE_URL="${VITE_API_BASE_URL}" npm run build:h5
+
+FROM ${DOCKER_IMAGE_PREFIX}/caddy:2-alpine
+
+COPY go_backend/Caddyfile /etc/caddy/Caddyfile
+COPY --from=builder /src/dist/build/h5 /srv

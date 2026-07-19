@@ -1,0 +1,10 @@
+.git
+.agent
+.agents
+**/.env
+**/node_modules
+app_frontend/dist
+app_frontend/unpackage
+go_backend/uploads
+*.bundle
+*.log

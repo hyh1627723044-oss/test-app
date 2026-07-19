@@ -1,0 +1,14 @@
+{$SITE_DOMAIN:suaji.online} {
+	root * /srv
+	encode zstd gzip
+	try_files {path} /index.html
+	file_server
+}
+
+www.{$SITE_DOMAIN:suaji.online} {
+	redir https://{$SITE_DOMAIN:suaji.online}{uri} permanent
+}
+
+{$API_DOMAIN:api.suaji.online} {
+	reverse_proxy api:8080
+}

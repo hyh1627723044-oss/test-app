@@ -18,3 +18,4 @@ backend/*.sqlite3
 .gocache/
 .gomodcache/
 go_backend/uploads/
+*.bundle
