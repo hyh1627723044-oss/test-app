@@ -1,12 +1,12 @@
 <template>
-  <view class="page-shell">
+  <view class="page-shell plan-page">
     <view class="plan-head paper-card paper-hero">
       <image class="head-decor left" src="/static/illustrations/decor-flower.png" mode="aspectFit" />
       <image class="head-decor right" src="/static/illustrations/decor-leaf.png" mode="aspectFit" />
       <text class="eyebrow">今天</text>
       <text class="title">今日计划</text>
       <view class="doodle-underline" />
-      <text class="desc">把想吃的菜安排到早餐、午餐、晚餐，也可以加下午茶和夜宵。</text>
+      <text class="desc">像写手账一样，把想吃的菜排进今天。</text>
       <view class="date-row">
         <button size="mini" class="date-button" @tap="shiftDay(-1)">前一天</button>
         <view class="date-value">{{ planDate }}</view>
@@ -14,7 +14,7 @@
       </view>
     </view>
 
-    <view class="ai-entry paper-card">
+    <view class="ai-entry paper-soft">
       <image src="/static/illustrations/ai-chef.png" mode="aspectFit" />
       <view>
         <text class="ai-title">AI 帮我排一天</text>
@@ -23,30 +23,45 @@
       <text class="arrow">›</text>
     </view>
 
-    <view v-if="loadError" class="notice paper-card">
+    <view v-if="loadError" class="notice paper-soft">
       <text>后端暂时没有连上，正在展示本地示例计划。</text>
     </view>
 
-    <view v-for="slot in slots" :key="slot.name" class="slot-card paper-card">
-      <image class="slot-tape" :src="`/static/illustrations/tape-${slot.tape}.png`" mode="aspectFit" />
-      <image class="slot-decor" :src="`/static/illustrations/decor-${slot.decor}.png`" mode="aspectFit" />
-      <view class="slot-label">
-        <text class="slot-time">{{ slot.time }}</text>
-        <text class="slot-name">{{ slot.name }}</text>
-        <text>今日便签</text>
-      </view>
-      <view v-if="slot.items.length" class="planned-list">
-        <view v-for="item in slot.items" :key="item.id" class="planned">
-          <image v-if="item.recipe_image_url" class="planned-cover" :src="item.recipe_image_url" mode="aspectFill" />
-          <view v-else class="planned-cover fallback"><text>{{ item.recipe_title }}</text></view>
-          <view class="recipe-pill">{{ item.recipe_title }}</view>
+    <view class="timeline">
+      <view v-for="slot in slots" :key="slot.name" class="timeline-row">
+        <view class="time-rail">
+          <view class="rail-line" />
+          <view class="rail-dot" :class="{ filled: slot.items.length }" />
+          <text class="slot-time">{{ slot.time }}</text>
+          <text class="slot-name">{{ slot.name }}</text>
+        </view>
+
+        <view class="slot-note paper-soft">
+          <image class="slot-tape" :src="`/static/illustrations/tape-${slot.tape}.png`" mode="aspectFit" />
+          <image class="slot-decor" :src="`/static/illustrations/decor-${slot.decor}.png`" mode="aspectFit" />
+
+          <view v-if="slot.items.length" class="planned-list">
+            <view v-for="item in slot.items" :key="item.id" class="planned">
+              <image v-if="item.recipe_image_url" class="planned-cover" :src="item.recipe_image_url" mode="aspectFill" />
+              <view v-else class="planned-cover fallback"><text>{{ item.recipe_title }}</text></view>
+              <view class="planned-copy">
+                <text class="planned-title">{{ item.recipe_title }}</text>
+                <text class="planned-subtitle">已经安排好啦</text>
+              </view>
+            </view>
+          </view>
+
+          <view v-else class="empty-slot">
+            <image src="/static/illustrations/empty-plan.png" mode="aspectFit" />
+            <view>
+              <text class="empty-title">还没安排</text>
+              <text class="empty-desc">去菜单挑一道喜欢的菜。</text>
+            </view>
+          </view>
         </view>
       </view>
-      <view v-else class="empty-slot">
-        <image src="/static/illustrations/empty-plan.png" mode="aspectFit" />
-        <text>还没安排</text>
-      </view>
     </view>
+
     <view class="choose paper-card" @tap="goRecipes">
       <text>还想加一道？</text>
       <button size="mini">去选菜</button>
@@ -112,8 +127,52 @@ function formatDate(date) {
 </script>
 
 <style lang="scss" scoped>
-.plan-head { position: relative; padding: 32rpx 30rpx; overflow: hidden; }.head-decor { position: absolute; width: 66rpx; height: 66rpx; }.head-decor.left { top: 18rpx; right: 132rpx; }.head-decor.right { top: 22rpx; right: 38rpx; }.eyebrow { color: #9a5d2f; font-size: 24rpx; }.title { display: block; margin-top: 10rpx; font-size: 48rpx; font-weight: 700; }.desc { display: block; margin-top: 18rpx; color: #72543d; font-size: 26rpx; line-height: 38rpx; }.date-row { display: flex; align-items: center; justify-content: space-between; margin-top: 26rpx; }.date-button,.date-value { margin: 0; border: 2rpx dashed #d7b88f; border-radius: 18rpx; background: #fff9e8; color: #72543d; font-size: 24rpx; }.date-value { padding: 14rpx 34rpx; border-style: solid; }
-.ai-entry { display: flex; align-items: center; gap: 16rpx; margin: 24rpx 0; padding: 16rpx 20rpx; }.ai-entry image { width: 92rpx; height: 92rpx; }.ai-entry view { flex: 1; }.ai-title,.ai-desc { display: block; }.ai-title { font-size: 30rpx; font-weight: 700; }.ai-desc { margin-top: 6rpx; color: #72543d; font-size: 22rpx; }.arrow { color: #a76225; font-size: 42rpx; }
+.plan-page { padding-left: 24rpx; padding-right: 24rpx; }
+.plan-head { position: relative; padding: 34rpx 32rpx 30rpx; overflow: hidden; }
+.head-decor { position: absolute; width: 68rpx; height: 68rpx; }
+.head-decor.left { top: 22rpx; right: 136rpx; }
+.head-decor.right { top: 24rpx; right: 42rpx; }
+.eyebrow { color: #a4642e; font-size: 24rpx; font-weight: 700; }
+.title { display: block; margin-top: 10rpx; font-size: 50rpx; font-weight: 800; color: #2f2118; }
+.desc { display: block; margin-top: 18rpx; color: #6f523c; font-size: 26rpx; line-height: 38rpx; }
+.date-row { display: flex; align-items: center; justify-content: space-between; margin-top: 28rpx; }
+.date-button,.date-value { margin: 0; border: 2rpx dashed #cda16c; border-radius: 18rpx; background: #fff8df; color: #6f523c; font-size: 24rpx; }
+.date-value { min-width: 210rpx; padding: 14rpx 26rpx; text-align: center; border-style: solid; font-weight: 700; }
+
+.ai-entry { display: flex; align-items: center; gap: 16rpx; margin: 24rpx 0 30rpx; padding: 16rpx 20rpx; }
+.ai-entry image { width: 92rpx; height: 92rpx; }
+.ai-entry view { flex: 1; }
+.ai-title,.ai-desc { display: block; }
+.ai-title { font-size: 30rpx; font-weight: 800; color: #2f2118; }
+.ai-desc { margin-top: 6rpx; color: #7a614e; font-size: 22rpx; }
+.arrow { color: #d86f19; font-size: 44rpx; }
 .notice { margin: 0 0 24rpx; padding: 18rpx 22rpx; color: #8a5c38; font-size: 24rpx; }
-.slot-card { position: relative; display: flex; min-height: 156rpx; margin-bottom: 24rpx; overflow: visible; }.slot-tape { position: absolute; top: -20rpx; left: 46rpx; width: 128rpx; height: 54rpx; }.slot-decor { position: absolute; top: 26rpx; right: 28rpx; width: 62rpx; height: 62rpx; }.slot-label { width: 176rpx; flex: none; padding: 28rpx 18rpx; box-sizing: border-box; border-right: 2rpx dashed #d7b88f; background: #fff0d2; color: #aa7a4d; }.slot-label text { display: block; }.slot-time { font-size: 24rpx; font-weight: 600; }.slot-name { margin: 4rpx 0; color: #3b2718; font-size: 38rpx; font-weight: 700; }.slot-label text:last-child { font-size: 21rpx; }.empty-slot,.planned-list { flex: 1; display: flex; align-items: center; gap: 18rpx; padding: 18rpx 74rpx 18rpx 22rpx; }.planned-list { flex-direction: column; align-items: stretch; justify-content: center; }.planned { display: flex; align-items: center; gap: 14rpx; }.empty-slot image { width: 108rpx; height: 108rpx; }.empty-slot text { color: #ad9c8a; font-size: 30rpx; }.planned-cover { width: 92rpx; height: 92rpx; border: 2rpx solid #d7b17e; border-radius: 12rpx; background: #f0c993; }.fallback { display: flex; align-items: center; justify-content: center; color: #a75d23; font-size: 20rpx; text-align: center; }.recipe-pill { display: inline-flex; padding: 12rpx 20rpx; border: 2rpx solid #cab875; border-radius: 22rpx; background: #e9e1af; font-size: 25rpx; white-space: nowrap; }.choose { display: flex; align-items: center; justify-content: space-between; margin-top: 12rpx; padding: 22rpx; font-size: 28rpx; font-weight: 600; }.choose button { margin: 0; border: 2rpx solid #9a5727; border-radius: 20rpx; background: #ee8e36; color: #fff6df; }
+
+.timeline { position: relative; }
+.timeline-row { display: flex; align-items: stretch; margin-bottom: 28rpx; }
+.time-rail { position: relative; width: 148rpx; flex: none; padding-top: 20rpx; text-align: center; }
+.rail-line { position: absolute; left: 74rpx; top: 0; bottom: -28rpx; width: 3rpx; background: rgba(128, 98, 64, .25); }
+.timeline-row:last-child .rail-line { bottom: 52rpx; }
+.rail-dot { position: relative; z-index: 1; width: 30rpx; height: 30rpx; margin: 2rpx auto 10rpx; border: 5rpx solid #4a3022; border-radius: 50%; background: #fff9e8; box-shadow: 0 3rpx 0 rgba(138, 84, 41, .18); }
+.rail-dot.filled { background: #f6b94d; }
+.slot-time { display: block; color: #a4642e; font-size: 24rpx; font-weight: 800; }
+.slot-name { display: block; margin-top: 4rpx; color: #2f2118; font-size: 34rpx; font-weight: 800; }
+
+.slot-note { position: relative; flex: 1; min-height: 168rpx; padding: 28rpx 70rpx 24rpx 26rpx; overflow: visible; }
+.slot-tape { position: absolute; top: -24rpx; left: 28rpx; width: 120rpx; height: 54rpx; transform: rotate(-6deg); }
+.slot-decor { position: absolute; top: 24rpx; right: 24rpx; width: 58rpx; height: 58rpx; }
+.planned-list { display: flex; flex-direction: column; gap: 14rpx; }
+.planned { display: flex; align-items: center; gap: 16rpx; }
+.planned-cover { width: 96rpx; height: 96rpx; flex: none; border: 2rpx solid #d6b17d; border-radius: 16rpx; background: #f2c681; }
+.fallback { display: flex; align-items: center; justify-content: center; padding: 8rpx; box-sizing: border-box; color: #a45f26; font-size: 20rpx; text-align: center; font-weight: 700; }
+.planned-copy { min-width: 0; }
+.planned-title { display: block; color: #2f2118; font-size: 30rpx; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.planned-subtitle { display: block; margin-top: 6rpx; color: #8b735e; font-size: 22rpx; }
+.empty-slot { display: flex; align-items: center; gap: 18rpx; min-height: 118rpx; }
+.empty-slot image { width: 100rpx; height: 100rpx; opacity: .9; }
+.empty-title,.empty-desc { display: block; }
+.empty-title { color: #8b735e; font-size: 30rpx; font-weight: 800; }
+.empty-desc { margin-top: 6rpx; color: #a3917d; font-size: 22rpx; }
+.choose { display: flex; align-items: center; justify-content: space-between; margin-top: 4rpx; padding: 22rpx 26rpx; font-size: 28rpx; font-weight: 800; }
+.choose button { margin: 0; border: 2rpx solid #8f4f1f; border-radius: 20rpx; background: #e98225; color: #fff7df; }
 </style>

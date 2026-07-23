@@ -1,6 +1,7 @@
 {
   "pages": [
     { "path": "pages/recipes/index", "style": { "navigationStyle": "custom" } },
+    { "path": "pages/recipes/detail", "style": { "navigationStyle": "custom" } },
     { "path": "pages/recipes/form", "style": { "navigationStyle": "custom" } },
     { "path": "pages/plan/index", "style": { "navigationStyle": "custom" } },
     { "path": "pages/my/index", "style": { "navigationStyle": "custom" } }
